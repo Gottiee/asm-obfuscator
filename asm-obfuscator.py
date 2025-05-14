@@ -4,10 +4,11 @@
 
 import sys
 from src.utils import *
+from src.modify_line import *
 
 def obf_line(file:str, new_file):
-    for line in file:
-        new_file.write(line)
+    for line in file.splitlines():
+        modify_line(line, new_file)
         
 
 def main(argv, argc):

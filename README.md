@@ -3,12 +3,6 @@
 ## TODO
 
 - [ ] fichier qui parse la ligne `def parse_line(file: str, new_file) -> str | None:`
-    - on ecrit la ligne dans new_file sans la modifier si: -> return None
-        - section
-        - _start:
-        - global _start
-        - commentaire
-        - ect ?...
     - split les lignes en deux et reecrire les commentaire en haut si y'en a et return la str a modifier
 - [ ] fichier qui s'occupe de modifier les lignes selon l'instruction (switch l'instruction appel differentes fonctions)
     - `def modify_asm(line:str, new_file):`

@@ -7,13 +7,19 @@ section .text
 
 _start:
     ; write(stdout, msg, msg_len)
-    mov     rax, 1          ; syscall: write
-    mov     rdi, 1          ; file descriptor: stdout
-    mov     rsi, msg        ; adresse du message
-    mov     rdx, msg_len    ; taille du message
+    ;  syscall: write
+    mov     rax, 1          
+    ;  file descriptor: stdout
+    mov     rdi, 1          
+    ;  adresse du message
+    mov     rsi, msg        
+    ;  taille du message
+    mov     rdx, msg_len    
     syscall
 
     ; exit(0)
-    mov     rax, 60         ; syscall: exit
-    xor     rdi, rdi        ; code retour: 0
+    ;  syscall: exit
+    mov     rax, 60         
+    ;  code retour: 0
+    xor     rdi, rdi        
     syscall
