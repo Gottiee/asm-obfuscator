@@ -9,7 +9,6 @@ def obf_line(file:str, new_file):
     for line in file:
         new_file.write(line)
 
-
 def main(argv, argc):
     if argc != 2:
         print_usage()
