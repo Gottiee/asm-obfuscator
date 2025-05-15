@@ -1,7 +1,5 @@
 #!/bin/python3
 
-# pas oublier de skipe les lignes qui commence par ; et split les lignes avec ; et recuper le premier index (pour enlever les commentaires)
-
 import sys
 import string
 import random
@@ -13,6 +11,7 @@ from src.strings import obf_strings, write_decrypt_str
 from src.struc import list_struc, obf_struc
 from src.int_gen import  list_all_nb, write_tab_map, obf_numbers
 
+#eliot
 def obf_line(line: str, obf_values: dict[str, str], obf_nbs: dict[str, str], str_key: str, all_numbers:list[str]) -> str:
 	final_line: str = ""
 
@@ -23,7 +22,28 @@ def obf_line(line: str, obf_values: dict[str, str], obf_nbs: dict[str, str], str
 		final_line = replace_nb_aliases(final_line, obf_nbs)
 		final_line = obf_numbers(final_line, all_numbers)
 	return final_line
+from src.parser import *
 
+def obf_line(file:str, obf):
+    insert = None
+    for index, line in enumerate(file.splitlines()):
+        tmp = modify_line(line, obf)
+        if (tmp == True):
+            insert = index
+    return insert
+
+def main(argv, argc):
+    if argc != 3:
+        print_usage()
+        return
+    file = open_file(argv[1])
+    new_file = create_file(argv[2])
+    obf = ObfInstructions(new_file)
+    obf_line(file, obf)
+    new_file.close()
+    obf.insert_functions(argv[2])
+
+#Antoine
 def main (argv, argc):
 	if argc != 3:
 		print_usage()
