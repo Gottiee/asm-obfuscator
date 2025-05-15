@@ -1,5 +1,9 @@
 # asm-obfuscator
 
+## Mise en place 
+
+- peut etre qu'il faut stipuler avec un commentarie precis un endroit ou on peut mettre les nouvelles fonctions en etatn sur de ne pas casser le flow d'execution du programmes
+
 ## TODO
 
 - [ ] fichier qui parse la ligne `def parse_line(file: str, new_file) -> str | None:`
