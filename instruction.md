@@ -7,7 +7,9 @@ L'ordre des parametre passer est le premier push sur la stack = le premier param
 - avant l'appelle a la fonction
     - if ( la valeur de retour de la fonction n'est pas stocker dans rax || rax est un parametre)
         -  `push rax`
-    else
+    - else if (pas de valeur de retour)
+        - `nop`
+    - else
         - `nop`
     - push les valeurs necessaire sur la stack
     - appeller la fonction (call)
@@ -23,8 +25,8 @@ L'ordre des parametre passer est le premier push sur la stack = le premier param
     - ret
 - apres l'appelle a la fonction
     - pop les arguments passer a l'origine
-    - `mov rax, x` ou x est le registre dans le quel on veut enregistrer la valeur de retour de la fonction
     - if (`push rax` avant && rax != le registre dans lequel on sauvegarde la valeur de retour)
+        - `mov rax, x` ou x est le registre dans le quel on veut enregistrer la valeur de retour de la fonction
         - `pop rax`
     - else if (`push rax` avant && rax == le registre dans lequel on sauvegarde la valeur de retour)
         - `add rsp, 8`
@@ -156,6 +158,37 @@ _add1:
     pop rcx
     ret
 ```
+
+## test
+
+### BSR — Bit Scan Reverse
+
+`BSF destination, source`
+
+- Scans the source operand from LSB to MSB (i.e., from bit 0 to bit 63 on 64-bit)
+- It finds the index of the first set bit (1)
+- It stores that bit index in the destination operand.
+
+```asm
+mov rax, 0b00010000    ; Bit 4 is set
+bsf rcx, rax           ; RCX = 4
+```
+
+code
+
+```asm
+; test rdx, rdx
+```
+
+## ZF
+
+### BSR — Bit Scan Reverse
+
+```asm
+bsf rdx, rax
+```
+- Si RAX == 0 → ZF = 1
+- Si RAX != 0 → ZF = 0 et RDX = index du premier bit à 1
 
 ## Docu
 

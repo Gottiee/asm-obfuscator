@@ -27,6 +27,20 @@ _start:
     pop rbx
     pop rax
 
+    mov rcx, 0xffffffffff56ff56     ; pour les test
+
+    ;mov rax, rcx
+    push rcx
+    call _mov2
+    pop rcx
+
+    ;test rdx, rdx
+    push rdx
+    call _test1
+    pop rcx
+    jnz exit
+
+    exit:
     ; exit(0)
     mov     rax, 60         ; syscall: exit
     xor     rdi, rdi        ; code retour: 0
@@ -40,6 +54,18 @@ _mov1:
 
     mov rdx, (64 << 8) | 0      ; flag pour le mov de bextr
     bextr rax, rcx, rdx         ; mov rax, rcx        
+
+    pop rdx
+    pop rcx
+    ret
+
+_mov2:
+    push rcx
+    push rdx
+    mov rcx, [rsp + 8 + 16]
+
+    mov rdx, 64
+    bzhi rax, rcx, rbx
 
     pop rdx
     pop rcx
@@ -67,3 +93,15 @@ _add1:
     
     pop rcx
     ret
+
+_test1:
+    push rdx
+    push rax
+    mov rax, [rsp + 8 + 16]
+
+    bsf rdx, rax    ; si rax == 0 ? zf == 1 : zf == 0
+
+    pop rax
+    pop rdx
+    ret
+
