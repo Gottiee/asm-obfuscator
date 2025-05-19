@@ -1,18 +1,16 @@
 #!/bin/python3
 
-
 import sys
 import random
 import pprint
 from typing import Dict
+import string
+import re
 
 def generate_random_label() -> str:
-	len = random.randrange(5, 10)
-	n_label:str = ''
-	
-	for i in len:
-		n_label.join(random.SystemRandom().choice(str.ascii_letters + str.digits)) 
-	return n_label
+	length = random.randint(5, 10)
+	characters = string.ascii_letters + string.digits
+	return ''.join(random.choices(characters, k=length))
 
 def label_found(line: str, labels) -> bool:
 	for label in labels:
@@ -20,50 +18,77 @@ def label_found(line: str, labels) -> bool:
 			return (True)
 	return (False)
 
-def list_all_labels(file: str) -> dict[str, str]:
+def line_declares_var(line: str) -> bool:
+	keywords = {"db", "dw", "dd", "dq", "dt", "equ"}
+	split_line = re.split(r'[ \t]', line)
+	for step in split_line:
+		for word in keywords:
+			if step == word:
+				return True
+	return False
+
+def list_all_labels(file_name: str) -> dict[str, str]:
 	labels: dict[str, str] = {}
-	for line in file:
-		line = line.lstrip()
-		if not line:
-			continue
-		elif line[0] != '_' or line == "_start":
-			continue 
-		elif line[-1] == ':':
-			labels.append(dict(line, generate_random_label()))
+
+	with open(file_name, "r") as file:
+		for line in file:
+			line = line.strip()
+			if (not line) or (line == "_start:"):
+				continue
+			elif line[-1] == ':':
+				labels[line[:len(line) - 1]] = generate_random_label()
+			elif line_declares_var(line) == True:
+				split_line: str = re.split(r'[ \t]', line)
+				print("split_line -> ", split_line, sep="")
+				labels[split_line[0]] = generate_random_label()
+				print("labels[", split_line[0],"] == ", labels[split_line[0]], sep="")
 	return labels
 
-def find_label_in_line(str: str, char: str) -> int:
-	index = 0
-	for c in str:
-		if c == char[0]:
-			return index
-		index += 1
-	return -1
+def	modify_word(word: str, labels:dict[str, str]) -> str:
+	clean_word: str = word.strip()
+	clean_word = clean_word.strip('()[]')
+	if len(clean_word) == 0:
+		return word
+	elif clean_word[-1:] == ':' or clean_word[-1:] == ',':
+		clean_word = clean_word[:len(clean_word) - 1]
+	modified_word: str = ""
+	if clean_word in labels:
+		print("clean_word -> [", clean_word, "]", sep="")
+		modified_word = word.replace(clean_word, labels[clean_word], 1)
+		# print("modified_word -> [", modified_word, "]", sep="")
+		return modified_word
+	return word
 
-def modify_labels(file: str) -> str:
-	labels: dict[str, str] = list_all_labels(file)
-	tmp_index: int = 0
-	label: str = ""
+def modify_labels(file_name: str) -> str:
+	labels: dict[str, str] = list_all_labels(file_name)
+	print(labels)
+	final_file = ""
 
-	with open("asm/eliot.asm", "r") as file:
-		print("Dans modify")
+	with open(file_name, "r") as file, open("obf_file.asm", "w") as w_file:
 		for line in file:
-			print("line -> ", line)
-			tmp_index = strchr(line, "_")
-			if tmp_index == -1:				# line contains a label
-				continue
-			print("A label was found in line ", line, " at index ", tmp_index)
-			label = line[tmp_index:].split()[0]
-			l_label = len(label)
-			label = labels.get(label)
-			if label is None:
-				print("Label ", label, " not found in labels")
-				continue
-			if line is None:
-				print("Line is None")
-			if label is None:
-				print("Label is None")
-			line = line[:tmp_index] + label + line[tmp_index + l_label]
-			print("New line -> ", line)
-		
+			final_line = ""
+			splitted_line = re.split(r'[ \t]', line)
+			for word in splitted_line:
+				if (word[:0] == ';'):
+					break
+				word = modify_word(word, labels)
+				print("word -> [", word, "]", sep="")
+				if (word[-1:] == '\n'):
+					final_line += word
+				else:
+					final_line += word + " "
+			print("final_line == ", final_line)
+			final_file += final_line
+		w_file.write(final_file)
+		print(final_file)
 	return 
+
+def main (argv, argc):
+	if argc != 2:
+		print("No arguments given -> Leaving ... ")
+	else:
+		modify_labels(argv[1])
+
+
+if __name__ == "__main__":
+    main(sys.argv, len(sys.argv))

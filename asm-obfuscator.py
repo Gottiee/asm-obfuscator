@@ -16,9 +16,10 @@ def main(argv, argc):
 		print_usage()
 		return
 	file = open_file(argv[1])
+	print("argv[1] == ", argv[1])
 	new_file = create_file()
 	# new_file.close()
-	modify_labels(file)
+	modify_labels(argv[1])
 	obf_line(file, new_file)
 
 
