@@ -17,10 +17,10 @@ def main(argv, argc):
 		return
 	file = open_file(argv[1])
 	print("argv[1] == ", argv[1])
-	new_file = create_file()
+	# new_file = create_file()
 	# new_file.close()
 	modify_labels(argv[1])
-	obf_line(file, new_file)
+	# obf_line(file, new_file)
 
 
 if __name__ == "__main__":

