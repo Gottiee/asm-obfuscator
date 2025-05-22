@@ -9,9 +9,11 @@ def line_declares_var(line: str) -> bool:
 	keywords = {"db", "dw", "dd", "dq", "dt", "equ"}
 	split_line = re.split(r'[ \t]', line)
 	for step in split_line:
-		for word in keywords:
-			if step == word:
-				return True
+		if step in keywords:
+			return True
+		# for word in keywords:
+		# 	if step == word:
+		# 		return True
 	return False
 
 def crypt_string(to_encpryt: str, key: str) -> str:
@@ -20,25 +22,44 @@ def crypt_string(to_encpryt: str, key: str) -> str:
 
 	for i, char in enumerate(to_encpryt):
 		key_char = key[i % len(key)]
-		encrypt_char = chr(ord(key_char) ^ ord(char))
-		crypted += encrypt_char
+		# encrypt_char = chr(ord(key_char) ^ ord(char))
+		encrypt_char: int = ord(key_char) ^ ord(char)
+		crypted += ", " + f'0x{encrypt_char:02X}'
+	crypted = crypted[2:]
 	return crypted
 
 def encrypt_strings(line: str, key:str) -> str:
-	to_encrypt = re.findall(r'"([^"]*)"', line)[0]
-	print("to encrypt == ", to_encrypt, " | key -==", key)
+	# print("---Encrypt strings ---")
+	# list all groups inside double quotes
+	to_encrypt: str = re.findall(r'"([^"]*)"', line)[0]
+	to_encrypt += '\0'
+	# print("to encrypt == [", to_encrypt, "] | key == ", key, sep="")
+	# if found the key -> change the defualt value to the actual key
 	if to_encrypt == "mykey":
 		line = re.sub(re.escape("mykey"), key, line)
 		return line
 	encrypted = crypt_string(to_encrypt, key)
-	line = re.sub(re.escape(to_encrypt), encrypted, line)
+	# print("encrypted -> [", encrypted, "]", sep="")
+	line = re.sub(re.escape(to_encrypt[: len(to_encrypt) - 1]), encrypted, line)
+	line = re.sub("\"", "", line)
+	line = line[:line.rfind(", ")]
+	# print("line -> [", line, "]", sep="")
 	return line
+
+def encrypt_bytes(line: str, key: str) -> str:
+	# print("--- Encrypt bytes ---")
+	to_encrypt: list[str] = re.split(r'^, $', line)
+	# print("to_encrypt ->", to_encrypt)
+	return line
+
 
 def obf_strings(line: str, key: str):
 	if line_declares_var(line) == False:
 		return line
 	final_line: str = line
 	index = final_line.find('"')
-	if index != -1 and final_line[index:].find('"') != -1:
+	if index == -1 and final_line[index:].find('"') == -1:
+		final_line = encrypt_bytes(final_line, key)
+	else:
 		final_line = encrypt_strings(final_line, key)
 	return final_line

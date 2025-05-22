@@ -36,9 +36,9 @@ def main (argv, argc):
 	str_key: str = ''.join(random.choices(characters, k= 12))
 	print("str_key ->", str_key)
 
-	print("labels -> ", labels)
-	print()
-	print("labels -> ", aliases)
+	# print("labels -> ", labels)
+	# print()
+	# print("labels -> ", aliases)
 	# return 
 	final_file: str = ""
 
@@ -47,6 +47,13 @@ def main (argv, argc):
 			final_line: str = obf_labels(line, labels)
 			final_line = obf_strings(final_line, str_key)
 			final_line = obf_numbers(final_line, aliases)
+			final_file += final_line
+		w_file.write(final_file)
+	final_file = ""
+	
+	with open(argv[2], "r") as r_file, open("obf_file.inc", "w") as w_file:
+		for line in r_file:
+			final_line: str = obf_labels(line, labels)
 			final_file += final_line
 		w_file.write(final_file)
 		

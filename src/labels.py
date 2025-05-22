@@ -15,7 +15,6 @@ def generate_random_label() -> str:
 	# rdm_label:list = list(''.join(random.choices(characters, k=length)))
 	if rdm_label[0] in string.digits:
 		rdm_label[0] = random.choice(string.ascii_letters)
-	print("rdm_label ==", rdm_label)
 	return ''.join(rdm_label)
 
 def label_found(line: str, labels) -> bool:
@@ -54,14 +53,13 @@ def	modify_word(word: str, labels:dict[str, str]) -> str:
 
 # def obf_labels(file_name: str):
 def obf_labels(line: str, labels: dict[str, str]):
-	final_file = ""
-
 	line = line.strip(' \t')
 	final_line = ""
 	splitted_line = re.split(r'[ \t]', line)
 	for word in splitted_line:
 		if (word[:0] == ';'):
 			break
+		word.strip('()[]')
 		word = modify_word(word, labels)
 		# print("word -> [", word, "]", sep="")
 		if (word[-1:] == '\n'):

@@ -444,6 +444,47 @@ _strcpy:
 		; mov byte [rsi + rcx], 0
 		ret
 
+; char *_decrypt_str(rsi: to_decrypt)
+_decrypt_str:
+	; rax	== div quotient
+	; rbx	-> to_decrypt
+	; rcx	== counter
+	; rdx	== div modulo
+	; r8	== len to_decrypt
+	; r9	== len key
+	; r10	-> key_char
+	; rsi	-> key
+	push rax
+	push rbx
+	push rcx
+	push rdx
+	push r8
+	push r9
+	push r10
+	mov rbx, rsi
+	call _strlen
+	mov r8, rax
+	lea rsi, key
+	call _strlen
+	mov r9, rax
+	xor rcx, rcx
+	_decrypt_loop:
+		cmp rcx, r8
+		jge	_decrypt_loop_end
+		mov rax, r9
+		div rcx
+		movzx r10, byte [rsi + rdx]	; r10 == key[rdx]
+		xor [rbx + rcx], r10
+	_decrypt_loop_end:
+		pop r10
+		pop r9
+		pop r8
+		pop rdx
+		pop rcx
+		pop rbx
+		pop rax
+		jmp _leave_return
+
 ; debug
 ; strlen(str:rsi)
 _strlen:
@@ -464,6 +505,8 @@ dir1        db  "/tmp/test", 0
 dir1Len    equ $ - dir1
 dir2        db  "/tmp/test2", 0
 dir2Len    equ $ - dir2
+key			db "mykey", 0x00
+test_line	db 0x44, 0x22, 0x22, 0x22, 0x22, 0x00
 signature	db	"Famine version 1.0 (c)oded by anvincen-eedy", 0x0
 signature_len equ $ - signature
 _end:

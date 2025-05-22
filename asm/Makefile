@@ -4,8 +4,8 @@ NAME = Famine
 LD = ld
 NASM = nasm
 
-SRCS =	$(addsuffix .asm, $(addprefix srcs/, obf_file))
-# SRCS =	$(addsuffix .asm, $(addprefix srcs/, famine))
+# SRCS =	$(addsuffix .asm, $(addprefix srcs/, obf_file))
+SRCS =	$(addsuffix .asm, $(addprefix srcs/, famine))
 
 OBJS = ${SRCS:.asm=.o}
 
