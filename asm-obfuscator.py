@@ -33,7 +33,7 @@ def main (argv, argc):
 	labels: dict[str, str] = randomize_labels(argv[1])
 	aliases: dict[str, str] = list_alias_nb(argv[2])
 	characters = string.ascii_letters + string.digits + string.punctuation
-	str_key: str = ''.join(random.choices(characters, k= 12))
+	str_key: str = ''.join(random.choices(characters, k = 12))
 	print("str_key ->", str_key)
 
 	# print("labels -> ", labels)

@@ -14,11 +14,16 @@ _start:
 	lea rsi, string1
 	call _decrypt_str
 	mov r10, rax
+	mov rax, 0x01
+	mov	rdi, 0x01
+	mov rsi, r10
+	mov rdx, str1_len
+	syscall
 	mov rsi, rax
 	mov rax, 0x01
 	mov	rdi, 0x01
 	mov rdx, str1_len
-	mov r10, rsi
+	mov rsi, r10
 	call _decrypt_str
 	mov rsi, rax
 	mov rax, 0x01

