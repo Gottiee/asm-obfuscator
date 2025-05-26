@@ -1,6 +1,5 @@
 #!/bin/python3
 
-import sys
 import re
 
 def is_hex(nb: str):
@@ -14,8 +13,7 @@ def line_contains_nb(line: str):
 			return True
 	return False	
 
-def list_alias_nb(inc_file_name: str) -> dict[str, str]:
-	aliases: dict[str, str] = {}
+def list_alias_nb(inc_file_name: str, obf_values:dict[str, str]):
 	with open(inc_file_name, "r") as inc_file:
 		for line in inc_file:
 			if line[:7] != "%define":
@@ -25,14 +23,16 @@ def list_alias_nb(inc_file_name: str) -> dict[str, str]:
 			if len(split_line) < 3 or split_line[1].isupper() == False \
 				or (is_hex(split_line[2]) == False and split_line[2].isdigit() == False ):
 					continue
-			aliases[split_line[1]] = split_line[2]
-	return aliases
+			obf_values[split_line[1]] = split_line[2]
+	return 
 			
-def modify_line(line: str, aliases: dict[str, str]):
+# def modify_nbr(line: str, aliases: dict[str, str]):
+def obf_numbers(line: str, aliases: dict[str, str]) -> str:
 	split_line: list[str] = re.split(r'[ \t\n]', line)
 	split_line = list(filter(len, split_line))
 	new_line: str = ""
 	# print(split_line)
+
 	if len(split_line) < 2:
 		return (line)
 	for word in split_line:
@@ -51,13 +51,3 @@ def modify_line(line: str, aliases: dict[str, str]):
 			# print("new_line += [", word,"]", sep="")
 	new_line += "\n"
 	return new_line
-
-def obf_numbers(line: str, aliases: dict[str, str]) -> str:
-	# aliases: dict[str, str] = list_alias_nb(include_file)
-	# modified_line: str = ""
-	if line_contains_nb(line) == True:
-		# print("line [", line, "] contains a nb")
-		line = modify_line(line, aliases)
-		# print("new_line [", line, "]")
-		# print()
-	return line

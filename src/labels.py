@@ -1,9 +1,6 @@
 #!/bin/python3
 
-import sys
 import random
-import pprint
-from typing import Dict
 import string
 import re
 from src.strings import line_declares_var
@@ -23,22 +20,20 @@ def label_found(line: str, labels) -> bool:
 			return (True)
 	return (False)
 
-def randomize_labels(file_name: str) -> dict[str, str]:
-	labels: dict[str, str] = {}
-
+def randomize_labels(file_name: str, obf_values: dict[str, str]):
 	with open(file_name, "r") as file:
 		for line in file:
 			line = line.strip()
 			if not line or line == "_start:":
 				continue
 			elif line[-1] == ':':
-				labels[line[:len(line) - 1]] = generate_random_label()
+				obf_values[line[:len(line) - 1]] = generate_random_label()
 			elif line_declares_var(line) == True:
 				split_line = re.findall(r'"[^"]*"|\S+', line)
-				labels[split_line[0]] = generate_random_label()
-	return labels
+				obf_values[split_line[0]] = generate_random_label()
+	return
 
-def	modify_word(word: str, labels:dict[str, str]) -> str:
+def	modify_word(word: str, obf_values:dict[str, str]) -> str:
 	clean_word: str = word.strip()
 	clean_word = clean_word.strip('()[]')
 	if len(clean_word) == 0:
@@ -46,13 +41,13 @@ def	modify_word(word: str, labels:dict[str, str]) -> str:
 	elif clean_word[-1:] == ':' or clean_word[-1:] == ',':
 		clean_word = clean_word[:len(clean_word) - 1]
 	modified_word: str = ""
-	if clean_word in labels:
-		modified_word = word.replace(clean_word, labels[clean_word], 1)
+	if clean_word in obf_values:
+		modified_word = word.replace(clean_word, obf_values[clean_word], 1)
 		return modified_word
 	return word
 
 # def obf_labels(file_name: str):
-def obf_labels(line: str, labels: dict[str, str]):
+def obf_labels(line: str, obf_values: dict[str, str]):
 	line = line.strip(' \t')
 	final_line = ""
 	splitted_line = re.split(r'[ \t]', line)
@@ -60,20 +55,10 @@ def obf_labels(line: str, labels: dict[str, str]):
 		if (word[:0] == ';'):
 			break
 		word.strip('()[]')
-		word = modify_word(word, labels)
+		word = modify_word(word, obf_values)
 		# print("word -> [", word, "]", sep="")
 		if (word[-1:] == '\n'):
 			final_line += word
 		else:
 			final_line += word + " "
 	return (final_line)
-
-# def main (argv, argc):
-# 	if argc != 2:
-# 		print("No arguments given -> Leaving ... ")
-# 	else:
-# 		obf_labels(argv[1])
-
-
-# if __name__ == "__main__":
-#     main(sys.argv, len(sys.argv))

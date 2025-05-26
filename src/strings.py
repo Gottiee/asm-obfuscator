@@ -1,8 +1,5 @@
 #!/bin/python3
 
-import sys
-import string
-import random
 import re
 
 def line_declares_var(line: str) -> bool:
@@ -53,7 +50,6 @@ def encrypt_strings(line: str, key:str) -> str:
 	line = re.sub(re.escape(to_encrypt[: len(to_encrypt) - 1]), encrypted, line)
 	line = re.sub("\"", "", line)
 	line = line[:line.rfind(", ")]
-	print("line -> [", line, "]", sep="")
 	return line
 
 def encrypt_bytes(line: str, key: str) -> str:
