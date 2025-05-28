@@ -8,14 +8,10 @@ def line_declares_var(line: str) -> bool:
 	for step in split_line:
 		if step in keywords:
 			return True
-		# for word in keywords:
-		# 	if step == word:
-		# 		return True
 	return False
 
 def crypt_string(to_encpryt: str, key: str) -> str:
 	crypted = ""
-	# key: str = "buF'Mu.Fk^m7CD0"
 
 	for i, char in enumerate(to_encpryt):
 		key_char = key[i % len(key)]
@@ -32,18 +28,15 @@ def split_key(key: str):
 	return b_key
 
 def encrypt_strings(line: str, key:str) -> str:
-	print("---Encrypt strings ---")
-	print("line -> [", line, "]", sep="")
 	# list all groups inside double quotes
 	to_encrypt: str = re.findall(r'"([^"]*)"', line)[0]
 	to_encrypt += '\0'
-	print("to encrypt == [", to_encrypt, "]", sep="")
 	# if found the key -> change the defualt value to the actual key
 	encrypted = ""
 	if to_encrypt == "mykey\0":
-		print("In my key")
 		encrypted = split_key(key)
-		print("b_key -> [", encrypted, "]", sep="")
+	elif to_encrypt[:6] == "Famine":
+		return line
 	else:
 		encrypted = crypt_string(to_encrypt, key)
 	# print("encrypted -> [", encrypted, "]", sep="")
@@ -53,11 +46,8 @@ def encrypt_strings(line: str, key:str) -> str:
 	return line
 
 def encrypt_bytes(line: str, key: str) -> str:
-	# print("--- Encrypt bytes ---")
 	to_encrypt: list[str] = re.split(r'^, $', line)
-	# print("to_encrypt ->", to_encrypt)
 	return line
-
 
 def obf_strings(line: str, key: str):
 	if line_declares_var(line) == False:

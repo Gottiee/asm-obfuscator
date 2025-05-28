@@ -5,13 +5,16 @@ import string
 import re
 from src.strings import line_declares_var
 
-def generate_random_label() -> str:
+def generate_random_label(obf_values: dict[str,str]) -> str:
 	length = random.randint(5, 10)
 	characters = string.ascii_letters + string.digits
-	rdm_label:list = random.choices(characters, k=length)
-	# rdm_label:list = list(''.join(random.choices(characters, k=length)))
-	if rdm_label[0] in string.digits:
-		rdm_label[0] = random.choice(string.ascii_letters)
+	
+	while True:
+		rdm_label:list = random.choices(characters, k=length)
+		if rdm_label[0] in string.digits:
+			rdm_label[0] = random.choice(string.ascii_letters)
+		if rdm_label not in obf_values.values():
+			break
 	return ''.join(rdm_label)
 
 def label_found(line: str, labels) -> bool:
@@ -26,11 +29,11 @@ def randomize_labels(file_name: str, obf_values: dict[str, str]):
 			line = line.strip()
 			if not line or line == "_start:":
 				continue
-			elif line[-1] == ':':
-				obf_values[line[:len(line) - 1]] = generate_random_label()
+			if line[-1] == ':':
+				obf_values[line[:len(line) - 1]] = generate_random_label(obf_values)
 			elif line_declares_var(line) == True:
 				split_line = re.findall(r'"[^"]*"|\S+', line)
-				obf_values[split_line[0]] = generate_random_label()
+				obf_values[split_line[0]] = generate_random_label(obf_values)
 	return
 
 def	modify_word(word: str, obf_values:dict[str, str]) -> str:
