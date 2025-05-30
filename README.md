@@ -11,7 +11,8 @@
 ```sh
 ./asm-obfuscator.py /path/to/.asm /path/to/.inc
 ```
-This will produce two files : *obf_file.asm* and *obf_file.inc*
+This will produce two files : *obf_file.asm* and *obf_file.inc* containing the obfuscate version of each file.  
+> Please, read the [Prerequisites](#prerequisites) before running the script
 
 ## Presentation
 The script will read through the two files given as arguments to :  
@@ -108,6 +109,12 @@ This variable's name will be randomize and its value will be replaces by the key
 - As the "prototype" ```rax: char *_decrypt_str (rdi: char* to_decrypt, rsi: int len)``` describes, the returns value is stocked in ```rax```. This returns value is an address pointing at a **new allocated map** containing the decrypted string. Registers used in ```_decrypt_str``` are handled by the function.  
 > **It is up to the user to handle the ```rax``` register and ```unmap``` the new allocated map**.   
 
+### Number obfuscation
+> This is done with a "int generator"
+
+A table containing numbers will be pushed on the stack at the very beginnning of the program. Each number will be split by the script. Lines will be added to the code to recompose it.  
+
+
 ## TODO
 
 - [ ] fichier qui parse la ligne `def parse_line(file: str, new_file) -> str | None:`
@@ -120,8 +127,8 @@ This variable's name will be randomize and its value will be replaces by the key
     - split les lignes en deux et reecrire les commentaire en haut si y'en a et return la str a modifier
 - [ ] fichier qui s'occupe de modifier les lignes selon l'instruction (switch l'instruction appel differentes fonctions)
     - `def modify_asm(line:str, new_file):`
-- [ ] fichier qui modifie les labels (prendre le fichier complet en entree)
-- [ ] obfuscateur de string
+- [x] fichier qui modifie les labels (prendre le fichier complet en entree)
+- [x] obfuscateur de string
     - meme algo
     - meme clee
     - pas ecrire la clee en dur
