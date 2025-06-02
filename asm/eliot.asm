@@ -6,8 +6,11 @@ section .text
     global _start
 
 _start:
-	push rbp
-    mov rbp, rsp
+	;push rbp
+    ;mov rbp, rsp
+    ;sub rsp 32
+
+    enter 32, 0
 
     mov rax, 5
     mov rbx, 2
@@ -34,10 +37,30 @@ _start:
     call _mov2
     pop rcx
 
+    mov rax, 2  ; pour les test
+
+    ;mov r12, rcx
+    push rax
+    push rcx
+    call _mov3
+    mov r12, rax
+    pop rcx
+    pop rax
+
+    mov r12, 5 ; pour le test
+
+    ;mov rcx, r12
+    push rax
+    push r12
+    call _mov4
+    mov rcx, rax
+    pop r12
+    pop rax
+
     ;test rdx, rdx
     push rdx
     call _test1
-    pop rcx
+    pop rdx
     jnz exit
 
     exit:
@@ -64,12 +87,39 @@ _mov2:
     push rdx
     mov rcx, [rsp + 8 + 16]
 
-    mov rdx, 64
-    bzhi rax, rcx, rbx
+    mov rdx, -1
+    bzhi rax, rcx, rdx
 
     pop rdx
     pop rcx
     ret
+
+_mov3:
+    push rcx
+    push rbx
+    mov rbx, [rsp + 8 + 16]
+
+    mov rax, 0
+    mov rcx, 0x3dfd3342f
+    cmpxchg rbx, rcx
+
+    pop rbx
+    pop rcx
+    ret
+
+_mov4:
+    push rbx
+    push rcx
+    mov rcx, [rsp + 8 + 16]
+    
+    mov rax, 0
+    mov rbx, 0
+    cmpxchg rbx, rcx
+    mov rax, rbx
+    pop rcx
+    pop rbx
+    ret
+
 
 ; add param 1, param 2
 _add1:

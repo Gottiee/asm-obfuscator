@@ -106,6 +106,97 @@ _mov1:
     ret
 ```
 
+### BZHI - Bit Zero High Immediate
+
+It clears (zeros) all the bits in a source operand above a certain bit position, specified by another register.
+
+So:
+
+`BZHI dest, src, index`
+
+- Copy bits from src into dest
+- Zero all bits starting at bit index and above
+- Keep only the lower index bits
+- It’s equivalent to: dest = src & ((1 << index) - 1)
+
+```asm
+;mov rax, rcx
+push rcx
+call _mov2
+pop rcx
+
+_mov2:
+    push rcx
+    push rdx
+    mov rcx, [rsp + 8 + 16]
+
+    mov rdx, -1
+    bzhi rax, rcx, rdx
+
+    pop rdx
+    pop rcx
+    ret
+```
+
+### CMPXCHG — Compare and Exchange
+
+`cmpxchg reg_dest, reg_src`
+
+Cela compare le registre accumulateur (AL/AX/EAX/RAX) avec `reg_dest`.
+
+- Si égal, alors reg_dest ← reg_src
+- Sinon, accumulateur ← reg_dest
+
+Et comme toujours :
+- ZF = 1 si égal (échange effectué)
+- ZF = 0 sinon (pas d’échange)
+
+```asm
+;mov r12, rcx
+push rax
+push rcx
+call _mov3
+mov r12, rax
+pop rcx
+pop rax
+
+_mov3:
+    push rcx
+    push rbx
+    mov rbx, [rsp + 8 + 16]
+
+    mov rax, 0
+    mov rcx, 0x3dfd3342f
+    cmpxchg rbx, rcx
+
+    pop rbx
+    pop rcx
+    ret
+```
+
+```asm
+;mov rcx, r12
+push rax
+push r12
+call _mov4
+mov rcx, rax
+pop r12
+pop rax
+
+_mov4:
+    push rbx
+    push rcx
+    mov rcx, [rsp + 8 + 16]
+    
+    mov rax, 0
+    mov rbx, 0
+    cmpxchg rbx, rcx
+    mov rax, rbx
+    pop rcx
+    pop rbx
+    ret
+```
+
 ## add
 
 ### ADC — Add With Carry
@@ -178,6 +269,20 @@ code
 
 ```asm
 ; test rdx, rdx
+```
+
+## push rbp ; mov rbp, rsp ; sub rsp x
+
+### Enter
+
+The ENTER instruction is used to set up a stack frame for a procedure (function/subroutine). It’s a compact way to prepare space for local variables and optionally create a stack frame chain for nested procedures.
+
+```asm
+	;push rbp
+    ;mov rbp, rsp
+    ;sub rsp 32
+
+    enter 32, 0
 ```
 
 ## ZF
