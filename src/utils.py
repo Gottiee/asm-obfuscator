@@ -2,6 +2,10 @@ def print_usage():
     print("Usage: ./asm-obfuscator.py \"file_to_obf.asm\"")
     print("quit")
 
+def print_insert():
+    print("To work correctly, you need to add a commentary \"; insert\" to specified where the script can add obfuscate functions")
+    print("quit")
+
 def open_file(file_name:str):
     with open(file_name, "r") as file:
         return file.read()
@@ -9,3 +13,4 @@ def open_file(file_name:str):
 def create_file():
     f = open("asm/obf.asm", "w")
     return f
+

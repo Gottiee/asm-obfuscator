@@ -1,25 +1,31 @@
-section .data
-    msg     db "Hello world", 10
-    msg_len equ $ - msg 
-
 section .text
     global _start
 
 _start:
-    ; write(stdout, msg, msg_len)
-    ;  syscall: write
-    mov     rax, 1          
-    ;  file descriptor: stdout
-    mov     rdi, 1          
-    ;  adresse du message
-    mov     rsi, msg        
-    ;  taille du message
-    mov     rdx, msg_len    
-    syscall
+push rax
+push 2
+call mov1
+pop 2
+mov rax, rbx
+pop rax
+push rax
+push 2
+push rbx
+call mov1
+pop rbx
+pop 2
+mov rax, rcx
+pop rax
 
-    ; exit(0)
-    ;  syscall: exit
-    mov     rax, 60         
-    ;  code retour: 0
-    xor     rdi, rdi        
-    syscall
+; insert
+mov1:
+push rcx
+push rdx
+mov rcx, [rsp + 8 + 16]
+
+mov rdx, (64 << 8) | 0  ; flag pour le mov de bextr
+bextr rax, rcx, rdx ; mov rax, rcx
+
+pop rdx
+pop rcx
+ret

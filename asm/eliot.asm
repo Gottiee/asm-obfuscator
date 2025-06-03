@@ -154,4 +154,3 @@ _test1:
     pop rax
     pop rdx
     ret
-
