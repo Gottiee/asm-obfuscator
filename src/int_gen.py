@@ -37,44 +37,34 @@ def write_tab_map(all_numbers: list[str]) -> str:
 	return func
 
 def obf_numbers(line:str, all_numbers: list[str]) -> str:
-	clean_word:str = ""
-	op_sizes:list[str] = ['qword', 'QWORD', 'dword', 'DWORD', 'word', 'WORD', 'byte', 'BYTE']
+	op_sizes:list[str] = ['', '', 'dword', 'DWORD', 'word', 'WORD', 'byte', 'BYTE']
 	op_size:str = ''
-	index:int = ''
+	index:int = 0
 	split_line: list[str] = re.split(r'[ \t\n]', line)
 	split_line = list(filter(len, split_line))
 	# print("split_line -> ", split_line)
 
-	if len(split_line) < 3 or split_line[2][0] == '-':
-		return (line)
-	elif split_line[1] in op_sizes:
-		op_size = split_line[1]
-	# int = all_numbers[index] << 24 | all_numbers[index + (len(all_numbers))] << 16 | all_numbers[index + (len(all_numbers) * 2)] << 8 | all_numbers[index + (len(all_numbers) * 3)]
-	if split_line[0] != "mov" or len(split_line) > 3:
+	if len(split_line) < 3 or split_line[2][0] == '-' or split_line[0] != "mov":
 		return line
-		#movq    r10, xmm15        ; Move the address from xmm15 to r10
-		#movzx   eax, byte [r10 + offset_first]
-		#shl     rax, 24
-		#movzx   ecx, byte [r10 + offset_second]
-		#shl     rcx, 16
-		#or      rax, rcx
-		#movzx   ecx, byte [r10 + offset_third]
-		#shl     rcx, 8
-		#or      rax, rcx
-		#movzx   ecx, byte [r10 + offset_forth]
-		#or      rax, rcx
-
-	reg_dest = split_line[1][:len(split_line[1]) - 1]
-	print('--------------\n line -> ', line)
-	print("reg_dest ->", reg_dest)
+	if len(split_line[1]) != 0 and split_line[1] in op_sizes:
+		size_index: int = op_sizes.index(split_line[1])
+		op_size = split_line[1]
+		print("op_size ->", op_size, " size_index ->", size_index)
+	# print('--------------\n line -> ', line)
 	try:
 		if (len(op_size) == 0):
 			index = all_numbers.index(split_line[2])
+			reg_dest = split_line[1][:len(split_line[1]) - 1]
 		else:
 			index = all_numbers.index(split_line[3])
-# movzx r14, byte [r15 + ' + str(index + len(all_numbers)) + ']\nshl r14, 0x16\nor ' + reg_dest + ', r14\n
-		final_line:str = 'push r15\npush r14\nmovq r15, xmm15\nmovzx r14, byte [r15 + ' + str(index) + ']\nshl r14, 0x18\nor ' + reg_dest + ', ' + op_size + ' r14\nmovzx r14, byte [r15 + ' + str(index + len(all_numbers)) + ']\nshl r14, 0x10\nor ' + reg_dest + ', ' + op_size + ' r14\nmovzx r14, byte [r15 + ' + str(index + (len(all_numbers) * 2)) + ']\nshl r14, 0x8\nor ' + reg_dest + ', ' + op_size + ' r14\nmovzx r14, byte [r15 + ' + str(index + (len(all_numbers) * 2)) + ']\nor ' + reg_dest + ', r14\npop r14\npop r15\n'
-		print('final_line ->', final_line)
+			reg_dest = split_line[2][:len(split_line[2]) - 1]
+		# print("reg_dest ->", reg_dest)
+		final_line:str = 'push r15\npush r14\nmovq r15, xmm15\n\
+			movzx r14, byte [r15 + ' + str(index) + ']\nshl r14, 0x18\nor ' + op_size + ' ' + reg_dest + ', r14' + op_sizes[int(size_index)][0] + '\n\
+			movzx r14, byte [r15 + ' + str(index + len(all_numbers)) + ']\nshl r14, 0x10\nor ' + op_size + ' ' + reg_dest + ',  r14' + op_sizes[int(size_index)][0] + '\n\
+			movzx r14, byte [r15 + ' + str(index + (len(all_numbers) * 2)) + ']\nshl r14, 0x8\nor ' + op_size + ' ' + reg_dest + ', r14' + op_sizes[int(size_index)][0] + '\n\
+			movzx r14, byte [r15 + ' + str(index + (len(all_numbers) * 3)) + ']\nor ' + op_size + ' ' + reg_dest + ', r14' + op_sizes[int(size_index)][0] + '\npop r14\npop r15\n'
+		# print('final_line ->', final_line)
 	except:
 		final_line:str = line
 	# print("final_line -> ", final_line)

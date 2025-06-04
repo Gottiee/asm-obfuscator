@@ -16,12 +16,16 @@ from src.int_gen import  list_all_nb, write_tab_map, obf_numbers
 def obf_line(line: str, obf_values: dict[str, str], obf_nbs: dict[str, str], str_key: str, all_numbers:list[str]) -> str:
 	final_line: str = ""
 
+	# print("---------------------")
 	final_line = obf_labels(line, obf_values)
+	# print("label final_line -> ", final_line)
 	final_line = obf_strings(final_line, str_key)
 	final_line = obf_struc(final_line, obf_values)
 	if line_contains_nb(line) == True:
 		final_line = replace_nb_aliases(final_line, obf_nbs)
+		# print("nb aliases final_line -> ", final_line)
 		final_line = obf_numbers(final_line, all_numbers)
+		# print("numbers final_line -> ", final_line)
 	return final_line
 
 def main (argv, argc):
