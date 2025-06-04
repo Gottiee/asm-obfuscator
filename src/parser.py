@@ -4,11 +4,37 @@ def modify_mov(line:str, raw_line:str):
     get_prefix(raw_line)
 
 def switch_instruction(line:str, raw_line:str, obf):
-    line = line.replace(",", "")
-    instruction = line.split(" ")
+    sizes = [
+        "byte", "BYTE",
+        "word", "WORD",
+        "dword", "DWORD",
+        "qword", "QWORD",
+        "tword", "TWORD",
+        "oword", "OWORD",  # 128-bit
+        "xmmword", "XMMWORD",  # SSE 128-bit
+        "ymmword", "YMMWORD",  # AVX 256-bit
+        "zmmword", "ZMMWORD",  # AVX-512 512-bit
+        "ptr", "PTR"
+    ] 
+
+    instruction = line.split()
+    if len(instruction) == 0:
+        return
+    line = " ".join(instruction[1:])
+    arg = line.split(",")
     match instruction[0]:
         case "mov":
-            obf.mov(instruction[1], instruction[2])
+            if (instruction[1] in sizes):
+                obf.file.write(raw_line)
+                return
+            obf.mov(arg[0], arg[1])
+        case "add":
+            obf.add(arg[0], arg[1])
+        case "test":
+            if (arg[0].lstrip(" \t") != arg[1].lstrip(" \t")):
+                obf.file.write(raw_line)
+                return
+            obf.test(arg[0])
         case _:
             obf.file.write(raw_line)
 
@@ -40,6 +66,6 @@ def modify_line(raw_line:str, obf):
     if no_comm_line == None:
         return
     line = no_comm_line.lstrip(" \t")
-    line = line.rstrip(" \t")
+    line = line.rstrip(" \t\n")
     switch_instruction(line, no_comm_line, obf)
 

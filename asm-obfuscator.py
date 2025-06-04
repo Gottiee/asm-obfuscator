@@ -13,15 +13,15 @@ def obf_line(file:str, obf):
     return insert
 
 def main(argv, argc):
-    if argc != 2:
+    if argc != 3:
         print_usage()
         return
     file = open_file(argv[1])
-    new_file = create_file()
+    new_file = create_file(argv[2])
     obf = ObfInstructions(new_file)
     obf_line(file, obf)
     new_file.close()
-    obf.insert_functions("asm/obf.asm")
+    obf.insert_functions(argv[2])
 
 
 if __name__ == "__main__":

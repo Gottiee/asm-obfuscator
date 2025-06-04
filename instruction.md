@@ -269,6 +269,22 @@ code
 
 ```asm
 ; test rdx, rdx
+push rdx
+call _test1
+pop rdx
+jnz exit
+
+
+_test1:
+    push rdx
+    push rax
+    mov rax, [rsp + 8 + 16]
+
+    bsf rdx, rax    ; si rax == 0 ? zf == 1 : zf == 0
+
+    pop rax
+    pop rdx
+    ret
 ```
 
 ## push rbp ; mov rbp, rsp ; sub rsp x
