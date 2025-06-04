@@ -59,7 +59,7 @@ _readDir:
         lea r10, FAM(famine.fd)
         mov rdi, [r10]
         lea r9, FAM(famine.total_read)              ; init total_read
-        mov DWORD[r9], 0
+        mov DWORD [r9], 0
         mov rax, SYS_GETDENTS                   	; getdents64(int fd, void *buf, size_t size_buf)
         lea rsi, FAM(famine.dirents)
         mov rdx, PAGE_SIZE
@@ -476,70 +476,72 @@ _strcpy:
 		; mov byte [rsi + rcx], 0
 		ret
 
-; rax: char *_decrypt_str(rsi: char *to_decrypt, rdi: len)
-_decrypt_str:
-	; rax	== div quotient
-	; rbx	-> to_decrypt
-	; rcx	== counter
-	; rdx	== div modulo
-	; r9	== len key
-	; r10	-> key_char
-	; r11	-> decrypted str (mmap)
-	; r12	== len to_decrypt
-	; rsi	-> key
-	push rbx
-	push rcx
-	push rdx
-	push r8
-	push r9
-	push r10
-	push r11
-	push r12
-	mov rbx, rdi
-	mov r12, rsi
-    xor rdi, rdi                    ; addr = NULL (let kernel choose)
-    mov rdx, 0x03                      ; PROT_READ | PROT_WRITE = 1 | 2 = 3
-    mov r10, 0x22                   ; MAP_PRIVATE | MAP_ANONYMOUS = 0x2 | 0x20 = 0x22
-    mov r8, -1                      ; fd = -1
-    xor r9, r9                      ; offset = 0
-    mov rax, 9                      ; syscall number for mmap
-    syscall
-	cmp rax, 0
-	jl _decrypt_loop_end
-	mov r11, rax
-	lea rsi, key
-	call _strlen
-	mov r9, rax
-	xor rcx, rcx
-	xor rdx, rdx
-	_decrypt_loop:
-		cmp rcx, r12
-		jge	_decrypt_loop_end
-		mov rax, rcx
-		xor rdx, rdx
-		cmp rcx, 0
-		jne _no_zero
-		xor rax, rax
-		jmp _end_div
-		_no_zero:
-		div r9
-		_end_div:
-		movzx r10, byte [rsi + rdx]	; r10 == key[rcx % key_len]
-		xor r10b, [rbx + rcx]
-		mov [r11 + rcx], r10b
-		inc rcx
-		jmp _decrypt_loop
-	_decrypt_loop_end:
-		mov rax, r11
-		pop r12
-		pop r11
-		pop r10
-		pop r9
-		pop r8
-		pop rdx
-		pop rcx
-		pop rbx
-		ret
+;;**;;
+
+;; rax: char *_decrypt_str(rsi: char *to_decrypt, rdi: len)
+;_decrypt_str:
+	;; rax	== div quotient
+	;; rbx	-> to_decrypt
+	;; rcx	== counter
+	;; rdx	== div modulo
+	;; r9	== len key
+	;; r10	-> key_char
+	;; r11	-> decrypted str (mmap)
+	;; r12	== len to_decrypt
+	;; rsi	-> key
+	;push rbx
+	;push rcx
+	;push rdx
+	;push r8
+	;push r9
+	;push r10
+	;push r11
+	;push r12
+	;mov rbx, rdi
+	;mov r12, rsi
+    ;xor rdi, rdi                    ; addr = NULL (let kernel choose)
+    ;mov rdx, 0x03                   ; PROT_READ | PROT_WRITE = 1 | 2 = 3
+    ;mov r10, 0x22                   ; MAP_PRIVATE | MAP_ANONYMOUS = 0x2 | 0x20 = 0x22
+    ;mov r8, -1                      ; fd = -1
+    ;xor r9, r9                      ; offset = 0
+    ;mov rax, 9                      ; syscall number for mmap
+    ;syscall
+	;cmp rax, 0
+	;jl _decrypt_loop_end
+	;mov r11, rax
+	;lea rsi, key
+	;call _strlen
+	;mov r9, rax
+	;xor rcx, rcx
+	;xor rdx, rdx
+	;_decrypt_loop:
+		;cmp rcx, r12
+		;jge	_decrypt_loop_end
+		;mov rax, rcx
+		;xor rdx, rdx
+		;cmp rcx, 0
+		;jne _no_zero
+		;xor rax, rax
+		;jmp _end_div
+		;_no_zero:
+		;div r9
+		;_end_div:
+		;movzx r10, byte [rsi + rdx]	; r10 == key[rcx % key_len]
+		;xor r10b, [rbx + rcx]
+		;mov [r11 + rcx], r10b
+		;inc rcx
+		;jmp _decrypt_loop
+	;_decrypt_loop_end:
+		;mov rax, r11
+		;pop r12
+		;pop r11
+		;pop r10
+		;pop r9
+		;pop r8
+		;pop rdx
+		;pop rcx
+		;pop rbx
+		;ret
 
 ; debug
 ; strlen(str:rsi)

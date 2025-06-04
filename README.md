@@ -112,7 +112,18 @@ This variable's name will be randomize and its value will be replaces by the key
 ### Number obfuscation
 > This is done with a "int generator"
 
-A table containing numbers will be pushed on the stack at the very beginnning of the program. Each number will be split by the script. Lines will be added to the code to recompose it.  
+The "int generator" is a table containing all raw numbers in the code.
+A table containing all raw numbers and labels defining numbers will be mapped at the very beginning of the program. Its address will be stocked in a variable at run time.
+When a raw value is in an instruction, the line will be modified to load the value from the table. With this, no raw value is easily readable without running the program.
+
+To map the table, the user must **copy** the following function to its clean code. The function will be then modified by the script.  
+It is to the user to call the function and handle the address returned on rax.
+
+```asm
+rax: int *_map_int_table( void )
+_map_int_table:
+
+```
 
 
 ## TODO
