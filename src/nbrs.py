@@ -25,8 +25,10 @@ def list_alias_nb(inc_file_name: str) -> dict[str, str]:
 				or ( is_hex(split_line[2]) == False and split_line[2].isdigit() == False ):
 					continue
 			if is_hex(split_line[2]) == False:
+				print(f"not is_hex -> {split_line[2]} -> {str(hex(int(split_line[2])))}")
 				obf_values[split_line[1]] = str(hex(int(split_line[2])))
 			else:
+				print(f"is_hex -> {split_line[2]}")
 				obf_values[split_line[1]] = split_line[2]
 	# print("nb_aliases ->", obf_values)
 	return obf_values

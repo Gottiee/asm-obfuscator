@@ -12,6 +12,7 @@ _start:
 	push rbp
     mov rbp, rsp
 	PUSHA
+	call _map_int_table
     lea rdi, [rel dir1]					; dir to open for arg readDir
     mov rsi, dir1Len
     call _readDir

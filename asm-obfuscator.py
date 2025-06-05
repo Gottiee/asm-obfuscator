@@ -16,16 +16,12 @@ from src.int_gen import  list_all_nb, write_tab_map, obf_numbers
 def obf_line(line: str, obf_values: dict[str, str], obf_nbs: dict[str, str], str_key: str, all_numbers:list[str]) -> str:
 	final_line: str = ""
 
-	# print("---------------------")
 	final_line = obf_labels(line, obf_values)
-	# print("label final_line -> ", final_line)
-	final_line = obf_strings(final_line, str_key)
 	final_line = obf_struc(final_line, obf_values)
+	final_line = obf_strings(final_line, str_key)
 	if line_contains_nb(line) == True:
 		final_line = replace_nb_aliases(final_line, obf_nbs)
-		# print("nb aliases final_line -> ", final_line)
 		final_line = obf_numbers(final_line, all_numbers)
-		# print("numbers final_line -> ", final_line)
 	return final_line
 
 def main (argv, argc):
@@ -35,6 +31,7 @@ def main (argv, argc):
 
 	characters = string.ascii_letters + string.digits + string.punctuation
 	str_key: str = ''.join(random.choices(characters, k = 12))
+	print(f"str_key -> {str_key}")
 	# print("--------------------------")
 	final_file: str = ""
 	obf_values: dict[str, str] = {}
@@ -48,9 +45,11 @@ def main (argv, argc):
 	with open(argv[1], "r") as r_file, open("obf_file.asm", "w") as w_file:
 		for line in r_file:
 			if line == ";;**;;\n":
+				# final_file += func_add
 				split_func:list[str] = re.split(r'(?<=\n)', func_add)
 				for l in split_func:
-					final_file += obf_line(l, obf_values, number_dict, str_key, all_numbers)
+					final_file += obf_labels(l, obf_values)
+					# final_file += obf_line(l, obf_values, number_dict, str_key, all_numbers)
 				print("add function")
 			else:
 				final_file += obf_line(line, obf_values, number_dict, str_key, all_numbers)
