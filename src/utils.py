@@ -1,6 +1,5 @@
 def print_usage():
-    print("Usage: ./asm-obfuscator.py \"file_to_obf.asm\" \"include.inc\"")
-    print("Usage: ./asm-obfuscator.py \"file_to_obf.asm\" \"output_file.asm\"")
+    print("Usage: ./asm-obfuscator.py \"file_to_obf.asm\" \"output_file.asm\" \"include.inc\"")
     print("quit")
 
 def print_insert():

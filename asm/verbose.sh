@@ -1,8 +1,8 @@
 #!/bin/sh
 
-echo "  === Make ==="
-make re
-echo
+# echo "  === Make ==="
+# make re
+# echo
 
 echo "  === Copy test dir in \e[4;34m/tmp\e[0m ==="
 if [ -d /tmp/test ]; then

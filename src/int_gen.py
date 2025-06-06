@@ -14,7 +14,6 @@ def list_all_nb(asm_file: str, obf_numbers: dict[str, str]) -> list[str]:
 				if (is_hex(word) == True or word.isnumeric() == True) and word not in all_numbers:
 					if not is_hex(word):
 						word = str(hex(int(word)))
-					print(f"all_numbers.append -> {word}")
 					all_numbers.append(word)
 					# print("word -> ", word)
 	for nb in obf_numbers.values():

@@ -121,8 +121,9 @@ class ObfInstructions:
         with open(path, "r") as f:
             contents = f.readlines()
 
+        i = 0
         for i, line in enumerate(contents):
-            if ("; insert" in line):
+            if (";;**;;\n" in line):
                 break
         contents.insert(i + 1, self.return_functions())
         with open(path, "w") as f:
