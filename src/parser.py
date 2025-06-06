@@ -18,7 +18,7 @@ def switch_instruction(line:str, raw_line:str, obf):
 	] 
 
 	illegal = [
-		"r12d","cl", "r9d", "r8b", "r10b", "r11b", "r13b", "r14b", "al"
+		"r12d","cl", "r9d", "r8b", "r10b", "r11b", "r13b", "r14b", "al", "rsp"
 	]
 
 	instruction = line.split()
@@ -37,7 +37,6 @@ def switch_instruction(line:str, raw_line:str, obf):
 			elif instruction[2].endswith("]") and "+" in instruction[2]:
 				obf.file.write(raw_line)
 				return
-			print(f"instruction : '{instruction[2]}'")
 			obf.mov(arg[0], arg[1])
 		case "add":
 			if (instruction[1] in sizes):
@@ -47,11 +46,11 @@ def switch_instruction(line:str, raw_line:str, obf):
 				obf.file.write(raw_line)
 				return
 			obf.add(arg[0], arg[1])
-		case "test":
-			if (arg[0].lstrip(" \t") != arg[1].lstrip(" \t")):
-				obf.file.write(raw_line)
-				return
-			obf.test(arg[0])
+		# case "test":
+		# 	if (arg[0].lstrip(" \t") != arg[1].lstrip(" \t")):
+		# 		obf.file.write(raw_line)
+		# 		return
+		# 	obf.test(arg[0])
 		case _:
 			obf.file.write(raw_line)
 			# print(f"'{raw_line}'")

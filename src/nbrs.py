@@ -51,12 +51,17 @@ def replace_nb_aliases(line: str, number_dict: dict[str, str]) -> str:
 
 		# Replace aliases by raw numbers
 		if clean_word in number_dict:
-			new_line += number_dict[clean_word]
+			new_line += number_dict[clean_word] + " "
 			if comma == True:
 				new_line += ","
 		elif clean_word == "\\":
 			new_line += word
 		else:
 			new_line += word + " "
+			if word == "db":
+				print(f"line(db) -> {line[:len(line) - 1]}")
+				print(f"new_line(db) -> {new_line}")
 	new_line += "\n"
+	if "/tmp/test" in new_line:
+		print(f"replace nb aliases line -> {new_line}")
 	return new_line

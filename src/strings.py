@@ -14,6 +14,7 @@ def line_declares_var(line: str) -> bool:
 	return False
 
 def crypt_string(to_encpryt: str, key: str) -> str:
+	print(f"to encrypt -> {to_encpryt}")
 	crypted = ""
 
 	for i, char in enumerate(to_encpryt):
@@ -38,7 +39,8 @@ def encrypt_strings(line: str, key:str) -> str:
 	encrypted = ""
 	if to_encrypt == "mykey\0":
 		encrypted = split_key(key)
-	elif to_encrypt[:6] == "Famine":
+		print(f"split_key == [{encrypted}]")
+	elif to_encrypt[:10] == "Pestilence":
 		return line
 	else:
 		encrypted = crypt_string(to_encrypt, key)
@@ -46,21 +48,24 @@ def encrypt_strings(line: str, key:str) -> str:
 	line = re.sub(re.escape(to_encrypt[: len(to_encrypt) - 1]), encrypted, line)
 	line = re.sub("\"", "", line)
 	line = line[:line.rfind(", ")]
-	return line
+	return line + "\n"
 
 def encrypt_bytes(line: str, key: str) -> str:
 	to_encrypt: list[str] = re.split(r'^, $', line)
 	return line
 
 def obf_strings(line: str, key: str):
+	# print(f"strings line -> {line}", end=" -> ")
 	if line_declares_var(line) == False:
+		# print("False")
 		return line
-	print(f"=============== \n string line -> {line}")
+	# print("TRUE")
+	final_line:str = ""
 	final_line: str = line
 	index = final_line.find('"')
 	if index == -1 and final_line[index:].find('"') == -1:
 		final_line = encrypt_bytes(final_line, key)
 	else:
 		final_line = encrypt_strings(final_line, key)
-	print(f"string final_line -> {final_line}")
+	# print(f"string final_line -> {final_line}")
 	return final_line

