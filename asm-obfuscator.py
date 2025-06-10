@@ -12,36 +12,25 @@ from src.struc import list_struc, obf_struc
 from src.int_gen import  list_all_nb, write_tab_map, obf_numbers
 from src.parser import *
 
-def obf_number_line(argv, obf_values:dict[str, str], all_numbers:list[str]):
+def obf_number_line(in_file:str, out_file:str, obf_values:dict[str, str], all_numbers:list[str]):
 	# print("--------------------------")
 	final_file: str = ""
 	func_add: str = write_tab_map(all_numbers)
 	func_add += write_decrypt_str()
 	
-	with open(argv[1], "r") as r_file, open(argv[3], "w") as w_file:
+	with open(in_file, "r") as r_file, open(out_file, "w") as w_file:
 		final_line: str = ""
 		for line in r_file:
-			if "/tmp/test" in line:
-				print(f"obf_number -> {line[:len(line) - 1]}", end=" | ")
 			if line_contains_nb(line) == True:
 				final_line = replace_nb_aliases(line, obf_values)
 				final_line = obf_numbers(final_line, all_numbers)
 				final_file += final_line
-				if "/tmp/test" in line:
-					print(f"f_line(if) -> {final_line[: len(final_line) - 1]}")
 			elif line == ";;**;;\n":
 				final_file += line + func_add
-				# split_func:list[str] = re.split(r'(?<=\n)', func_add)
-				# for l in split_func:
-				# 	final_file += obf_labels(l, obf_values)
-					# final_file += obf_line(l, obf_values, number_dict, str_key, all_numbers)
-				# print("add function")
 			else:
 				if "/tmp/test" in line:
 					print(f"f_line(else) -> {line[:len(line) -1 ]}")
 				final_file += line
-			# else:
-				# final_file += obf_line(line, obf_values, number_dict, str_key, all_numbers)
 		w_file.write(final_file)
 
 def obf_string_line(in_file: str, out_file:str, inc_file:str, obf_values:dict[str, str], str_key:str):
@@ -104,7 +93,7 @@ def main (argv, argc):
 	str_key: str = ''.join(random.choices(characters, k = 12))
 	print(f"str_key -> {str_key}")
 
-	obf_number_line(argv, obf_values, all_numbers)
+	obf_number_line(argv[1], argv[3], obf_values, all_numbers)
 
 	file = open_file(argv[3])
 	new_file = create_file(argv[3])
@@ -113,11 +102,7 @@ def main (argv, argc):
 	new_file.close()
 	obf.insert_functions(argv[3])
 
-	with open(argv[3], "r") as r_file:
-		for line in r_file:
-			if "/tmp/test" in line:
-				print(line)
-
+	randomize_labels(argv[3], obf_values)
 	obf_string_line(argv[3], argv[3], argv[2], obf_values, str_key)
 	
 	obf_include(argv[2], obf_values)

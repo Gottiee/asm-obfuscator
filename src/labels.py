@@ -24,16 +24,18 @@ def label_found(line: str, labels) -> bool:
 	return (False)
 
 def randomize_labels(file_name: str, obf_values: dict[str, str]):
+	illegal:list[str] = ["db", "dw", "dd", "dq", "sub"]
 	with open(file_name, "r") as file:
 		for line in file:
 			line = line.strip()
 			if not line or line == "_start:":
 				continue
-			if line[-1] == ':':
+			if line[-1] == ':' and line[:len(line) - 1] not in illegal:
 				obf_values[line[:len(line) - 1]] = generate_random_label(obf_values)
 			elif line_declares_var(line) == True:
 				split_line = re.findall(r'"[^"]*"|\S+', line)
-				obf_values[split_line[0]] = generate_random_label(obf_values)
+				if split_line[0] not in illegal and split_line[0] not in obf_values.keys():
+					obf_values[split_line[0]] = generate_random_label(obf_values)
 	return
 
 def	modify_word(word: str, obf_values:dict[str, str]) -> str:
@@ -60,10 +62,8 @@ def obf_labels(line: str, obf_values: dict[str, str]):
 			break
 		word.strip('()[]')
 		word = modify_word(word, obf_values)
-		# print("word -> [", word, "]", sep="")
 		if (word[-1:] == '\n'):
 			final_line += word
 		else:
 			final_line += word + " "
-	# print(f"line -> {line[: len(line) - 1]} | labels line -> {final_line[: len(final_line) - 1]} | split -> {splitted_line}")
 	return (final_line)

