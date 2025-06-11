@@ -85,24 +85,25 @@ def main (argv, argc):
 		return 
 
 	obf_values: dict[str, str] = {}
-	randomize_labels(argv[1], obf_values)
+	# randomize_labels(argv[1], obf_values)
 	list_struc(argv[2], obf_values)
 	number_dict: dict[str, str] = list_alias_nb(argv[2])
 	all_numbers: list[str] = list_all_nb(argv[1], number_dict)
-	characters = string.ascii_letters + string.digits + string.punctuation
+	characters:str = string.ascii_letters + string.digits + string.punctuation
+	print(f"character -> {characters}")
 	str_key: str = ''.join(random.choices(characters, k = 12))
 	print(f"str_key -> {str_key}")
 
 	obf_number_line(argv[1], argv[3], obf_values, all_numbers)
 
-	file = open_file(argv[3])
-	new_file = create_file(argv[3])
-	obf = ObfInstructions(new_file)
-	obf_line_instruct(file, obf)
-	new_file.close()
-	obf.insert_functions(argv[3])
+	# file = open_file(argv[3])
+	# new_file = create_file(argv[3])
+	# obf = ObfInstructions(new_file)
+	# obf_line_instruct(file, obf)
+	# new_file.close()
+	# obf.insert_functions(argv[3])
 
-	randomize_labels(argv[3], obf_values)
+	# randomize_labels(argv[3], obf_values)
 	obf_string_line(argv[3], argv[3], argv[2], obf_values, str_key)
 	
 	obf_include(argv[2], obf_values)

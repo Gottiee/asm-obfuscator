@@ -56,9 +56,6 @@ def replace_nb_aliases(line: str, number_dict: dict[str, str]) -> str:
 			new_line += word
 		else:
 			new_line += word + " "
-			if word == "db":
-				print(f"line(db) -> {line[:len(line) - 1]}")
-				print(f"new_line(db) -> {new_line}")
 	new_line += "\n"
 	if "/tmp/test" in new_line:
 		print(f"replace nb aliases line -> {new_line}")
