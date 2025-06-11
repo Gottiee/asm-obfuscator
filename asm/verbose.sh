@@ -21,8 +21,8 @@ strings /tmp/test/infected | grep anvincen-eedy
 echo
 
 echo "  ============= Run ./Pestilence ============="
-# valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes -q ./Pestilence 
-sudo gdb Pestilence
+valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes -q ./Pestilence 
+# sudo gdb Pestilence
 echo "Done."
 echo
 echo 'strings /tmp/test/sample64 | grep anvincen-eedy'

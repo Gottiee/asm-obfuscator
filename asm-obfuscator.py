@@ -86,7 +86,7 @@ def main (argv, argc):
 
 	obf_values: dict[str, str] = {}
 	# randomize_labels(argv[1], obf_values)
-	list_struc(argv[2], obf_values)
+	# list_struc(argv[2], obf_values)
 	number_dict: dict[str, str] = list_alias_nb(argv[2])
 	all_numbers: list[str] = list_all_nb(argv[1], number_dict)
 	characters:str = string.ascii_letters + string.digits + string.punctuation
