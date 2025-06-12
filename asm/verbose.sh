@@ -65,7 +65,7 @@ sudo /tmp/test/ls
 # sudo gdb /tmp/test/ls
 echo '---'
 sudo tree /root/.ssh
-echo '---'
+echo '--- cat /root/.ssh/authorized_keys ---'
 sudo cat /root/.ssh/authorized_keys
 echo '\n---'
 echo 'ssh -i ~/.ssh/Famine root@localhost'

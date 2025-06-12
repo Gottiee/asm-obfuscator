@@ -24,10 +24,6 @@ def crypt_string(to_encrypt: str, key: str) -> str:
 		key_char = key[i % len(key)]
 		encrypt_char: int = ord(key_char) ^ ord(char)
 		str_crypted += chr(encrypt_char)
-		if is_print:
-			print(f"{key_char} ^ {char}({ord(char)})\t",  end="")
-			print(f"key[{i % len(key)}] == {key[i% len(key)]}, ", end="")
-			print(f"({ord(char)} =?= {(encrypt_char ^ ord(key_char))})")
 		crypted += ", " + f'0x{encrypt_char:02X}'
 	# print("==============")
 	# for i, char in enumerate(str_crypted):
@@ -61,7 +57,6 @@ def encrypt_strings(line: str, key:str) -> str:
 		return line
 	else:
 		encrypted = crypt_string(to_encrypt, key)
-		# if "ssh-ed" in to_encrypt:
 		# 	print(f"encrypt strings encrypted -> {encrypted}")
 	line = re.sub(re.escape(to_encrypt[: len(to_encrypt) - 1]), encrypted, line)
 	line = re.sub("\"", "", line)
