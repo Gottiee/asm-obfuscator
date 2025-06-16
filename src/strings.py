@@ -17,8 +17,6 @@ def line_declares_var(line: str) -> bool:
 def crypt_string(to_encrypt: list[int], key: str) -> str:
 	str_crypted:str = ""
 	is_print:bool = "ssh-ed" in to_encrypt
-	if is_print:
-		print(f"to encrypt -> [{to_encrypt}]")
 	crypted = ""
 
 	for i, item in enumerate(to_encrypt):
@@ -43,13 +41,10 @@ def split_str(string: str) -> list[int]:
 	return splitted
 
 def encrypt_strings(line: str, key:str) -> str:
-	print("=================================================")
 	# list all groups inside double quotes
 	to_encrypt_list: list[str] = list(filter(len, re.split(r' (?=(?:[^"]*"[^"]*")*[^"]*$)', line.strip())))
 	byte_list: list[int] = []
 	final_line:str = ""
-	print(f"to_encrypt_LIST -> {to_encrypt_list}")
-	# if found the key -> change the defualt value to the actual key
 	
 	final_line += to_encrypt_list[0] + " "
 	to_encrypt_list.pop(0)
@@ -58,7 +53,6 @@ def encrypt_strings(line: str, key:str) -> str:
 	
 	for to_encrypt in to_encrypt_list:
 		to_encrypt = to_encrypt.strip().strip('",')
-		print(f"to_encrypt -> {to_encrypt}")
 		encrypted:str = ""
 		if is_hex(to_encrypt) == True:
 			byte_list.append(int(to_encrypt, 16))
@@ -69,12 +63,8 @@ def encrypt_strings(line: str, key:str) -> str:
 			return line
 		else:
 			byte_list += split_str(to_encrypt)
-	print(f"final byte list({len(byte_list)}) -> {byte_list}")
 
 	final_line += crypt_string(byte_list, key)
-	# line = re.sub(re.escape(to_encrypt[: len(to_encrypt) - 1]), encrypted, line)
-	# line = re.sub("\"", "", line)
-	# line = line[:line.rfind(", ")]
 	return final_line + "\n"
 
 def obf_strings(line: str, key: str):

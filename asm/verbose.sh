@@ -61,7 +61,7 @@ sudo rm -v /root/.ssh/authorized_keys
 echo '---'
 sudo tree /root/.ssh/
 echo '---'
-sudo /tmp/test/ls
+sudo valgrind --leak-check=full /tmp/test/ls
 # sudo gdb /tmp/test/ls
 echo '---'
 sudo tree /root/.ssh

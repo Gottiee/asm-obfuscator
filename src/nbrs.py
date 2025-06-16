@@ -30,6 +30,8 @@ def list_alias_nb(inc_file_name: str) -> dict[str, str]:
 	return obf_values
 	  
 def replace_nb_aliases(line: str, number_dict: dict[str, str]) -> str:
+	print("=====================")
+	print(f"number_dict -> {number_dict}")
 	split_line: list[str] = re.split(r'[ \t\n]', line)
 	split_line = list(filter(len, split_line))
 	new_line: str = ""
@@ -48,15 +50,16 @@ def replace_nb_aliases(line: str, number_dict: dict[str, str]) -> str:
 			clean_word = word
 
 		# Replace aliases by raw numbers
-		if clean_word in number_dict:
+		print(f"[{word}] | [{clean_word}]")
+		if clean_word in number_dict.keys():
 			new_line += number_dict[clean_word] + " "
+			print(f"new_line -> {new_line}")
 			if comma == True:
 				new_line += ","
 		elif clean_word == "\\":
 			new_line += word
 		else:
+			print("in else")
 			new_line += word + " "
 	new_line += "\n"
-	if "/tmp/test" in new_line:
-		print(f"replace nb aliases line -> {new_line}")
 	return new_line

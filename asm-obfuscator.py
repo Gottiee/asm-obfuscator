@@ -19,17 +19,17 @@ def obf_number_line(in_file:str, out_file:str, obf_values:dict[str, str], all_nu
 	func_add += write_decrypt_str()
 	
 	with open(in_file, "r") as r_file, open(out_file, "w") as w_file:
+		print("===================")
 		final_line: str = ""
 		for line in r_file:
 			if line_contains_nb(line) == True:
 				final_line = replace_nb_aliases(line, obf_values)
 				final_line = obf_numbers(final_line, all_numbers)
+				print(f"{line.strip()} -> {final_line.strip()}")
 				final_file += final_line
 			elif line == ";;**;;\n":
 				final_file += line + func_add
 			else:
-				if "/tmp/test" in line:
-					print(f"f_line(else) -> {line[:len(line) -1 ]}")
 				final_file += line
 		w_file.write(final_file)
 
@@ -48,18 +48,6 @@ def obf_string_line(in_file: str, out_file:str, inc_file:str, obf_values:dict[st
 	with open(out_file, "w") as w_file:
 		w_file.write(final_file)
 
-
-# def obf_line(line: str, obf_values: dict[str, str], obf_nbs: dict[str, str], str_key: str, all_numbers:list[str]) -> str:
-# 	final_line: str = ""
-
-# 	final_line = obf_labels(line, obf_values)
-# 	final_line = obf_struc(final_line, obf_values)
-# 	final_line = obf_strings(final_line, str_key)
-# 	if line_contains_nb(line) == True:
-# 		final_line = replace_nb_aliases(final_line, obf_nbs)
-# 		final_line = obf_numbers(final_line, all_numbers)
-# 	return final_line
-
 def obf_line_instruct(file:str, obf):
 	insert = None
 	for index, line in enumerate(file.splitlines()):
@@ -71,7 +59,6 @@ def obf_line_instruct(file:str, obf):
 def obf_include(inc_file:str, obf_values:dict[str, str]):
 	final_line = ""
 	final_file = ""
-	print("======================================")
 	with open(inc_file, "r") as r_file, open("obf_file.inc", "w") as w_file:
 		for line in r_file:
 			final_line = obf_labels(line, obf_values)
@@ -86,22 +73,21 @@ def main (argv, argc):
 
 	obf_values: dict[str, str] = {}
 	# randomize_labels(argv[1], obf_values)
-	# list_struc(argv[2], obf_values)
+	list_struc(argv[2], obf_values)
 	number_dict: dict[str, str] = list_alias_nb(argv[2])
 	all_numbers: list[str] = list_all_nb(argv[1], number_dict)
 	characters:str = string.ascii_letters + string.digits + string.punctuation
-	print(f"character -> {characters}")
 	str_key: str = ''.join(random.choices(characters, k = 12))
 	print(f"str_key -> {str_key}")
 
-	obf_number_line(argv[1], argv[3], obf_values, all_numbers)
+	obf_number_line(argv[1], argv[3], number_dict, all_numbers)
 
-	# file = open_file(argv[3])
-	# new_file = create_file(argv[3])
-	# obf = ObfInstructions(new_file)
-	# obf_line_instruct(file, obf)
-	# new_file.close()
-	# obf.insert_functions(argv[3])
+	file = open_file(argv[3])
+	new_file = create_file(argv[3])
+	obf = ObfInstructions(new_file)
+	obf_line_instruct(file, obf)
+	new_file.close()
+	obf.insert_functions(argv[3])
 
 	# randomize_labels(argv[3], obf_values)
 	obf_string_line(argv[3], argv[3], argv[2], obf_values, str_key)
